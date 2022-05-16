@@ -78,4 +78,7 @@
     <string name="installment">할부</string>
 
     <string name="emailCheck">확인</string>
+    <string name="log_out_cancel">취소</string>
+    <string name="log_out_title">로그아웃하시겠습니까?</string>
+
 </resources>

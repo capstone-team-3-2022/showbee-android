@@ -1,18 +1,10 @@
 package com.team3.showbee.ui.view
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import com.team3.showbee.R
-import com.team3.showbee.data.model.BaseResponse
-import com.team3.showbee.data.repository.RequestRepository
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,83 +25,83 @@ class SignUpActivity : AppCompatActivity() {
         val plzCheckEmail = "이메일 중복확인을 해주세요."
         var isEmailChecked: Boolean = false
 
-        emailCheckBtn.setOnClickListener {
-            var userEmail = emailEt.text.toString()
-            val emailRequest = RequestRepository().requestEmail(email = userEmail)
+//        emailCheckBtn.setOnClickListener {
+//            var userEmail = emailEt.text.toString()
+//            val emailRequest = RequestRepository().requestEmail(email = userEmail)
+//
+//            emailRequest.enqueue(object : Callback<Boolean> {
+//                override fun onResponse(
+//                    call: Call<Boolean>,
+//                    response: Response<Boolean>
+//                ) {
+//                    if (response.code() == 200) {
+//                        // 성공 처리
+//                        val result = response.body().toString()
+//                        Log.d("email", result)
+//                        if (result == "true") {
+//                            isEmailChecked = false
+//                            Toast.makeText(this@SignUpActivity, emailCheckError, Toast.LENGTH_SHORT)
+//                                .show() //중복확인 메시지 띄우기
+//                        } else {
+//                            isEmailChecked = true
+//                            Toast.makeText(this@SignUpActivity, emailChecked, Toast.LENGTH_SHORT)
+//                                .show()
+//                        }
+//                    } else { // code == 400
+//                        // 실패 처리
+//                    }
+//                }
+//                override fun onFailure(call: Call<Boolean>, t: Throwable) {
+//                    Log.e("error", "${t.message}")
+//                }
+//            })
+//        }
 
-            emailRequest.enqueue(object : Callback<Boolean> {
-                override fun onResponse(
-                    call: Call<Boolean>,
-                    response: Response<Boolean>
-                ) {
-                    if (response.code() == 200) {
-                        // 성공 처리
-                        val result = response.body().toString()
-                        Log.d("email", result)
-                        if (result == "true") {
-                            isEmailChecked = false
-                            Toast.makeText(this@SignUpActivity, emailCheckError, Toast.LENGTH_SHORT)
-                                .show() //중복확인 메시지 띄우기
-                        } else {
-                            isEmailChecked = true
-                            Toast.makeText(this@SignUpActivity, emailChecked, Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    } else { // code == 400
-                        // 실패 처리
-                    }
-                }
-                override fun onFailure(call: Call<Boolean>, t: Throwable) {
-                    Log.e("error", "${t.message}")
-                }
-            })
-        }
-
-        signupBtn.setOnClickListener {
-            var userEmail = emailEt.text.toString()
-            var userName = nameEt.text.toString()
-            var userPw = pwEt.text.toString()
-            var userPwCheck = pwChkEt.text.toString()
-
-            if (!userEmail.isNullOrEmpty() && !userName.isNullOrEmpty() && !userPw.isNullOrEmpty() && !userPwCheck.isNullOrEmpty()) {
-                if (isEmailChecked) {
-                    if (userPw == userPwCheck) {
-                        val signupRequest = RequestRepository().requestSignup(
-                            email = userEmail,
-                            name = userName,
-                            pw = userPw
-                        )
-                        signupRequest.enqueue(object : Callback<BaseResponse> {
-                            override fun onResponse(
-                                call: Call<BaseResponse>,
-                                response: Response<BaseResponse>
-                            ) {
-                                if (response.code() == 200) {
-                                    // 성공 처리
-                                    val msg: String = response.message()
-                                    Toast.makeText(this@SignUpActivity, msg, Toast.LENGTH_SHORT)
-                                        .show()
-
-                                    val intent =
-                                        Intent(this@SignUpActivity, LogInActivity::class.java)
-                                    startActivity(intent)
-                                } else { // code == 400
-                                    // 실패 처리
-                                }
-                            }
-                            override fun onFailure(call: Call<BaseResponse>, t: Throwable) {
-                                Log.e("error", "${t.message}")
-                            }
-                        })
-                    } else {
-                        Toast.makeText(applicationContext, pwCheckTxt, Toast.LENGTH_SHORT).show()
-                    }
-                } else {
-                    Toast.makeText(applicationContext, plzCheckEmail, Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                Toast.makeText(applicationContext, txt, Toast.LENGTH_SHORT).show()
-            }
-        }
+//        signupBtn.setOnClickListener {
+//            var userEmail = emailEt.text.toString()
+//            var userName = nameEt.text.toString()
+//            var userPw = pwEt.text.toString()
+//            var userPwCheck = pwChkEt.text.toString()
+//
+//            if (!userEmail.isNullOrEmpty() && !userName.isNullOrEmpty() && !userPw.isNullOrEmpty() && !userPwCheck.isNullOrEmpty()) {
+//                if (isEmailChecked) {
+//                    if (userPw == userPwCheck) {
+//                        val signupRequest = RequestRepository().requestSignup(
+//                            email = userEmail,
+//                            name = userName,
+//                            pw = userPw
+//                        )
+//                        signupRequest.enqueue(object : Callback<BaseResponse> {
+//                            override fun onResponse(
+//                                call: Call<BaseResponse>,
+//                                response: Response<BaseResponse>
+//                            ) {
+//                                if (response.code() == 200) {
+//                                    // 성공 처리
+//                                    val msg: String = response.message()
+//                                    Toast.makeText(this@SignUpActivity, msg, Toast.LENGTH_SHORT)
+//                                        .show()
+//
+//                                    val intent =
+//                                        Intent(this@SignUpActivity, LogInActivity::class.java)
+//                                    startActivity(intent)
+//                                } else { // code == 400
+//                                    // 실패 처리
+//                                }
+//                            }
+//                            override fun onFailure(call: Call<BaseResponse>, t: Throwable) {
+//                                Log.e("error", "${t.message}")
+//                            }
+//                        })
+//                    } else {
+//                        Toast.makeText(applicationContext, pwCheckTxt, Toast.LENGTH_SHORT).show()
+//                    }
+//                } else {
+//                    Toast.makeText(applicationContext, plzCheckEmail, Toast.LENGTH_SHORT).show()
+//                }
+//            } else {
+//                Toast.makeText(applicationContext, txt, Toast.LENGTH_SHORT).show()
+//            }
+//        }
     }
 }
