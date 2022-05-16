@@ -126,14 +126,13 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName3"
+                android:id="@+id/datePicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:hint="날짜를 선택해주세요"
                 android:layout_weight="1"
                 android:ems="10"
-                android:gravity="end"
-                android:inputType="textPersonName"
-                android:text="@string/choice_day2" />
+                android:gravity="end" />
         </LinearLayout>
 
         <LinearLayout
@@ -150,7 +149,7 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName4"
+                android:id="@+id/selectCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -169,7 +168,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="@string/repetition"
+                android:text="@string/price"
                 android:textSize="18sp" />
 
             <EditText
@@ -195,8 +194,8 @@
                 android:text="@string/notification"
                 android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/editTextTextPersonName2"
+            <Spinner
+                android:id="@+id/cycleSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
