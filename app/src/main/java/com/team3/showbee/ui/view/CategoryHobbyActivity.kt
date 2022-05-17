@@ -18,10 +18,10 @@ class CategoryHobbyActivity : AppCompatActivity() {
         setContentView(R.layout.activity_category_hobby)
 
         val moveToAdd = Intent(this, AddIncomeExpenditureActivity::class.java)
-        val ottLayout = findViewById<ConstraintLayout>(R.id.ottLayout)
-        val musicLayout = findViewById<ConstraintLayout>(R.id.musicLayout)
-        val bookLayout = findViewById<ConstraintLayout>(R.id.bookLayout)
-        val exerciseLayout = findViewById<ConstraintLayout>(R.id.exerciseLayout)
+        val ottLayout = findViewById<LinearLayout>(R.id.ottLayout)
+        val musicLayout = findViewById<LinearLayout>(R.id.musicLayout)
+        val bookLayout = findViewById<LinearLayout>(R.id.bookLayout)
+        val exerciseLayout = findViewById<LinearLayout>(R.id.exerciseLayout)
 
         val imageLayoutParams = LinearLayout.LayoutParams(
             100,
