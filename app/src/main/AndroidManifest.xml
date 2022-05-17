@@ -35,6 +35,7 @@
             android:name=".ui.view.UserAccountActivity"
             android:exported="false" />
         <activity android:name=".ui.view.AddIncomeExpenditureActivity" />
+        <activity android:name=".ui.view.AddFinancialActivity" />
         <activity
             android:name=".ui.view.LogInActivity"
             android:exported="true">

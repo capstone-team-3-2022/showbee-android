@@ -94,6 +94,11 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnMonthChangeListener 
         baseCalendar.initBaseCalendar {
             onMonthChanged(it)
         }
+
+        binding.btnAddExpenseAndIncome.setOnClickListener {
+            val intent = Intent(this, AddFinancialActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onMonthChanged(calendar: Calendar) {
