@@ -1,11 +1,16 @@
 package com.team3.showbee.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.team3.showbee.data.entity.Event
 import com.team3.showbee.data.entity.Token
+import com.team3.showbee.data.entity.User
 import com.team3.showbee.data.network.NetworkResponse
 import com.team3.showbee.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,6 +30,9 @@ class UserViewModel @Inject constructor(
 
     private val _token = MutableLiveData<Token>()
     val token : LiveData<Token> = _token
+
+    private val _info = MutableLiveData<Event<String>>()
+    val info : LiveData<Event<String>> = _info
 
     fun signup(email: String, username: String, password: String) {
         if(validation(email, username, password)) {
@@ -67,6 +75,54 @@ class UserViewModel @Inject constructor(
                 }
                 is NetworkResponse.UnknownError -> {
                     postValueEvent(2, type)
+                }
+            }
+        }
+    }
+
+    fun updateUsername(username: String) {
+        if (username.isNotEmpty()) {
+            viewModelScope.launch {
+                val response = repository.updateUsername(username)
+                val type = "닉네임 변경을"
+
+                when(response) {
+                    is NetworkResponse.Success -> {
+                        _info.postValue(Event(response.body.msg))
+                    }
+                    is NetworkResponse.ApiError -> {
+                        postValueEvent(0, type)
+                    }
+                    is NetworkResponse.NetworkError -> {
+                        postValueEvent(1, type)
+                    }
+                    is NetworkResponse.UnknownError -> {
+                        postValueEvent(2, type)
+                    }
+                }
+            }
+        }
+    }
+
+    fun updatePassword(password: String) {
+        if (password.isNotEmpty()) {
+            viewModelScope.launch {
+                val response = repository.updatePassword(password)
+                val type = "비밀번호 변경을"
+
+                when(response) {
+                    is NetworkResponse.Success -> {
+                        _info.postValue(Event(response.body.msg))
+                    }
+                    is NetworkResponse.ApiError -> {
+                        postValueEvent(0, type)
+                    }
+                    is NetworkResponse.NetworkError -> {
+                        postValueEvent(1, type)
+                    }
+                    is NetworkResponse.UnknownError -> {
+                        postValueEvent(2, type)
+                    }
                 }
             }
         }

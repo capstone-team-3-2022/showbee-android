@@ -33,7 +33,7 @@ class LogInViewModel @Inject constructor(
 
                 when(response) {
                     is NetworkResponse.Success -> {
-                        _token.postValue(Token(response.body.data!!))
+                        _token.postValue(Token(response.body.data!!.toString()))
                     }
                     is NetworkResponse.ApiError -> {
                         postValueEvent(0, type)

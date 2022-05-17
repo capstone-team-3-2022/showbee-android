@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.team3.showbee" >
+    package="com.team3.showbee">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,7 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_bee_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ShowBee"
-        android:usesCleartextTraffic="true" >
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.view.UpdateUserInfoActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.view.SearchViewActivity"
             android:exported="false" />
@@ -34,7 +37,7 @@
         <activity android:name=".ui.view.AddIncomeExpenditureActivity" />
         <activity
             android:name=".ui.view.LogInActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

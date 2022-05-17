@@ -4,5 +4,5 @@ data class BaseResponse(
     val success: Boolean = false,
     val code: Int = -1,
     val msg: String = "",
-    val data: String?
+    val data: Any?
 )
