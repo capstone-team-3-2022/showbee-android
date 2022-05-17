@@ -31,13 +31,13 @@
 
     <string name="title">제목</string>
     <string name="choice_day">날짜</string>
-    <string name="category">카테고리</string>
+    <string name="category">분류</string>
     <string name="repetition">반복</string>
     <string name="price">금액</string>
     <string name="notification">알림</string>
     <string name="add_friend">친구추가</string>
     <string name="memo">메모</string>
-    <string name="choice_day2">2022년 3월 15일 화</string>
+    <string name="choice_day2">2022년 3월 15일</string>
     <string name="fixed_expenditure">고정 지출</string>
 
     <string name="my_account">나의 계정</string>
@@ -88,4 +88,15 @@
     <string name="userEmail">이메일</string>
     <string name="userPassword">비밀번호</string>
     <string name="userPasswordCheck">비밀번호 확인</string>
+
+    <string name="delete">삭제하기</string>
+    <string name="save">저장하기</string>
+
+    <string name="bank">자산</string>
+    <string name="amount">금액</string>
+    <string name="content">내용</string>
+    <string name="bank2">농협</string>
+    <string name="amount2">4,350원</string>
+    <string name="content2">CU제주시청점</string>
+    <string name="category2">식비</string>
 </resources>
