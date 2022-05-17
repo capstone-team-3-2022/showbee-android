@@ -33,6 +33,11 @@ class LogInActivity : AppCompatActivity() {
 
             viewModel.login(email, password)
         }
+
+        binding.signUpBtn.setOnClickListener {
+            val intent = Intent(this, SignUpActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun observeData() {
