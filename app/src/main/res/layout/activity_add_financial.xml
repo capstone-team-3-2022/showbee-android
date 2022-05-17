@@ -82,57 +82,28 @@
                 android:textStyle="bold" />
         </RadioGroup>
 
-        <EditText
-            android:id="@+id/editTextTextPersonName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="10dp"
-            android:ems="10"
-            android:hint="@string/title"
-            android:inputType="textPersonName" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/under_line1"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="vertical"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/under_line1"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/day"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="@string/choice_day"
                 android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/editTextTextPersonName3"
+            <TextView
+                android:id="@+id/editText_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="18sp"
+                android:textColor="@color/black"
                 android:ems="10"
-                android:gravity="end"
                 android:inputType="textPersonName"
                 android:text="@string/choice_day2" />
         </LinearLayout>
@@ -144,19 +115,42 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/bank"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/bank"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editTextText_bank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:text="@string/bank2"
+                android:inputType="textPersonName" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/category"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="@string/category"
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName4"
+                android:id="@+id/editText_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:gravity="end"
+                android:text="@string/category2"
                 android:inputType="textPersonName" />
         </LinearLayout>
 
@@ -167,19 +161,19 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/amount"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="@string/repetition"
+                android:text="@string/amount"
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName5"
+                android:id="@+id/editText_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:gravity="end"
+                android:text="@string/amount2"
                 android:inputType="textPersonName" />
         </LinearLayout>
 
@@ -190,19 +184,19 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/content"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="@string/notification"
+                android:text="@string/content"
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName2"
+                android:id="@+id/editText_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:gravity="end"
+                android:text="@string/content2"
                 android:inputType="textPersonName" />
         </LinearLayout>
 
@@ -213,68 +207,25 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="vertical"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/under_line1"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <TextView
-                android:id="@+id/add_friend"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="@string/add_friend"
-                android:textSize="18sp"
-                android:layout_weight="1"
-                android:layout_gravity="center"/>
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/ic_menu_add"
-                app:tint="@color/black" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/under_line1"/>
-    </LinearLayout>
-
-    <LinearLayout
+        android:id="@+id/linearLayout7"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:orientation="vertical"
         android:background="@color/white"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/under_line1"/>
+            android:background="@color/under_line1" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="10dp">
 
@@ -286,16 +237,34 @@
                 android:hint="@string/memo"
                 android:inputType="textPersonName" />
         </LinearLayout>
-    </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/save_button"
-        android:contentDescription="save" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout7">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/delete"
+                android:textColor="@color/black"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_log_out_ok"
+                app:backgroundTint="@null"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/save"
+                android:textColor="@color/black"
+                android:layout_margin="10dp"
+                android:background="@drawable/btn_save"
+                app:backgroundTint="@null"/>
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,7 +47,6 @@ class BaseCalendar {
 
 
     private fun makeMonthDate(refreshCallback: (Calendar) -> Unit) {
-
         data.clear()
 
         calendar.set(Calendar.DATE, 1)
