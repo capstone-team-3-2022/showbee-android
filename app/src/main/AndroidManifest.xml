@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.team3.showbee">
+    package="com.team3.showbee" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_bee"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_bee_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ShowBee"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true" >
         <activity
-            android:name=".user_leave"
+            android:name=".ui.view.SearchViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.view.user_leave"
             android:exported="false" />
         <activity
             android:name=".ui.view.CategoryTransferActivity"
@@ -32,8 +35,9 @@
             android:name=".ui.view.UserAccountActivity"
             android:exported="false" />
         <activity android:name=".ui.view.AddIncomeExpenditureActivity" />
-        <activity android:name=".ui.view.LogInActivity"
-            android:exported="true">
+        <activity
+            android:name=".ui.view.LogInActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
