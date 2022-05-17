@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnMonthChangeListener 
     private val binding: ActivityMainBinding get() = requireNotNull(_binding)
     private lateinit var viewModel: UserViewModel
 
-
     lateinit var calendarAdapter: CalendarAdapter
     private val baseCalendar = BaseCalendar()
 
@@ -44,27 +43,33 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnMonthChangeListener 
     private fun initView() {
         binding.mainNavigationView.setNavigationItemSelectedListener {
             Log.d("Info", "navigaion item click... ${it.title}")
-            if(it.title == "로그아웃") {
-                Log.d("Info", "navigaion item click...2 ${it.title}")
-                val dialog = LogOutDialog()
-                dialog.setButtonClickListener(object : LogOutDialog.OnButtonClickListener {
-                    override fun onLogOutOkClicked() {
-                        SharedPref.saveToken(Token(""))
-                        val intent = Intent(this@MainActivity, LogInActivity::class.java)
-                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        startActivity(intent)
-                    }
-                })
-                dialog.show(supportFragmentManager, "CustomDialog")
-            } else if(it.title == "회원탈퇴") {
-                val dialog = UserLeaveDialog()
-                dialog.setButtonClickListener(object : UserLeaveDialog.OnButtonClickListener {
-                    override fun onLeaveOkClicked() {
-                        viewModel.deleteUser()
-                    }
-                })
-                dialog.show(supportFragmentManager, "CustomDialog")
+            when(it.title) {
+                "나의 계정" -> {
+                    val intent = Intent(this, UserAccountActivity::class.java)
+                    startActivity(intent)
+                }
+                "로그아웃" -> {
+                    val dialog = LogOutDialog()
+                    dialog.setButtonClickListener(object : LogOutDialog.OnButtonClickListener {
+                        override fun onLogOutOkClicked() {
+                            SharedPref.saveToken(Token(""))
+                            val intent = Intent(this@MainActivity, LogInActivity::class.java)
+                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            startActivity(intent)
+                        }
+                    })
+                    dialog.show(supportFragmentManager, "CustomDialog")
+                }
+                "회원탈퇴" -> {
+                    val dialog = UserLeaveDialog()
+                    dialog.setButtonClickListener(object : UserLeaveDialog.OnButtonClickListener {
+                        override fun onLeaveOkClicked() {
+                            viewModel.deleteUser()
+                        }
+                    })
+                    dialog.show(supportFragmentManager, "CustomDialog")
+                }
             }
             true
         }
@@ -121,9 +126,6 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnMonthChangeListener 
 
             token.observe(this@MainActivity) {
                 SharedPref.saveToken(it)
-
-                val intent = Intent(this@MainActivity, MainActivity::class.java)
-                startActivity(intent)
             }
         }
     }

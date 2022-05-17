@@ -11,6 +11,12 @@ interface Service {
     suspend fun signInResponse(@Query("email") email: String,
                        @Query("password") password: String): NetworkResponse<BaseResponse, ErrorResponse>
 
+    @PUT("v1/user/modify/name")
+    suspend fun updateUsernameResponse(@Query("name") name:String): NetworkResponse<BaseResponse, ErrorResponse>
+
+    @PUT("v1/user/modify/pwd")
+    suspend fun updatePasswordResponse(@Query("password") password:String): NetworkResponse<BaseResponse, ErrorResponse>
+
     @DELETE("v1/user/delete")
     suspend fun deleteUserResponse() : NetworkResponse<BaseResponse, ErrorResponse>
 
