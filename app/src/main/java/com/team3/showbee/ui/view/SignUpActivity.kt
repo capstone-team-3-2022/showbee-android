@@ -1,16 +1,39 @@
 package com.team3.showbee.ui.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.team3.showbee.R
+import com.team3.showbee.SharedPref
+import com.team3.showbee.databinding.ActivityLogInBinding
+import com.team3.showbee.databinding.ActivitySignUpBinding
+import com.team3.showbee.ui.viewmodel.LogInViewModel
+import com.team3.showbee.ui.viewmodel.UserViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpActivity : AppCompatActivity() {
+    private var _binding: ActivitySignUpBinding? = null
+    private val binding: ActivitySignUpBinding get() = requireNotNull(_binding)
+    private lateinit var viewModel: UserViewModel
+
+    var isEmailChecked: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
+        _binding = ActivitySignUpBinding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        setContentView(binding.root)
 
+        initView()
+        observeData()
+    }
+
+    private fun initView() {
         val emailEt = findViewById<EditText>(R.id.userIdSignUp)
         val nameEt = findViewById<EditText>(R.id.userNickname)
         val pwEt = findViewById<EditText>(R.id.userPwSignUp)
@@ -18,90 +41,46 @@ class SignUpActivity : AppCompatActivity() {
         val signupBtn = findViewById<Button>(R.id.signUp)
         val emailCheckBtn = findViewById<Button>(R.id.emailCheckBtn)
 
-        val txt = "회원정보를 입력해주세요"
-        val pwCheckTxt = "비밀번호가 일치하지 않습니다"
-        val emailCheckError = "이미 사용중인 이메일입니다."
-        val emailChecked = "사용가능한 이메일입니다."
-        val plzCheckEmail = "이메일 중복확인을 해주세요."
-        var isEmailChecked: Boolean = false
+        emailCheckBtn.setOnClickListener {
+            val userEmail = binding.userIdSignUp.text.toString()
 
-//        emailCheckBtn.setOnClickListener {
-//            var userEmail = emailEt.text.toString()
-//            val emailRequest = RequestRepository().requestEmail(email = userEmail)
-//
-//            emailRequest.enqueue(object : Callback<Boolean> {
-//                override fun onResponse(
-//                    call: Call<Boolean>,
-//                    response: Response<Boolean>
-//                ) {
-//                    if (response.code() == 200) {
-//                        // 성공 처리
-//                        val result = response.body().toString()
-//                        Log.d("email", result)
-//                        if (result == "true") {
-//                            isEmailChecked = false
-//                            Toast.makeText(this@SignUpActivity, emailCheckError, Toast.LENGTH_SHORT)
-//                                .show() //중복확인 메시지 띄우기
-//                        } else {
-//                            isEmailChecked = true
-//                            Toast.makeText(this@SignUpActivity, emailChecked, Toast.LENGTH_SHORT)
-//                                .show()
-//                        }
-//                    } else { // code == 400
-//                        // 실패 처리
-//                    }
-//                }
-//                override fun onFailure(call: Call<Boolean>, t: Throwable) {
-//                    Log.e("error", "${t.message}")
-//                }
-//            })
-//        }
+            viewModel.checkEmail(userEmail)
+        }
 
-//        signupBtn.setOnClickListener {
-//            var userEmail = emailEt.text.toString()
-//            var userName = nameEt.text.toString()
-//            var userPw = pwEt.text.toString()
-//            var userPwCheck = pwChkEt.text.toString()
-//
-//            if (!userEmail.isNullOrEmpty() && !userName.isNullOrEmpty() && !userPw.isNullOrEmpty() && !userPwCheck.isNullOrEmpty()) {
-//                if (isEmailChecked) {
-//                    if (userPw == userPwCheck) {
-//                        val signupRequest = RequestRepository().requestSignup(
-//                            email = userEmail,
-//                            name = userName,
-//                            pw = userPw
-//                        )
-//                        signupRequest.enqueue(object : Callback<BaseResponse> {
-//                            override fun onResponse(
-//                                call: Call<BaseResponse>,
-//                                response: Response<BaseResponse>
-//                            ) {
-//                                if (response.code() == 200) {
-//                                    // 성공 처리
-//                                    val msg: String = response.message()
-//                                    Toast.makeText(this@SignUpActivity, msg, Toast.LENGTH_SHORT)
-//                                        .show()
-//
-//                                    val intent =
-//                                        Intent(this@SignUpActivity, LogInActivity::class.java)
-//                                    startActivity(intent)
-//                                } else { // code == 400
-//                                    // 실패 처리
-//                                }
-//                            }
-//                            override fun onFailure(call: Call<BaseResponse>, t: Throwable) {
-//                                Log.e("error", "${t.message}")
-//                            }
-//                        })
-//                    } else {
-//                        Toast.makeText(applicationContext, pwCheckTxt, Toast.LENGTH_SHORT).show()
-//                    }
-//                } else {
-//                    Toast.makeText(applicationContext, plzCheckEmail, Toast.LENGTH_SHORT).show()
-//                }
-//            } else {
-//                Toast.makeText(applicationContext, txt, Toast.LENGTH_SHORT).show()
-//            }
-//        }
+        signupBtn.setOnClickListener {
+            val userEmail = emailEt.text.toString()
+            val userName = nameEt.text.toString()
+            val userPw = pwEt.text.toString()
+            val userPwCheck = pwChkEt.text.toString()
+
+            if (userPw == userPwCheck) {
+                viewModel.signup(userEmail, userName, userPw)
+            }
+        }
+    }
+
+    private fun observeData() {
+        with(viewModel) {
+            msg.observe(this@SignUpActivity) { event ->
+                event.getContentIfNotHandled()?.let {
+                    Toast.makeText(this@SignUpActivity, it, Toast.LENGTH_SHORT).show()
+                    if (it == "성공하였습니다.") {
+                        val intent = Intent(this@SignUpActivity, MainActivity::class.java)
+                        startActivity(intent)
+                    }
+                }
+            }
+
+            emailCheck.observe(this@SignUpActivity) { event ->
+                event.getContentIfNotHandled()?.let {
+                    if (it) {
+                        Toast.makeText(this@SignUpActivity, "이미 사용중인 이메일입니다.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@SignUpActivity, "사용 가능한 이메일입니다.", Toast.LENGTH_SHORT).show()
+                        isEmailChecked = true
+                    }
+                }
+            }
+        }
     }
 }

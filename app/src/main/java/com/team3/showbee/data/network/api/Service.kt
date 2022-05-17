@@ -11,12 +11,12 @@ interface Service {
     suspend fun signInResponse(@Query("email") email: String,
                        @Query("password") password: String): NetworkResponse<BaseResponse, ErrorResponse>
 
-//    @POST("v1/signup")
-//    fun signUpRequest(
-//        @Query("email") email: String,
-//        @Query("password") pw: String,
-//        @Query("name") name: String): Call<BaseResponse>
-//
-//    @GET("v1/check/{email}")
-//    fun emailCheck(@Path("email") email: String): Call<Boolean>
+    @POST("v1/signup")
+    fun signUpResponse(
+        @Query("email") email: String,
+        @Query("password") pw: String,
+        @Query("name") name: String): NetworkResponse<BaseResponse, ErrorResponse>
+
+    @GET("v1/check/{email}")
+    fun emailCheckResponse(@Path("email") email: String): NetworkResponse<Boolean, ErrorResponse>
 }
