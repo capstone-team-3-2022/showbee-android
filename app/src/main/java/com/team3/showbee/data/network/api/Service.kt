@@ -11,12 +11,15 @@ interface Service {
     suspend fun signInResponse(@Query("email") email: String,
                        @Query("password") password: String): NetworkResponse<BaseResponse, ErrorResponse>
 
+    @DELETE("v1/user/delete")
+    suspend fun deleteUserResponse() : NetworkResponse<BaseResponse, ErrorResponse>
+
     @POST("v1/signup")
-    fun signUpResponse(
+    suspend fun signUpResponse(
         @Query("email") email: String,
         @Query("password") pw: String,
         @Query("name") name: String): NetworkResponse<BaseResponse, ErrorResponse>
 
     @GET("v1/check/{email}")
-    fun emailCheckResponse(@Path("email") email: String): NetworkResponse<Boolean, ErrorResponse>
+    suspend fun emailCheckResponse(@Path("email") email: String): NetworkResponse<Boolean, ErrorResponse>
 }

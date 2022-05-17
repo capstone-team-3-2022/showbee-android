@@ -6,5 +6,6 @@ import com.team3.showbee.data.network.NetworkResponse
 
 interface UserRepository {
     suspend fun signUp(email:String, password: String, username: String): NetworkResponse<BaseResponse, ErrorResponse>
+    suspend fun deleteUser(): NetworkResponse<BaseResponse, ErrorResponse>
     suspend fun emailCheck(email:String): NetworkResponse<Boolean, ErrorResponse>
 }

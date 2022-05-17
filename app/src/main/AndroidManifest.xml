@@ -17,9 +17,6 @@
             android:name=".ui.view.SearchViewActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.user_leave"
-            android:exported="false" />
-        <activity
             android:name=".ui.view.CategoryTransferActivity"
             android:exported="false" />
         <activity

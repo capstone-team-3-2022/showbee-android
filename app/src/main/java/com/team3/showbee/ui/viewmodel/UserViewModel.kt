@@ -23,6 +23,9 @@ class UserViewModel @Inject constructor(
     private val _emailCheck = MutableLiveData<Event<Boolean>>()
     val emailCheck : LiveData<Event<Boolean>> = _emailCheck
 
+    private val _token = MutableLiveData<Token>()
+    val token : LiveData<Token> = _token
+
     fun signup(email: String, username: String, password: String) {
         if(validation(email, username, password)) {
             viewModelScope.launch {
@@ -42,6 +45,28 @@ class UserViewModel @Inject constructor(
                     is NetworkResponse.UnknownError -> {
                         postValueEvent(2, type)
                     }
+                }
+            }
+        }
+    }
+
+    fun deleteUser() {
+        viewModelScope.launch {
+            val response = repository.deleteUser()
+            val type = "회원탈퇴를"
+
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _msg.postValue(Event(response.body.msg))
+                }
+                is NetworkResponse.ApiError -> {
+                    postValueEvent(0, type)
+                }
+                is NetworkResponse.NetworkError -> {
+                    postValueEvent(1, type)
+                }
+                is NetworkResponse.UnknownError -> {
+                    postValueEvent(2, type)
                 }
             }
         }

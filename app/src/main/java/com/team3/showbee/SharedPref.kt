@@ -16,7 +16,7 @@ object SharedPref {
 
     fun getToken() : Token? {
         if (token == null) {
-            token = Token(sharedPref!!.getString("token", "")!!)
+            token = Token("")
         }
         return token
     }

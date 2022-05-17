@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.team3.showbee.ui.viewmodel.BaseCalendar
 import com.team3.showbee.ui.adapter.CalendarAdapter
@@ -13,12 +15,18 @@ import com.team3.showbee.R
 import com.team3.showbee.SharedPref
 import com.team3.showbee.data.entity.Token
 import com.team3.showbee.databinding.ActivityMainBinding
+import com.team3.showbee.ui.viewmodel.LogInViewModel
+import com.team3.showbee.ui.viewmodel.UserViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), CalendarAdapter.OnMonthChangeListener {
     private var _binding: ActivityMainBinding? = null
     private val binding: ActivityMainBinding get() = requireNotNull(_binding)
+    private lateinit var viewModel: UserViewModel
+
 
     lateinit var calendarAdapter: CalendarAdapter
     private val baseCalendar = BaseCalendar()
@@ -26,9 +34,11 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnMonthChangeListener 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
+        viewModel =ViewModelProvider(this).get(UserViewModel::class.java)
         setContentView(binding.root)
 
         initView()
+        observeData()
     }
 
     private fun initView() {
@@ -44,6 +54,14 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnMonthChangeListener 
                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
+                    }
+                })
+                dialog.show(supportFragmentManager, "CustomDialog")
+            } else if(it.title == "회원탈퇴") {
+                val dialog = UserLeaveDialog()
+                dialog.setButtonClickListener(object : UserLeaveDialog.OnButtonClickListener {
+                    override fun onLeaveOkClicked() {
+                        viewModel.deleteUser()
                     }
                 })
                 dialog.show(supportFragmentManager, "CustomDialog")
@@ -85,5 +103,28 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnMonthChangeListener 
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun observeData() {
+        with(viewModel) {
+            msg.observe(this@MainActivity) { event ->
+                event.getContentIfNotHandled()?.let {
+                    Toast.makeText(this@MainActivity, it, Toast.LENGTH_SHORT).show()
+                    if (it=="성공하였습니다.") {
+                        val intent = Intent(this@MainActivity, LogInActivity::class.java)
+                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                    }
+                }
+            }
+
+            token.observe(this@MainActivity) {
+                SharedPref.saveToken(it)
+
+                val intent = Intent(this@MainActivity, MainActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 }

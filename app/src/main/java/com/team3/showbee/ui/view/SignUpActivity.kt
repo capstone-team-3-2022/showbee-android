@@ -34,24 +34,17 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        val emailEt = findViewById<EditText>(R.id.userIdSignUp)
-        val nameEt = findViewById<EditText>(R.id.userNickname)
-        val pwEt = findViewById<EditText>(R.id.userPwSignUp)
-        val pwChkEt = findViewById<EditText>(R.id.userPwCheck)
-        val signupBtn = findViewById<Button>(R.id.signUp)
-        val emailCheckBtn = findViewById<Button>(R.id.emailCheckBtn)
-
-        emailCheckBtn.setOnClickListener {
+        binding.emailCheckBtn.setOnClickListener {
             val userEmail = binding.userIdSignUp.text.toString()
 
             viewModel.checkEmail(userEmail)
         }
 
-        signupBtn.setOnClickListener {
-            val userEmail = emailEt.text.toString()
-            val userName = nameEt.text.toString()
-            val userPw = pwEt.text.toString()
-            val userPwCheck = pwChkEt.text.toString()
+        binding.signUp.setOnClickListener {
+            val userEmail = binding.userIdSignUp.text.toString()
+            val userName = binding.userNickname.text.toString()
+            val userPw = binding.userPwSignUp.text.toString()
+            val userPwCheck = binding.userPwCheck.text.toString()
 
             if (userPw == userPwCheck) {
                 viewModel.signup(userEmail, userName, userPw)
@@ -65,7 +58,7 @@ class SignUpActivity : AppCompatActivity() {
                 event.getContentIfNotHandled()?.let {
                     Toast.makeText(this@SignUpActivity, it, Toast.LENGTH_SHORT).show()
                     if (it == "성공하였습니다.") {
-                        val intent = Intent(this@SignUpActivity, MainActivity::class.java)
+                        val intent = Intent(this@SignUpActivity, LogInActivity::class.java)
                         startActivity(intent)
                     }
                 }
