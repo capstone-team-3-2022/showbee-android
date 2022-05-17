@@ -14,7 +14,6 @@ import com.team3.showbee.databinding.DialogLogOutBinding
 import com.team3.showbee.ui.viewmodel.LogInViewModel
 
 class LogOutDialog(): DialogFragment() {
-
     private var _binding: DialogLogOutBinding? = null
     private val binding get() = _binding!!
 

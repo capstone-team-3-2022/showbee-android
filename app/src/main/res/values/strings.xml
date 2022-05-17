@@ -80,5 +80,7 @@
     <string name="emailCheck">확인</string>
     <string name="log_out_cancel">취소</string>
     <string name="log_out_title">로그아웃하시겠습니까?</string>
+    <string name="withdrawal_title">회원탈퇴하시겠습니까?</string>
+    <string name="withdrawal_content">탈퇴하면 회원님의 모든 정보가 사라집니다.</string>
 
 </resources>

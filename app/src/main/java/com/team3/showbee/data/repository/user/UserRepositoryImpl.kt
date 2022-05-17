@@ -18,7 +18,11 @@ class UserRepositoryImpl @Inject constructor(
         return apiService.signUpResponse(email, password, username)
     }
 
+    override suspend fun deleteUser(): NetworkResponse<BaseResponse, ErrorResponse> {
+        return apiService.deleteUserResponse()
+    }
+
     override suspend fun emailCheck(email: String): NetworkResponse<Boolean, ErrorResponse> {
-        return  apiService.emailCheckResponse(email)
+        return apiService.emailCheckResponse(email)
     }
 }

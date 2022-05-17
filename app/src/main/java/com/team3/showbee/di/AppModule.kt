@@ -29,11 +29,12 @@ object ApiModule {
                 val request = it.request()
                 if (request.url.encodedPath.equals("/v1/signup", true)
                     || request.url.encodedPath.equals("/v1/signin", true)
+                    || request.url.encodedPath.equals("/v1/check", true)
                 ) {
                     it.proceed(request)
                 } else {
                     it.proceed(request.newBuilder().apply {
-                        addHeader("Authorization", SharedPref.getToken()!!.data)
+                        addHeader("X-AUTH-TOKEN", SharedPref.getToken()!!.data)
                     }.build())
                 }
             }.build()
