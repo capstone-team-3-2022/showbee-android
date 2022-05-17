@@ -1,8 +1,10 @@
 package com.team3.showbee.ui.view
 
+import android.app.DatePickerDialog
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -13,6 +15,7 @@ import com.team3.showbee.databinding.ActivityAddIncomeExpenditureBinding
 import com.team3.showbee.databinding.ActivityMainBinding
 import com.team3.showbee.ui.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class AddIncomeExpenditureActivity : AppCompatActivity() {
@@ -45,6 +48,19 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
                     category = "expense"
                 }
             }
+        }
+        //날짜 선택
+        var dateString = ""
+        binding.datePicker.setOnClickListener {
+            val cal = Calendar.getInstance()    //캘린더뷰 만들기
+            val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+                dateString = "${year}년 ${month+1}월 ${dayOfMonth}일"
+                binding.datePicker.setText(dateString)
+                Toast.makeText( this@AddIncomeExpenditureActivity,"날짜/시간 :  ${dateString}", Toast.LENGTH_SHORT).show()
+                Log.d("date", "${month+1}, ${dayOfMonth}")
+            }
+            DatePickerDialog(this, dateSetListener, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(
+                Calendar.DAY_OF_MONTH)).show()
         }
 
         //반복주기 선택
