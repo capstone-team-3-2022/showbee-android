@@ -1,13 +1,17 @@
 package com.team3.showbee.ui.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.team3.showbee.ui.viewmodel.BaseCalendar
 import com.team3.showbee.ui.adapter.CalendarAdapter
 import com.team3.showbee.R
+import com.team3.showbee.SharedPref
+import com.team3.showbee.data.entity.Token
 import com.team3.showbee.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,7 +32,24 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnMonthChangeListener 
     }
 
     private fun initView() {
-
+        binding.mainNavigationView.setNavigationItemSelectedListener {
+            Log.d("Info", "navigaion item click... ${it.title}")
+            if(it.title == "로그아웃") {
+                Log.d("Info", "navigaion item click...2 ${it.title}")
+                val dialog = LogOutDialog()
+                dialog.setButtonClickListener(object : LogOutDialog.OnButtonClickListener {
+                    override fun onLogOutOkClicked() {
+                        SharedPref.saveToken(Token(""))
+                        val intent = Intent(this@MainActivity, LogInActivity::class.java)
+                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                    }
+                })
+                dialog.show(supportFragmentManager, "CustomDialog")
+            }
+            true
+        }
         setSupportActionBar(binding.include.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.menu)
