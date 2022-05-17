@@ -1,6 +1,7 @@
 package com.team3.showbee.ui.view
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -88,5 +89,13 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
                 // Another interface callback
             }
         }
+
+        //카테고리 선택
+        binding.selecCategory.setOnClickListener {
+            val moveToCategory = Intent(this, CategoryActivity::class.java)
+            startActivity(moveToCategory)
+        }
+        val text = intent.getStringExtra("icon")
+        binding.selecCategory.text = text
     }
 }
