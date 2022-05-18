@@ -33,6 +33,7 @@
     <string name="choice_day">날짜</string>
     <string name="category">분류</string>
     <string name="repetition">반복</string>
+    <string name="price">금액</string>
     <string name="notification">알림</string>
     <string name="add_friend">친구추가</string>
     <string name="memo">메모</string>
@@ -85,6 +86,7 @@
     <string name="withdrawal_title">회원탈퇴하시겠습니까?</string>
     <string name="withdrawal_content">탈퇴하면 회원님의 모든 정보가 사라집니다.</string>
 
+    <string name="userEmail">이메일</string>
     <string name="userPassword">비밀번호</string>
     <string name="userPasswordCheck">비밀번호 확인</string>
 
