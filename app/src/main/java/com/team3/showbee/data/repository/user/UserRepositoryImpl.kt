@@ -26,11 +26,11 @@ class UserRepositoryImpl @Inject constructor(
         return apiService.emailCheckResponse(email)
     }
 
-    override suspend fun updateUsername(username: String): NetworkResponse<BaseResponse, ErrorResponse> {
+    override suspend fun updateUsername(username: String): NetworkResponse<Boolean, ErrorResponse> {
         return apiService.updateUsernameResponse(username)
     }
 
-    override suspend fun updatePassword(password: String): NetworkResponse<BaseResponse, ErrorResponse> {
+    override suspend fun updatePassword(password: String): NetworkResponse<Boolean, ErrorResponse> {
         return apiService.updatePasswordResponse(password)
     }
 }

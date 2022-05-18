@@ -2,6 +2,7 @@ package com.team3.showbee.ui.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.team3.showbee.R
@@ -31,7 +32,7 @@ class UpdateUserInfoActivity : AppCompatActivity() {
             try {
                 val password = binding.etvPassword.text.toString()
                 val passwordCheck = binding.etvPasswordCheck.text.toString()
-                if (password == passwordCheck && password.isNotEmpty()) {
+                if (password == passwordCheck) {
                     viewModel.updatePassword(password)
                 }
                 else {
@@ -39,7 +40,8 @@ class UpdateUserInfoActivity : AppCompatActivity() {
                 }
             }
             finally {
-                binding.etvUsername.setText("")
+                binding.etvPassword.setText("")
+                binding.etvPasswordCheck.setText("")
             }
 
         }

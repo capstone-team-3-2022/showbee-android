@@ -2,15 +2,19 @@ package com.team3.showbee.ui.view
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.team3.showbee.R
+import com.team3.showbee.SharedPref
 import com.team3.showbee.databinding.ActivityAddFinancialBinding
 import com.team3.showbee.databinding.ActivityAddIncomeExpenditureBinding
 import com.team3.showbee.databinding.ActivityMainBinding
+import com.team3.showbee.ui.viewmodel.FinancialViewModel
 import com.team3.showbee.ui.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -19,7 +23,7 @@ import java.util.*
 class AddFinancialActivity : AppCompatActivity() {
     private var _binding: ActivityAddFinancialBinding? = null
     private val binding: ActivityAddFinancialBinding get() = requireNotNull(_binding)
-    private lateinit var viewModel: UserViewModel
+    private lateinit var viewModel: FinancialViewModel
 
     var thisYear =""
     var thisMonth = ""
@@ -30,10 +34,11 @@ class AddFinancialActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityAddFinancialBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(FinancialViewModel::class.java)
         setContentView(binding.root)
 
         initView()
+        observeData()
     }
 
     private fun initView() {
@@ -54,6 +59,10 @@ class AddFinancialActivity : AppCompatActivity() {
         }
         binding.editTextDay.setOnClickListener {
             setCalenderDay()
+        }
+        binding.save.setOnClickListener {
+            viewModel.create(date = resultDay, content = binding.content.toString(),
+                category = binding.category.toString(), price = binding.amount.toString())
         }
     }
 
@@ -89,5 +98,20 @@ class AddFinancialActivity : AppCompatActivity() {
 
         val datePicker = DatePickerDialog(this, dateListener, year, month, day)
         datePicker.show()
+    }
+
+    private fun observeData() {
+        with(viewModel) {
+            msg.observe(this@AddFinancialActivity) { event ->
+                event.getContentIfNotHandled()?.let {
+                    if (it == "true") {
+                        Toast.makeText(this@AddFinancialActivity, "성공했습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                    else {
+                        Toast.makeText(this@AddFinancialActivity, "실패했습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     }
 }

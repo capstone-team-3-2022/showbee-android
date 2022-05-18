@@ -25,9 +25,9 @@
     <string name="sat">토</string>
 
     <string name="income">수입</string>
-    <string name="income2">300,000원</string>
+    <string name="income2">310,000원</string>
     <string name="expense">지출</string>
-    <string name="expense2">280,000원</string>
+    <string name="expense2">310,000원</string>
 
     <string name="title">제목</string>
     <string name="choice_day">날짜</string>
@@ -39,6 +39,7 @@
     <string name="memo">메모</string>
     <string name="choice_day2">2022년 3월 15일</string>
     <string name="fixed_expenditure">고정 지출</string>
+    <string name="financial">가계부</string>
 
     <string name="my_account">나의 계정</string>
     <string name="manage_friends">친구 관리</string>
