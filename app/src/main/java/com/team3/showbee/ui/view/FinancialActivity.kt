@@ -10,7 +10,7 @@ import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.team3.showbee.ui.viewmodel.BaseCalendar
-import com.team3.showbee.ui.adapter.CalendarAdapter2
+import com.team3.showbee.ui.adapter.CalendarAdapter
 import com.team3.showbee.R
 import com.team3.showbee.SharedPref
 import com.team3.showbee.data.entity.Token
@@ -22,12 +22,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), CalendarAdapter2.OnMonthChangeListener {
+class FinancialActivity : AppCompatActivity(), CalendarAdapter.OnMonthChangeListener {
     private var _binding: ActivityMainBinding? = null
     private val binding: ActivityMainBinding get() = requireNotNull(_binding)
     private lateinit var viewModel: UserViewModel
 
-    lateinit var calendarAdapter: CalendarAdapter2
+    lateinit var calendarAdapter: CalendarAdapter
     private val baseCalendar = BaseCalendar()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity(), CalendarAdapter2.OnMonthChangeListener
                     dialog.setButtonClickListener(object : LogOutDialog.OnButtonClickListener {
                         override fun onLogOutOkClicked() {
                             SharedPref.saveToken(Token(""))
-                            val intent = Intent(this@MainActivity, LogInActivity::class.java)
+                            val intent = Intent(this@FinancialActivity, LogInActivity::class.java)
                                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(intent)
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(), CalendarAdapter2.OnMonthChangeListener
         supportActionBar?.setHomeAsUpIndicator(R.drawable.menu)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        calendarAdapter = CalendarAdapter2(onMonthChangeListener = this)
+        calendarAdapter = CalendarAdapter(onMonthChangeListener = this)
 
         binding.fgCalRv.layoutManager = GridLayoutManager(this, BaseCalendar.DAYS_OF_WEEK)
         binding.fgCalRv.adapter = calendarAdapter
@@ -96,12 +96,12 @@ class MainActivity : AppCompatActivity(), CalendarAdapter2.OnMonthChangeListener
         }
 
         binding.btnAddExpenseAndIncome.setOnClickListener {
-            val intent = Intent(this, AddIncomeExpenditureActivity::class.java)
+            val intent = Intent(this, AddFinancialActivity::class.java)
             startActivity(intent)
         }
 
         binding.floatingActionButton2.setOnClickListener {
-            val intent = Intent(this, FinancialActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
     }
@@ -122,11 +122,11 @@ class MainActivity : AppCompatActivity(), CalendarAdapter2.OnMonthChangeListener
 
     private fun observeData() {
         with(viewModel) {
-            msg.observe(this@MainActivity) { event ->
+            msg.observe(this@FinancialActivity) { event ->
                 event.getContentIfNotHandled()?.let {
-                    Toast.makeText(this@MainActivity, it, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@FinancialActivity, it, Toast.LENGTH_SHORT).show()
                     if (it=="성공하였습니다.") {
-                        val intent = Intent(this@MainActivity, LogInActivity::class.java)
+                        val intent = Intent(this@FinancialActivity, LogInActivity::class.java)
                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity(), CalendarAdapter2.OnMonthChangeListener
                 }
             }
 
-            token.observe(this@MainActivity) {
+            token.observe(this@FinancialActivity) {
                 SharedPref.saveToken(it)
             }
         }

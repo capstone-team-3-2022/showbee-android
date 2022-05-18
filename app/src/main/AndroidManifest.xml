@@ -26,6 +26,9 @@
             android:name=".ui.view.CategoryLifeActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.view.FinancialActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.view.CategoryHobbyActivity"
             android:exported="false" />
         <activity
