@@ -1,5 +1,7 @@
 package com.team3.showbee.di
 
+import com.team3.showbee.data.repository.financial.FinancialRepository
+import com.team3.showbee.data.repository.financial.FinancialRepositoryImpl
 import com.team3.showbee.data.repository.login.LogInRepository
 import com.team3.showbee.data.repository.login.LogInRepositoryImpl
 import com.team3.showbee.data.repository.user.UserRepository
@@ -22,4 +24,9 @@ abstract class RepositoryModule {
     abstract fun bindsUserRepository(
         repositoryImpl: UserRepositoryImpl
     ): UserRepository
+
+    @Binds
+    abstract fun bindsFinancialRepository(
+        repositoryImpl: FinancialRepositoryImpl
+    ): FinancialRepository
 }
