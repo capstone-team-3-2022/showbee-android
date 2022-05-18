@@ -46,6 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <RadioGroup
+            android:id="@+id/choice_income_expense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -148,8 +149,9 @@
                 android:text="@string/category"
                 android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/selectCategory"
+            <TextView
+                android:id="@+id/selecCategory"
+                android:hint="아이콘을 선택해주세요"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

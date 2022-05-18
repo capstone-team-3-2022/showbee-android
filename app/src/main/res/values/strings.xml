@@ -31,12 +31,13 @@
 
     <string name="title">제목</string>
     <string name="choice_day">날짜</string>
-    <string name="category">카테고리</string>
+    <string name="category">분류</string>
+    <string name="repetition">반복</string>
     <string name="price">금액</string>
     <string name="notification">알림</string>
     <string name="add_friend">친구추가</string>
     <string name="memo">메모</string>
-    <string name="choice_day2">2022년 3월 15일 화</string>
+    <string name="choice_day2">2022년 3월 15일</string>
     <string name="fixed_expenditure">고정 지출</string>
 
     <string name="my_account">나의 계정</string>
@@ -48,8 +49,9 @@
 
     <string name="modification_of_personal_information">개인 정보 수정</string>
     <string name="change_nickname">닉네임 변경</string>
-    <string name="change_id">아이디 변경</string>
+    <string name="change_userinfo">사용자 정보 변경</string>
     <string name="change_password">비밀번호 변경</string>
+    <string name="nickname">닉네임</string>
     <string name="text_management">문자 관리</string>
     <string name="sms_receiving_function">SMS 수신 기능</string>
     <string name="display_text_source">문자 원본 표시</string>
@@ -78,4 +80,23 @@
     <string name="installment">할부</string>
 
     <string name="emailCheck">확인</string>
+    <string name="log_out_cancel">취소</string>
+    <string name="log_out_title">로그아웃하시겠습니까?</string>
+    <string name="withdrawal_title">회원탈퇴하시겠습니까?</string>
+    <string name="withdrawal_content">탈퇴하면 회원님의 모든 정보가 사라집니다.</string>
+
+    <string name="userEmail">이메일</string>
+    <string name="userPassword">비밀번호</string>
+    <string name="userPasswordCheck">비밀번호 확인</string>
+
+    <string name="delete">삭제하기</string>
+    <string name="save">저장하기</string>
+
+    <string name="bank">자산</string>
+    <string name="amount">금액</string>
+    <string name="content">내용</string>
+    <string name="bank2">농협</string>
+    <string name="amount2">4,350원</string>
+    <string name="content2">CU제주시청점</string>
+    <string name="category2">식비</string>
 </resources>

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.team3.showbee.ui.viewmodel.BaseCalendar
-import com.team3.showbee.data.model.Schedule
+import com.team3.showbee.data.entity.Schedule
 import com.team3.showbee.R
 import java.util.*
 

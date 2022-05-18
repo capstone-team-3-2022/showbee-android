@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="15px"
-            android:text="아이디"
+            android:text="@string/userEmail"
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -47,7 +47,7 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="아이디"
+                android:hint="@string/userEmail"
                 android:inputType="textPersonName"
                 android:minHeight="48dp"
                 android:paddingBottom="30px"
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:paddingBottom="15px"
-            android:text="비밀번호"
+            android:text="@string/userPassword"
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -81,7 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="비밀번호"
+            android:hint="@string/userPassword"
             android:inputType="textPassword"
             android:minHeight="48dp"
             android:paddingBottom="30px"
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:paddingBottom="15px"
-            android:text="비밀번호 확인"
+            android:text="@string/userPasswordCheck"
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -104,7 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="비밀번호 확인"
+            android:hint="@string/userPasswordCheck"
             android:inputType="textPassword"
             android:minHeight="48dp"
             android:paddingBottom="30px"
@@ -117,7 +117,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:paddingBottom="15px"
-            android:text="닉네임"
+            android:text="@string/nickname"
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -127,7 +127,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="닉네임"
+            android:hint="@string/nickname"
             android:inputType="textPersonName"
             android:minHeight="48dp"
             android:paddingBottom="30px"
@@ -147,5 +147,15 @@
             android:textStyle="bold" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/bee"
+        android:layout_width="85dp"
+        android:layout_height="74dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        app:srcCompat="@drawable/bee" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

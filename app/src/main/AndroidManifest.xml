@@ -5,18 +5,19 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_bee"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_bee_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ShowBee"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".user_leave"
+            android:name=".ui.view.UpdateUserInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".log_out"
+            android:name=".ui.view.SearchViewActivity"
             android:exported="false" />
         <activity
             android:name=".ui.view.CategoryTransferActivity"
@@ -34,7 +35,10 @@
             android:name=".ui.view.UserAccountActivity"
             android:exported="false" />
         <activity android:name=".ui.view.AddIncomeExpenditureActivity" />
-        <activity android:name=".ui.view.LogInActivity">
+        <activity android:name=".ui.view.AddFinancialActivity" />
+        <activity
+            android:name=".ui.view.LogInActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,35 +1,62 @@
 package com.team3.showbee.ui.view
 
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.team3.showbee.R
+import com.team3.showbee.databinding.ActivityAddIncomeExpenditureBinding
+import com.team3.showbee.databinding.ActivityMainBinding
+import com.team3.showbee.ui.viewmodel.UserViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
+@AndroidEntryPoint
 class AddIncomeExpenditureActivity : AppCompatActivity() {
+    private var _binding: ActivityAddIncomeExpenditureBinding? = null
+    private val binding: ActivityAddIncomeExpenditureBinding get() = requireNotNull(_binding)
+    private lateinit var viewModel: UserViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_income_expenditure)
+        _binding = ActivityAddIncomeExpenditureBinding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        setContentView(binding.root)
 
         initView()
     }
 
     private fun initView() {
+        var category = ""
+        binding.choiceIncomeExpense.setOnCheckedChangeListener{group, checkedId ->
+            when (checkedId) {
+                R.id.radioButton -> {
+                    binding.radioButton.setTextColor(Color.parseColor("#FF8B00"))
+                    binding.radioButton2.setTextColor(Color.parseColor("#989898"))
+                    category = "income"
 
-        val selectCategory = findViewById<EditText>(R.id.selectCategory)
-        val datePicker = findViewById<EditText>(R.id.datePicker)
-        val spinner: Spinner = findViewById(R.id.cycleSpinner)
-        var dateString = ""
-
+                }
+                R.id.radioButton2 -> {
+                    binding.radioButton.setTextColor(Color.parseColor("#989898"))
+                    binding.radioButton2.setTextColor(Color.parseColor("#FF8B00"))
+                    category = "expense"
+                }
+            }
+        }
         //날짜 선택
-        datePicker.setOnClickListener {
+        var dateString = ""
+        binding.datePicker.setOnClickListener {
             val cal = Calendar.getInstance()    //캘린더뷰 만들기
             val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
                 dateString = "${year}년 ${month+1}월 ${dayOfMonth}일"
-                datePicker.setText(dateString)
+                binding.datePicker.setText(dateString)
                 Toast.makeText( this@AddIncomeExpenditureActivity,"날짜/시간 :  ${dateString}", Toast.LENGTH_SHORT).show()
                 Log.d("date", "${month+1}, ${dayOfMonth}")
             }
@@ -46,15 +73,15 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Apply the adapter to the spinner
-            spinner.adapter = adapter
+            binding.cycleSpinner.adapter = adapter
         }
 
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.cycleSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
                 // An item was selected. You can retrieve the selected item using
                 // parent.getItemAtPosition(pos)
                 if(pos !=0 ) {
-                    Toast.makeText(this@AddIncomeExpenditureActivity, spinner.selectedItem.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@AddIncomeExpenditureActivity, binding.cycleSpinner.selectedItem.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -64,8 +91,11 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
         }
 
         //카테고리 선택
-        selectCategory.setOnClickListener {
-
+        binding.selecCategory.setOnClickListener {
+            val moveToCategory = Intent(this, CategoryActivity::class.java)
+            startActivity(moveToCategory)
         }
+        val text = intent.getStringExtra("icon")
+        binding.selecCategory.text = text
     }
 }

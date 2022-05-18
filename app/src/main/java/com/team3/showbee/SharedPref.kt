@@ -2,7 +2,7 @@ package com.team3.showbee
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.team3.showbee.data.model.Token
+import com.team3.showbee.data.entity.Token
 
 object SharedPref {
     val LOGIN_SESSION = "login.session"
@@ -16,7 +16,7 @@ object SharedPref {
 
     fun getToken() : Token? {
         if (token == null) {
-            token = Token(sharedPref!!.getString("token", "")!!)
+            token = Token("")
         }
         return token
     }
