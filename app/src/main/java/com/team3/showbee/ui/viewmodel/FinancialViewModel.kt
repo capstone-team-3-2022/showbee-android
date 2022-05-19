@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.team3.showbee.data.entity.Event
+import com.team3.showbee.data.entity.Financial
 import com.team3.showbee.data.network.NetworkResponse
 import com.team3.showbee.data.repository.financial.FinancialRepository
 import com.team3.showbee.data.repository.user.UserRepository
@@ -19,13 +20,14 @@ class FinancialViewModel @Inject constructor(
     private val _msg = MutableLiveData<Event<String>>()
     val msg : LiveData<Event<String>> = _msg
 
-    fun create(date: String, content: String, price: String, category: String) {
+    fun create(date: String, content: String, price: Int, category: String, bank: String, memo: String, inoutcome: Boolean) {
         viewModelScope.launch {
-            val response = repository.createFinancial(date, content, price, category)
+            val financial = Financial(date, content, price, category, bank, memo, inoutcome)
+            val response = repository.createFinancial(financial)
 
             when(response) {
                 is NetworkResponse.Success -> {
-                    _msg.postValue(Event(response.body.msg))
+                    _msg.postValue(Event(response.body.toString()))
                 }
                 is NetworkResponse.ApiError -> {
                     postValueEvent(0)

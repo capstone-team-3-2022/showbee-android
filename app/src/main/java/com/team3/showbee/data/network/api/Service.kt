@@ -3,6 +3,7 @@ package com.team3.showbee.data.network.api
 
 import com.team3.showbee.data.entity.BaseResponse
 import com.team3.showbee.data.entity.ErrorResponse
+import com.team3.showbee.data.entity.Financial
 import com.team3.showbee.data.network.NetworkResponse
 import retrofit2.http.*
 
@@ -32,8 +33,7 @@ interface Service {
     //---- financial
     @POST("v1/financial/post")
     suspend fun createFinancialResponse(
-        @Query("date") date: String, @Query("content") content: String, @Query("price") price: String,
-        @Query("category") category: String) : NetworkResponse<BaseResponse, ErrorResponse>
+        @Body financial: Financial) : NetworkResponse<Int, ErrorResponse>
 
     @GET("v1/financial/lists")
     suspend fun getFinancialListResponse(): NetworkResponse<BaseResponse, ErrorResponse>
