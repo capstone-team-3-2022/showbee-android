@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.team3.showbee.ui.viewmodel.BaseCalendar
-import com.team3.showbee.data.entity.Schedule
 import com.team3.showbee.R
 import java.util.*
 
-class CalendarAdapter2(private val onMonthChangeListener: OnMonthChangeListener? = null) : RecyclerView.Adapter<CalendarAdapter2.CalendarItemViewHolder>() {
+class ScheduleCalendarAdapter(private val onMonthChangeListener: OnMonthChangeListener? = null) : RecyclerView.Adapter<ScheduleCalendarAdapter.CalendarItemViewHolder>() {
 
     private val baseCalendar = BaseCalendar()
 
