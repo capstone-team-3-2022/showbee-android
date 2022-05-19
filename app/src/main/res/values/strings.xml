@@ -37,7 +37,7 @@
     <string name="notification">알림</string>
     <string name="add_friend">친구추가</string>
     <string name="memo">메모</string>
-    <string name="choice_day2">2022년 3월 15일</string>
+    <string name="choice_day2">날짜를 선택해주세요.</string>
     <string name="fixed_expenditure">고정 지출</string>
     <string name="financial">가계부</string>
 
@@ -92,6 +92,7 @@
 
     <string name="delete">삭제하기</string>
     <string name="save">저장하기</string>
+    <string name="create">추가하기</string>
 
     <string name="bank">자산</string>
     <string name="amount">금액</string>
