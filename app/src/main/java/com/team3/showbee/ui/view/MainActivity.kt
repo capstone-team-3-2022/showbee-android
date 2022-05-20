@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var financialFragment:FinancialFragment
     lateinit var scheduleFragment: ScheduleFragment
+    lateinit var listFragment: ListFragment
     lateinit var fragmentManager: FragmentManager
     lateinit var transaction: FragmentTransaction
 
@@ -84,8 +85,9 @@ class MainActivity : AppCompatActivity() {
         fragmentManager = supportFragmentManager
         financialFragment = FinancialFragment()
         scheduleFragment = ScheduleFragment()
+        listFragment = ListFragment()
 
-        choiceFragment()
+        choiceFragment(triger)
 
         binding.btnAddExpenseAndIncome.setOnClickListener {
             if (triger == "schedule") {
@@ -100,20 +102,23 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.floatingActionButton2.setOnClickListener {
-            choiceFragment()
+            choiceFragment(triger)
         }
     }
 
-    private fun choiceFragment() {
+    fun choiceFragment(tag: String) {
         transaction = fragmentManager.beginTransaction()
 
-        if (triger == "schedule") {
+        if (tag == "schedule") {
             transaction.replace(binding.frameLayout.id, financialFragment).commitAllowingStateLoss()
             triger = "financial"
         }
-        else {
+        else if(tag == "financial"){
             transaction.replace(binding.frameLayout.id, scheduleFragment).commitAllowingStateLoss()
             triger = "schedule"
+        }
+        else if(tag == "list"){
+            transaction.replace(binding.frameLayout.id, listFragment).commitAllowingStateLoss()
         }
     }
 

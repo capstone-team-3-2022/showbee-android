@@ -13,6 +13,7 @@ import java.util.*
 class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeListener? = null) : RecyclerView.Adapter<FinancialCalendarAdapter.CalendarItemViewHolder>() {
 
     private val baseCalendar = BaseCalendar()
+    private lateinit var itemClickListener : OnItemClickListener
 
     init {
         baseCalendar.initBaseCalendar {
@@ -67,6 +68,16 @@ class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeL
             onMonthChangeListener?.onMonthChanged(it)
             notifyDataSetChanged()
         }
+    }
+
+
+    interface OnItemClickListener {
+        fun onClick(v: View, position: Int)
+    }
+
+
+    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
+        this.itemClickListener = onItemClickListener
     }
 
 
