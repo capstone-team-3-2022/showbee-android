@@ -97,5 +97,10 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
         }
         val text = intent.getStringExtra("icon")
         binding.selecCategory.text = text
+
+        binding.imageView2.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

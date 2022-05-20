@@ -26,6 +26,7 @@
             android:layout_gravity="center"
             tools:layout_editor_absoluteX="181dp"
             tools:layout_editor_absoluteY="16dp">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -124,11 +125,12 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/editText_bank"
+                android:id="@+id/editTextText_bank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:text="@string/bank2"
                 android:inputType="textPersonName" />
         </LinearLayout>
 
@@ -151,6 +153,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:text="@string/category2"
                 android:inputType="textPersonName" />
         </LinearLayout>
 
@@ -173,6 +176,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:text="@string/amount2"
                 android:inputType="textPersonName" />
         </LinearLayout>
 
@@ -195,6 +199,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:text="@string/content2"
                 android:inputType="textPersonName" />
         </LinearLayout>
 
@@ -245,11 +250,22 @@
             app:layout_constraintTop_toTopOf="@+id/linearLayout7">
 
             <Button
+                android:id="@+id/delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/delete"
+                android:textColor="@color/black"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_log_out_ok"
+                app:backgroundTint="@null"/>
+
+            <Button
                 android:id="@+id/save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/create"
+                android:text="@string/save"
                 android:textColor="@color/black"
                 android:layout_margin="10dp"
                 android:background="@drawable/btn_save"

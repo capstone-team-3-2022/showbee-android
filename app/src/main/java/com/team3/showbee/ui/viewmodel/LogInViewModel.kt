@@ -60,7 +60,7 @@ class LogInViewModel @Inject constructor(
     private fun postValueEvent(value : Int, type: String) {
         val msgArrayList = arrayOf("Api 오류 : $type 실패했습니다.",
             "서버 오류 : $type 실패했습니다.",
-            "알 수 없는 오류 : $type 실패했습니다."
+            "존재하지 않는 사용자 : $type 실패했습니다."
         )
 
         when(value) {

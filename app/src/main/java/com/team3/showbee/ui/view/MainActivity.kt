@@ -5,30 +5,32 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
-import com.team3.showbee.ui.viewmodel.BaseCalendar
-import com.team3.showbee.ui.adapter.CalendarAdapter
 import com.team3.showbee.R
 import com.team3.showbee.SharedPref
 import com.team3.showbee.data.entity.Token
 import com.team3.showbee.databinding.ActivityMainBinding
-import com.team3.showbee.ui.viewmodel.LogInViewModel
 import com.team3.showbee.ui.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.util.*
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), CalendarAdapter.OnMonthChangeListener {
+class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding: ActivityMainBinding get() = requireNotNull(_binding)
     private lateinit var viewModel: UserViewModel
 
-    lateinit var calendarAdapter: CalendarAdapter
-    private val baseCalendar = BaseCalendar()
+    lateinit var financialFragment:FinancialFragment
+    lateinit var scheduleFragment: ScheduleFragment
+    lateinit var fragmentManager: FragmentManager
+    lateinit var transaction: FragmentTransaction
+
+    var triger = "financial"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,37 +75,46 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnMonthChangeListener 
             }
             true
         }
+
         setSupportActionBar(binding.include.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.menu)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        calendarAdapter = CalendarAdapter(onMonthChangeListener = this)
+        fragmentManager = supportFragmentManager
+        financialFragment = FinancialFragment()
+        scheduleFragment = ScheduleFragment()
 
-        binding.fgCalRv.layoutManager = GridLayoutManager(this, BaseCalendar.DAYS_OF_WEEK)
-        binding.fgCalRv.adapter = calendarAdapter
-
-        binding.fgCalPre.setOnClickListener {
-            calendarAdapter.changeToPrevMonth()
-        }
-
-        binding.fgCalNext.setOnClickListener {
-            calendarAdapter.changeToNextMonth()
-        }
-
-        baseCalendar.initBaseCalendar {
-            onMonthChanged(it)
-        }
+        choiceFragment()
 
         binding.btnAddExpenseAndIncome.setOnClickListener {
-            val intent = Intent(this, AddFinancialActivity::class.java)
-            startActivity(intent)
+            if (triger == "schedule") {
+                val intent = Intent(this, AddIncomeExpenditureActivity::class.java)
+                startActivity(intent)
+            }
+            else {
+                val intent = Intent(this, AddFinancialActivity::class.java)
+                startActivity(intent)
+            }
+
+        }
+
+        binding.floatingActionButton2.setOnClickListener {
+            choiceFragment()
         }
     }
 
-    override fun onMonthChanged(calendar: Calendar) {
-        val sdf = SimpleDateFormat("yyyy년 MM월", Locale.KOREAN)
-        binding.fgCalMonth.text = sdf.format(calendar.time)
+    private fun choiceFragment() {
+        transaction = fragmentManager.beginTransaction()
+
+        if (triger == "schedule") {
+            transaction.replace(binding.frameLayout.id, financialFragment).commitAllowingStateLoss()
+            triger = "financial"
+        }
+        else {
+            transaction.replace(binding.frameLayout.id, scheduleFragment).commitAllowingStateLoss()
+            triger = "schedule"
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

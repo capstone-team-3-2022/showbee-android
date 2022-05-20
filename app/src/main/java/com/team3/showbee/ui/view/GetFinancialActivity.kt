@@ -2,6 +2,7 @@ package com.team3.showbee.ui.view
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,13 +10,17 @@ import android.widget.DatePicker
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.team3.showbee.R
+import com.team3.showbee.SharedPref
 import com.team3.showbee.databinding.ActivityAddFinancialBinding
+import com.team3.showbee.databinding.ActivityAddIncomeExpenditureBinding
+import com.team3.showbee.databinding.ActivityMainBinding
 import com.team3.showbee.ui.viewmodel.FinancialViewModel
+import com.team3.showbee.ui.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class AddFinancialActivity : AppCompatActivity() {
+class GetFinancialActivity : AppCompatActivity() {
     private var _binding: ActivityAddFinancialBinding? = null
     private val binding: ActivityAddFinancialBinding get() = requireNotNull(_binding)
     private lateinit var viewModel: FinancialViewModel
@@ -23,7 +28,7 @@ class AddFinancialActivity : AppCompatActivity() {
     var thisYear =""
     var thisMonth = ""
     var thisDay = ""
-    var inoutcome = true
+    var category = ""
     var resultDay = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,13 +47,13 @@ class AddFinancialActivity : AppCompatActivity() {
                 R.id.radioButton -> {
                     binding.radioButton.setTextColor(Color.parseColor("#FF8B00"))
                     binding.radioButton2.setTextColor(Color.parseColor("#989898"))
-                    inoutcome = true
+                    category = "income"
 
                 }
                 R.id.radioButton2 -> {
                     binding.radioButton.setTextColor(Color.parseColor("#989898"))
                     binding.radioButton2.setTextColor(Color.parseColor("#FF8B00"))
-                    inoutcome = false
+                    category = "expense"
                 }
             }
         }
@@ -56,8 +61,6 @@ class AddFinancialActivity : AppCompatActivity() {
             setCalenderDay()
         }
         binding.save.setOnClickListener {
-            viewModel.create(date = resultDay, content = binding.editTextContent.text.toString(),
-                category = binding.editTextCategory.text.toString(), price = binding.editTextAmount.text.toString().toInt(), bank = binding.editTextBank.text.toString(), memo = binding.memo.text.toString(), inoutcome = inoutcome)
         }
     }
 
@@ -75,7 +78,7 @@ class AddFinancialActivity : AppCompatActivity() {
                 monthDate: Int,
                 dayOfMonth: Int
             ) {
-                binding.editTextDay.text = "${yearDate}년 ${monthDate+1}월 ${dayOfMonth}일"
+                binding.editTextDay.text = "${yearDate}년 ${monthDate+1} 월 ${dayOfMonth}일"
                 thisMonth = "${monthDate+1}"
                 thisDay = "$dayOfMonth"
 
@@ -97,9 +100,14 @@ class AddFinancialActivity : AppCompatActivity() {
 
     private fun observeData() {
         with(viewModel) {
-            msg.observe(this@AddFinancialActivity) { event ->
+            msg.observe(this@GetFinancialActivity) { event ->
                 event.getContentIfNotHandled()?.let {
-                    Toast.makeText(this@AddFinancialActivity, "성공했습니다.", Toast.LENGTH_SHORT).show()
+                    if (it == "true") {
+                        Toast.makeText(this@GetFinancialActivity, "성공했습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                    else {
+                        Toast.makeText(this@GetFinancialActivity, "실패했습니다.", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

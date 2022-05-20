@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.team3.showbee.ui.viewmodel.BaseCalendar
-import com.team3.showbee.data.entity.Schedule
 import com.team3.showbee.R
 import java.util.*
 
-class CalendarAdapter(private val scheduleList: List<Schedule>? = null, private val onMonthChangeListener: OnMonthChangeListener? = null) : RecyclerView.Adapter<CalendarAdapter.CalendarItemViewHolder>() {
+class ScheduleCalendarAdapter(private val onMonthChangeListener: OnMonthChangeListener? = null) : RecyclerView.Adapter<ScheduleCalendarAdapter.CalendarItemViewHolder>() {
 
     private val baseCalendar = BaseCalendar()
 
@@ -23,7 +22,7 @@ class CalendarAdapter(private val scheduleList: List<Schedule>? = null, private 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarItemViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.cal_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.icon_item, parent, false)
         return CalendarItemViewHolder(view)
     }
 
@@ -34,6 +33,7 @@ class CalendarAdapter(private val scheduleList: List<Schedule>? = null, private 
     override fun onBindViewHolder(holder: CalendarItemViewHolder, position: Int) {
         val tvDate: TextView = holder.itemView.findViewById(R.id.tv_date)
         val academicSchedule: TextView = holder.itemView.findViewById(R.id.academicSchedule)
+        val academicSchedule2: TextView = holder.itemView.findViewById(R.id.academicSchedule2)
 
         if (position % BaseCalendar.DAYS_OF_WEEK == 0) tvDate.setTextColor(Color.parseColor("#FF1E1E"))
         else if(position % BaseCalendar.DAYS_OF_WEEK == 6) tvDate.setTextColor(Color.parseColor("#2079FF"))
@@ -42,23 +42,13 @@ class CalendarAdapter(private val scheduleList: List<Schedule>? = null, private 
         val day = baseCalendar.data[position]
 
         tvDate.text = baseCalendar.data[position].toString()
-        academicSchedule.text = scheduleList?.find { schedule -> schedule.day == day }?.schedule ?: ""
-
-        if(academicSchedule.text != "") {
-            tvDate.setBackgroundColor(Color.parseColor("#2c786c"))
-            tvDate.setTextColor(Color.parseColor("#FFFFFF"))
-        }
-
-        if(scheduleList?.find { it.day == day }?.holiday==""){
-            tvDate.setBackgroundColor(Color.parseColor("#fddb3a"))
-            tvDate.setTextColor(Color.parseColor("#393b44"))
-        }
 
         if (position < baseCalendar.preMonth
             || position >= baseCalendar.preMonth + baseCalendar.currentMonth) {
             tvDate.alpha = 0.3f
             tvDate.setTextColor(Color.parseColor("#8d93ab"))
             academicSchedule.setText("")
+            academicSchedule2.setText("")
         } else {
             tvDate.alpha = 1f
         }

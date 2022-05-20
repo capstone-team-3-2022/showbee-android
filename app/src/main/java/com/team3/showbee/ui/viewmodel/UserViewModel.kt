@@ -88,7 +88,7 @@ class UserViewModel @Inject constructor(
 
                 when(response) {
                     is NetworkResponse.Success -> {
-                        _info.postValue(Event(response.body.msg))
+                        _info.postValue(Event(response.body.toString()))
                     }
                     is NetworkResponse.ApiError -> {
                         postValueEvent(0, type)
@@ -112,7 +112,7 @@ class UserViewModel @Inject constructor(
 
                 when(response) {
                     is NetworkResponse.Success -> {
-                        _info.postValue(Event(response.body.msg))
+                        _info.postValue(Event(response.body.toString()))
                     }
                     is NetworkResponse.ApiError -> {
                         postValueEvent(0, type)
