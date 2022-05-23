@@ -16,6 +16,7 @@ import com.team3.showbee.R
 import com.team3.showbee.databinding.FragmentFinancialBinding
 import com.team3.showbee.ui.adapter.FinancialCalendarAdapter
 import com.team3.showbee.ui.viewmodel.BaseCalendar
+import com.team3.showbee.ui.viewmodel.FinancialViewModel
 import com.team3.showbee.ui.viewmodel.UserViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -23,7 +24,7 @@ import java.util.*
 class FinancialFragment : Fragment(), FinancialCalendarAdapter.OnMonthChangeListener {
     private var _binding: FragmentFinancialBinding? = null
     private val binding: FragmentFinancialBinding get() = requireNotNull(_binding)
-    private val viewModel by activityViewModels<UserViewModel>()
+    private val viewModel by activityViewModels<FinancialViewModel>()
 
     private lateinit var financialCalendarAdapter: FinancialCalendarAdapter
     private val baseCalendar = BaseCalendar()
@@ -101,11 +102,19 @@ class FinancialFragment : Fragment(), FinancialCalendarAdapter.OnMonthChangeList
                     }
                 }
             }
+            total.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let {
+                    binding.incomeContent.text = it[0].toString()
+                    binding.expenseContent.text = it[1].toString()
+                }
+            }
         }
     }
 
     override fun onMonthChanged(calendar: Calendar) {
         val sdf = SimpleDateFormat("yyyy년 MM월", Locale.KOREAN)
+        val sdf2 = SimpleDateFormat("yyyy-MM", Locale.KOREAN)
         binding.fgCalMonth.text = sdf.format(calendar.time)
+        viewModel.getMonthlyTotal(sdf2.format(calendar.time))
     }
 }
