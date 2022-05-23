@@ -38,6 +38,9 @@ interface Service {
     @GET("v1/financial/getMonthlyTotal")
     suspend fun getMonthlyTotalResponse(@Query("nowDate") nowDate:String): NetworkResponse<List<Long>, ErrorResponse>
 
+    @GET("v1/financial/getMonthly")
+    suspend fun getMonthlyResponse(@Query("nowDate") nowDate:String): NetworkResponse<Map<String, List<Long>>, ErrorResponse>
+
     @DELETE("v1/financial/delete/{fid}")
     suspend fun deleteFinancialResponse(@Path("fid") fid: Int): NetworkResponse<BaseResponse, ErrorResponse>
 }

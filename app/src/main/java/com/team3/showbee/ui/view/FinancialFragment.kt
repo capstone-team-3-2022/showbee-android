@@ -1,5 +1,6 @@
 package com.team3.showbee.ui.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -57,16 +58,6 @@ class FinancialFragment : Fragment(), FinancialCalendarAdapter.OnMonthChangeList
         binding.fgCalRv.layoutManager = GridLayoutManager(context, BaseCalendar.DAYS_OF_WEEK)
         binding.fgCalRv.adapter = financialCalendarAdapter
 
-        Log.d("financial", "why")
-
-        binding.calendar.setOnClickListener {
-            Log.d("financial", "why")
-        }
-
-        binding.fgCalRv.setOnClickListener {
-            mainActivity?.choiceFragment("list")
-            Log.d("financial", "listener: click")
-        }
         financialCalendarAdapter.setItemClickListener(object : FinancialCalendarAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 activity?.let {
@@ -108,6 +99,14 @@ class FinancialFragment : Fragment(), FinancialCalendarAdapter.OnMonthChangeList
                     binding.expenseContent.text = it[1].toString()
                 }
             }
+
+            list.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let {
+                    Log.d("financial", "list")
+                    financialCalendarAdapter.setItems(it)
+                    financialCalendarAdapter.notifyDataSetChanged()
+                }
+            }
         }
     }
 
@@ -116,5 +115,7 @@ class FinancialFragment : Fragment(), FinancialCalendarAdapter.OnMonthChangeList
         val sdf2 = SimpleDateFormat("yyyy-MM", Locale.KOREAN)
         binding.fgCalMonth.text = sdf.format(calendar.time)
         viewModel.getMonthlyTotal(sdf2.format(calendar.time))
+        Log.d("financial", "onMonthChanged")
+        viewModel.getMonthly(sdf2.format(calendar.time))
     }
 }

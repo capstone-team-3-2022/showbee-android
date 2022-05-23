@@ -1,6 +1,7 @@
 package com.team3.showbee.ui.adapter
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.team3.showbee.ui.viewmodel.BaseCalendar
 import com.team3.showbee.R
-import com.team3.showbee.data.entity.FinancialDate
 import com.team3.showbee.databinding.CalItemBinding
 import java.util.*
 
@@ -16,12 +16,14 @@ class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeL
 
     private val baseCalendar = BaseCalendar()
     private lateinit var itemClickListener : OnItemClickListener
-    private var dateList = arrayListOf<FinancialDate>(FinancialDate("22", "20000", "30000"))
+    private lateinit var dateMap: MutableMap<String, List<Long>>
 
     init {
         baseCalendar.initBaseCalendar {
             onMonthChangeListener?.onMonthChanged(it)
         }
+
+        dateMap = mutableMapOf("22" to listOf(2000, 1203))
         notifyDataSetChanged()
     }
 
@@ -37,7 +39,7 @@ class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeL
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is CalendarItemViewHolder) {
-            holder.bind(baseCalendar.data[position], dateList)
+            holder.bind(baseCalendar.data[position], dateMap)
         }
         val tvDate: TextView = holder.itemView.findViewById(R.id.tv_date)
 
@@ -87,27 +89,24 @@ class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeL
     }
 
     inner class CalendarItemViewHolder(private val binding: CalItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(date: Int, list: List<FinancialDate>) {
+        fun bind(date: Int, map: Map<String, List<Long>>) {
             binding.tvDate.text = date.toString()
-            binding.income.text = list[0].income
-            binding.expense.text = list[0].expense
+            binding.income.text = map["2022-05-17T00:00:00.000+00:00"]?.get(0)?.toString()
+            binding.expense.text = map["2022-05-17T00:00:00.000+00:00"]?.get(1)?.toString()
+            Log.d("financial", "CalendarItemViewHolder")
 
             val pos = absoluteAdapterPosition
             if(pos!= RecyclerView.NO_POSITION)
             {
                 itemView.setOnClickListener {
-                    itemClickListener?.onClick(itemView,pos)
+                    itemClickListener.onClick(itemView,pos)
                 }
             }
         }
     }
 
-    fun setOnItemClickListener(listener : OnItemClickListener) {
-        this.itemClickListener = listener
-    }
-
-    fun setItems(item: List<FinancialDate>) {
-        dateList.clear()
-        dateList.addAll(item)
+    fun setItems(item: Map<String, List<Long>>) {
+        Log.d("financial", "setItem")
+        dateMap.putAll(item)
     }
 }
