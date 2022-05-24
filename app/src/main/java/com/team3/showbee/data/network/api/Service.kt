@@ -1,11 +1,10 @@
 package com.team3.showbee.data.network.api
 
 
-import com.team3.showbee.data.entity.BaseResponse
-import com.team3.showbee.data.entity.ErrorResponse
-import com.team3.showbee.data.entity.Financial
+import com.team3.showbee.data.entity.*
 import com.team3.showbee.data.network.NetworkResponse
 import retrofit2.http.*
+import retrofit2.http.Body
 
 interface Service {
     @POST("v1/signin")
@@ -40,6 +39,9 @@ interface Service {
 
     @GET("v1/financial/getMonthly")
     suspend fun getMonthlyResponse(@Query("nowDate") nowDate:String): NetworkResponse<Map<String, List<Long>>, ErrorResponse>
+
+    @GET("v1/financial/getlist")
+    suspend fun getListResponse(@Query("nowDate") nowDate:String): NetworkResponse<MutableMap<String, MutableList<FinancialContentModel>>, ErrorResponse>
 
     @DELETE("v1/financial/delete/{fid}")
     suspend fun deleteFinancialResponse(@Path("fid") fid: Int): NetworkResponse<BaseResponse, ErrorResponse>

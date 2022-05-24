@@ -1,8 +1,6 @@
 package com.team3.showbee.data.repository.financial
 
-import com.team3.showbee.data.entity.BaseResponse
-import com.team3.showbee.data.entity.ErrorResponse
-import com.team3.showbee.data.entity.Financial
+import com.team3.showbee.data.entity.*
 import com.team3.showbee.data.network.NetworkResponse
 import com.team3.showbee.data.network.api.Service
 import javax.inject.Inject
@@ -16,6 +14,10 @@ class FinancialRepositoryImpl @Inject constructor(
 
     override suspend fun getMonthly(nowDate: String): NetworkResponse<Map<String, List<Long>>, ErrorResponse> {
         return service.getMonthlyResponse(nowDate)
+    }
+
+    override suspend fun getList(nowDate: String): NetworkResponse<MutableMap<String, MutableList<FinancialContentModel>>, ErrorResponse> {
+        return service.getListResponse(nowDate)
     }
 
     override suspend fun getMonthlyTotal(nowDate: String): NetworkResponse<List<Long>, ErrorResponse> {

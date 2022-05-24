@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
             triger = "schedule"
         }
         else if(tag == "list"){
-            transaction.replace(binding.frameLayout.id, listFragment).commitAllowingStateLoss()
+            transaction.replace(binding.frameLayout.id, listFragment).commit()
         }
     }
 
