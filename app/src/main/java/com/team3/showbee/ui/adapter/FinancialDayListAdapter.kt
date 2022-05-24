@@ -20,7 +20,7 @@ class FinancialDayListAdapter(val context: Context): RecyclerView.Adapter<Financ
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(itemList)
+        holder.bind(itemList, position)
 //        holder.bind(itemList.list[position])
     }
 
@@ -29,14 +29,13 @@ class FinancialDayListAdapter(val context: Context): RecyclerView.Adapter<Financ
     }
 
     inner class Holder(var binding: ListTitleItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: MutableMap<String, MutableList<FinancialContentModel>>) {
+        fun bind(item: MutableMap<String, MutableList<FinancialContentModel>>, position: Int) {
             Log.d("item", "$item")
-            for(i in item.keys) { //for문이 문제인듯 함 마지막 값이 들어감
-                val list = item[i]
-                binding.textView11.text = i
-                binding.recyclerview.adapter = list?.let { FinancialContentAdapter(it) }
-                binding.recyclerview.layoutManager = LinearLayoutManager(context)
-            }
+            val list = item.keys.toList()
+
+            binding.textView11.text = list[position]
+            binding.recyclerview.adapter = item[list[position]]?.let { FinancialContentAdapter(it) }
+            binding.recyclerview.layoutManager = LinearLayoutManager(context)
         }
     }
 
