@@ -62,6 +62,7 @@ class FinancialFragment : Fragment(), FinancialCalendarAdapter.OnMonthChangeList
             override fun onClick(v: View, position: Int) {
                 activity?.let {
                     Log.d("financial", "adapter: click")
+                    mainActivity?.choiceFragment("list")
                 }
             }
         })
@@ -100,7 +101,7 @@ class FinancialFragment : Fragment(), FinancialCalendarAdapter.OnMonthChangeList
                 }
             }
 
-            list.observe(viewLifecycleOwner) { event ->
+            calendarList.observe(viewLifecycleOwner) { event ->
                 event.getContentIfNotHandled()?.let {
                     Log.d("financial", "list")
                     financialCalendarAdapter.setItems(it)

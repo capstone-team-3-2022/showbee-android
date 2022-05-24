@@ -2,6 +2,7 @@ package com.team3.showbee.ui.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +11,17 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.team3.showbee.R
+import com.team3.showbee.data.entity.FinancialContentModel
+import com.team3.showbee.data.entity.FinancialListModel
 import com.team3.showbee.databinding.FragmentFinancialBinding
 import com.team3.showbee.databinding.FragmentListBinding
 import com.team3.showbee.ui.adapter.FinancialCalendarAdapter
+import com.team3.showbee.ui.adapter.FinancialDayListAdapter
 import com.team3.showbee.ui.viewmodel.BaseCalendar
+import com.team3.showbee.ui.viewmodel.FinancialViewModel
 import com.team3.showbee.ui.viewmodel.UserViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -23,9 +29,11 @@ import java.util.*
 class ListFragment : Fragment(), FinancialCalendarAdapter.OnMonthChangeListener {
     private var _binding: FragmentListBinding? = null
     private val binding: FragmentListBinding get() = requireNotNull(_binding)
-    private val viewModel by activityViewModels<UserViewModel>()
+    private val viewModel by activityViewModels<FinancialViewModel>()
 
-    lateinit var financialCalendarAdapter: FinancialCalendarAdapter
+    private lateinit var financialCalendarAdapter: FinancialCalendarAdapter
+    private lateinit var financialDayListAdapter: FinancialDayListAdapter
+//    private lateinit var itemList: FinancialListModel
     private val baseCalendar = BaseCalendar()
 
     override fun onCreateView(
@@ -40,20 +48,13 @@ class ListFragment : Fragment(), FinancialCalendarAdapter.OnMonthChangeListener 
 
     fun initView() {
         financialCalendarAdapter = FinancialCalendarAdapter(onMonthChangeListener = this)
-        binding.listRv.adapter = financialCalendarAdapter
-
-        binding.fgCalPre.setOnClickListener {
-            financialCalendarAdapter.changeToPrevMonth()
-        }
-
-        binding.fgCalNext.setOnClickListener {
-            financialCalendarAdapter.changeToNextMonth()
-        }
+        financialDayListAdapter = FinancialDayListAdapter(requireContext())
+        binding.listRv.layoutManager = LinearLayoutManager(context)
+        binding.listRv.adapter = financialDayListAdapter
 
         baseCalendar.initBaseCalendar {
             onMonthChanged(it)
         }
-
     }
 
     private fun observeData() {
@@ -69,11 +70,22 @@ class ListFragment : Fragment(), FinancialCalendarAdapter.OnMonthChangeListener 
                     }
                 }
             }
+            list.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let {
+                    Log.d("it------------------", "$it")
+                    financialDayListAdapter.setItems(it)
+                    financialDayListAdapter.notifyDataSetChanged()
+                }
+            }
         }
     }
 
     override fun onMonthChanged(calendar: Calendar) {
         val sdf = SimpleDateFormat("yyyy년 MM월", Locale.KOREAN)
+        val sdf2 = SimpleDateFormat("yyyy-MM", Locale.KOREAN)
         binding.fgCalMonth.text = sdf.format(calendar.time)
+        viewModel.getMonthlyTotal(sdf2.format(calendar.time))
+        Log.d("financial", "onMonthChanged")
+        viewModel.getList(sdf2.format(calendar.time))
     }
 }

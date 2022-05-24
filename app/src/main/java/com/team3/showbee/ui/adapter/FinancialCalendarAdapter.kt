@@ -23,7 +23,7 @@ class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeL
             onMonthChangeListener?.onMonthChanged(it)
         }
 
-        dateMap = mutableMapOf("22" to listOf(2000, 1203))
+        dateMap = mutableMapOf()
         notifyDataSetChanged()
     }
 
@@ -39,22 +39,7 @@ class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeL
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is CalendarItemViewHolder) {
-            holder.bind(baseCalendar.data[position], dateMap)
-        }
-        val tvDate: TextView = holder.itemView.findViewById(R.id.tv_date)
-
-        when {
-            position % BaseCalendar.DAYS_OF_WEEK == 0 -> tvDate.setTextColor(Color.parseColor("#FF1E1E"))
-            position % BaseCalendar.DAYS_OF_WEEK == 6 -> tvDate.setTextColor(Color.parseColor("#2079FF"))
-            else -> tvDate.setTextColor(Color.parseColor("#676d6e"))
-        }
-
-        if (position < baseCalendar.preMonth
-            || position >= baseCalendar.preMonth + baseCalendar.currentMonth) {
-            tvDate.alpha = 0.3f
-            tvDate.setTextColor(Color.parseColor("#8d93ab"))
-        } else {
-            tvDate.alpha = 1f
+            holder.bind(baseCalendar.data[position], dateMap, position)
         }
     }
 
@@ -89,11 +74,36 @@ class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeL
     }
 
     inner class CalendarItemViewHolder(private val binding: CalItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(date: Int, map: Map<String, List<Long>>) {
+        fun bind(date: Int, map: Map<String, List<Long>>, position: Int) {
             binding.tvDate.text = date.toString()
-            binding.income.text = map["2022-05-17T00:00:00.000+00:00"]?.get(0)?.toString()
-            binding.expense.text = map["2022-05-17T00:00:00.000+00:00"]?.get(1)?.toString()
-            Log.d("financial", "CalendarItemViewHolder")
+
+            for(i in map.keys) {
+                if (i.toInt() == date) {
+                    binding.income.text = map[i]?.get(0)?.toString()
+                    binding.expense.text = map[i]?.get(1)?.toString()
+                }
+            }
+
+            if (binding.income.text == "0") {
+                binding.income.visibility = View.INVISIBLE
+            }
+            if (binding.expense.text == "0") {
+                binding.expense.visibility = View.INVISIBLE
+            }
+
+            when {
+                position % BaseCalendar.DAYS_OF_WEEK == 0 -> binding.tvDate.setTextColor(Color.parseColor("#FF1E1E"))
+                position % BaseCalendar.DAYS_OF_WEEK == 6 -> binding.tvDate.setTextColor(Color.parseColor("#2079FF"))
+                else -> binding.tvDate.setTextColor(Color.parseColor("#676d6e"))
+            }
+
+            if (position < baseCalendar.preMonth
+                || position >= baseCalendar.preMonth + baseCalendar.currentMonth) {
+                binding.tvDate.alpha = 0.3f
+                binding.tvDate.setTextColor(Color.parseColor("#8d93ab"))
+            } else {
+                binding.tvDate.alpha = 1f
+            }
 
             val pos = absoluteAdapterPosition
             if(pos!= RecyclerView.NO_POSITION)
@@ -106,7 +116,6 @@ class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeL
     }
 
     fun setItems(item: Map<String, List<Long>>) {
-        Log.d("financial", "setItem")
         dateMap.putAll(item)
     }
 }
