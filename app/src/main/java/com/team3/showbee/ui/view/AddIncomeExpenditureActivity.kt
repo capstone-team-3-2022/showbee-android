@@ -11,9 +11,17 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.team3.showbee.R
+import com.team3.showbee.data.entity.inviteeList
 import com.team3.showbee.databinding.ActivityAddIncomeExpenditureBinding
 import com.team3.showbee.databinding.ActivityMainBinding
+import com.team3.showbee.ui.adapter.FinancialCalendarAdapter
+import com.team3.showbee.ui.adapter.InviteeListAdapter
+import com.team3.showbee.ui.adapter.ScheduleCalendarAdapter
+import com.team3.showbee.ui.viewmodel.BaseCalendar
+import com.team3.showbee.ui.viewmodel.ScheduleViewModel
 import com.team3.showbee.ui.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -22,15 +30,23 @@ import java.util.*
 class AddIncomeExpenditureActivity : AppCompatActivity() {
     private var _binding: ActivityAddIncomeExpenditureBinding? = null
     private val binding: ActivityAddIncomeExpenditureBinding get() = requireNotNull(_binding)
-    private lateinit var viewModel: UserViewModel
+    private lateinit var viewModel: ScheduleViewModel
+
+    lateinit var inviteeListAdapter: InviteeListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityAddIncomeExpenditureBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ScheduleViewModel::class.java)
         setContentView(binding.root)
 
+        inviteeListAdapter = InviteeListAdapter()
+
+        binding.inviteeRecyclerview.layoutManager = LinearLayoutManager(this)
+        binding.inviteeRecyclerview.adapter = inviteeListAdapter
+
         initView()
+        observeData()
     }
 
     private fun initView() {
@@ -101,6 +117,28 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
         binding.imageView2.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+        }
+        //사용자 초대
+        binding.searchBtn.setOnClickListener {
+            val email = binding.inputEmail.text.toString()
+            viewModel.inviteUser(email = email)
+            Log.d("성공했나?", "${email}")
+            Log.d("텍스트띄우기", "onCreate: ${inviteeList.size}")
+        }
+        binding.addInviteeList.setOnClickListener {
+            val email = binding.inputEmail.text.toString()
+            inviteeListAdapter.addItems(email)
+            inviteeListAdapter.notifyDataSetChanged()
+        }
+        //텍스트뷰 목록 만들어주기
+        val inviteeEmail = intent.getStringExtra("email")
+    }
+
+    private fun observeData() {
+        with(viewModel) {
+            email.observe(this@AddIncomeExpenditureActivity) {
+                binding.inviteEmail.text = it
+            }
         }
     }
 }

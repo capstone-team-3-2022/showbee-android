@@ -1,3 +1,5 @@
 package com.team3.showbee.data.entity
 
-data class Schedule(val day:Int, val schedule:String, val holiday:String)
+import java.util.*
+
+//data class Schedule( val stitle:String, val content:String, val price:Int, val date:Date, val cycle:Int, val shared:Boolean, val participant:List<>)
