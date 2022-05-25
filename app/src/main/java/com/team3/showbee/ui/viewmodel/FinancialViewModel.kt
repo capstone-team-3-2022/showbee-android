@@ -30,7 +30,10 @@ class FinancialViewModel @Inject constructor(
     private val _total = MutableLiveData<Event<List<Long>>>()
     val total : LiveData<Event<List<Long>>> = _total
 
-    fun create(date: String, content: String, price: Int, category: String, bank: String, memo: String, inoutcome: Boolean) {
+    private val _financial = MutableLiveData<Event<Financial>>()
+    val financial : LiveData<Event<Financial>> = _financial
+
+    fun create(date: String, content: String, price: String, category: String, bank: String, memo: String, inoutcome: Boolean) {
         viewModelScope.launch {
             val financial = Financial(date, content, price, category, bank, memo, inoutcome)
             val response = repository.createFinancial(financial)
@@ -38,6 +41,27 @@ class FinancialViewModel @Inject constructor(
             when(response) {
                 is NetworkResponse.Success -> {
                     _msg.postValue(Event(response.body.toString()))
+                }
+                is NetworkResponse.ApiError -> {
+                    postValueEvent(0)
+                }
+                is NetworkResponse.NetworkError -> {
+                    postValueEvent(1)
+                }
+                is NetworkResponse.UnknownError -> {
+                    postValueEvent(2)
+                }
+            }
+        }
+    }
+
+    fun getFinancial(fid: Long) {
+        viewModelScope.launch {
+            val response = repository.getFinancial(fid)
+
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _financial.postValue(Event(response.body))
                 }
                 is NetworkResponse.ApiError -> {
                     postValueEvent(0)

@@ -34,6 +34,9 @@ interface Service {
     suspend fun createFinancialResponse(
         @Body financial: Financial) : NetworkResponse<Int, ErrorResponse>
 
+    @GET("v1/financial/get")
+    suspend fun getFinancialResponse(@Query("fid") fid:Long): NetworkResponse<Financial, ErrorResponse>
+
     @GET("v1/financial/getMonthlyTotal")
     suspend fun getMonthlyTotalResponse(@Query("nowDate") nowDate:String): NetworkResponse<List<Long>, ErrorResponse>
 

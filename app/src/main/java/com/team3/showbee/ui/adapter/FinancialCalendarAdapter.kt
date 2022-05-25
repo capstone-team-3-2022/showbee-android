@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.team3.showbee.ui.viewmodel.BaseCalendar
 import com.team3.showbee.R
 import com.team3.showbee.databinding.CalItemBinding
+import java.text.DecimalFormat
 import java.util.*
 
 class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeListener? = null) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -79,8 +80,9 @@ class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeL
 
             for(i in map.keys) {
                 if (i.toInt() == date) {
-                    binding.income.text = map[i]?.get(0)?.toString()
-                    binding.expense.text = map[i]?.get(1)?.toString()
+                    val dec = DecimalFormat("#,###")
+                    binding.income.text = dec.format(map[i]?.get(0))
+                    binding.expense.text = dec.format(map[i]?.get(1))
                 }
             }
 

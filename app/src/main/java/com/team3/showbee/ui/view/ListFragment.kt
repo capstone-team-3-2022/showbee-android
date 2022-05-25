@@ -19,10 +19,12 @@ import com.team3.showbee.data.entity.FinancialListModel
 import com.team3.showbee.databinding.FragmentFinancialBinding
 import com.team3.showbee.databinding.FragmentListBinding
 import com.team3.showbee.ui.adapter.FinancialCalendarAdapter
+import com.team3.showbee.ui.adapter.FinancialContentAdapter
 import com.team3.showbee.ui.adapter.FinancialDayListAdapter
 import com.team3.showbee.ui.viewmodel.BaseCalendar
 import com.team3.showbee.ui.viewmodel.FinancialViewModel
 import com.team3.showbee.ui.viewmodel.UserViewModel
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,7 +35,6 @@ class ListFragment : Fragment(), FinancialCalendarAdapter.OnMonthChangeListener 
 
     private lateinit var financialCalendarAdapter: FinancialCalendarAdapter
     private lateinit var financialDayListAdapter: FinancialDayListAdapter
-//    private lateinit var itemList: FinancialListModel
     private val baseCalendar = BaseCalendar()
 
     override fun onCreateView(
@@ -55,6 +56,22 @@ class ListFragment : Fragment(), FinancialCalendarAdapter.OnMonthChangeListener 
         baseCalendar.initBaseCalendar {
             onMonthChanged(it)
         }
+
+        financialDayListAdapter.setItemClickListener(object : FinancialDayListAdapter.OnItemClickListener {
+            override fun onClick(v: View, position: Int) {
+                activity?.let {
+                    Log.d("financial", "adapter: ${position}")
+                }
+            }
+        })
+
+        binding.fgCalPre.setOnClickListener {
+            financialCalendarAdapter.changeToPrevMonth()
+        }
+
+        binding.fgCalNext.setOnClickListener {
+            financialCalendarAdapter.changeToNextMonth()
+        }
     }
 
     private fun observeData() {
@@ -75,6 +92,13 @@ class ListFragment : Fragment(), FinancialCalendarAdapter.OnMonthChangeListener 
                     Log.d("it------------------", "$it")
                     financialDayListAdapter.setItems(it)
                     financialDayListAdapter.notifyDataSetChanged()
+                }
+            }
+            total.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let {
+                    val dec = DecimalFormat("#,###원")
+                    binding.incomeContent.text = dec.format(it[0])
+                    binding.expenseContent.text = dec.format(it[1])
                 }
             }
         }

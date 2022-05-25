@@ -12,6 +12,10 @@ class FinancialRepositoryImpl @Inject constructor(
         return service.createFinancialResponse(financial)
     }
 
+    override suspend fun getFinancial(fid: Long): NetworkResponse<Financial, ErrorResponse> {
+        return service.getFinancialResponse(fid)
+    }
+
     override suspend fun getMonthly(nowDate: String): NetworkResponse<Map<String, List<Long>>, ErrorResponse> {
         return service.getMonthlyResponse(nowDate)
     }

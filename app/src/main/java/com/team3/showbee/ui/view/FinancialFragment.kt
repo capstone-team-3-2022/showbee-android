@@ -19,6 +19,7 @@ import com.team3.showbee.ui.adapter.FinancialCalendarAdapter
 import com.team3.showbee.ui.viewmodel.BaseCalendar
 import com.team3.showbee.ui.viewmodel.FinancialViewModel
 import com.team3.showbee.ui.viewmodel.UserViewModel
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -96,8 +97,9 @@ class FinancialFragment : Fragment(), FinancialCalendarAdapter.OnMonthChangeList
             }
             total.observe(viewLifecycleOwner) { event ->
                 event.getContentIfNotHandled()?.let {
-                    binding.incomeContent.text = it[0].toString()
-                    binding.expenseContent.text = it[1].toString()
+                    val dec = DecimalFormat("#,###원")
+                    binding.incomeContent.text = dec.format(it[0])
+                    binding.expenseContent.text = dec.format(it[1])
                 }
             }
 
