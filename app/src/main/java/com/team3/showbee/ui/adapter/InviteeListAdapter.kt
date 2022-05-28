@@ -3,7 +3,9 @@ package com.team3.showbee.ui.adapter
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.team3.showbee.databinding.ItemInviteeListBinding
 
@@ -33,5 +35,16 @@ class InviteeListAdapter(): RecyclerView.Adapter<InviteeListAdapter.Holder>() {
 
     fun addItems(item: String) {
         itemList.add(item)
+    }
+
+    fun itemCount():Int {
+        return itemList.size
+    }
+    var participantArrayList:ArrayList<String> = arrayListOf()
+    fun getItem(): ArrayList<String> {
+        for (i in 0 until itemList.size) {
+            participantArrayList.add(itemList[i])
+        }
+        return participantArrayList
     }
 }

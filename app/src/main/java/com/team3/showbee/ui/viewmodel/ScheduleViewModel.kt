@@ -2,6 +2,7 @@ package com.team3.showbee.ui.viewmodel
 
 import android.content.ContentValues.TAG
 import android.util.Log
+import android.util.LogPrinter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -56,14 +57,9 @@ class ScheduleViewModel @Inject constructor(
             }
         }
     }
-    fun addUser() {
-
-    }
-
-    /*
-    fun create() {
+    fun createS(stitle:String, content:String, date:String, price:Int, category:String, cycle:Int, shared:Boolean, participant:ArrayList<String>, inoutcome:Boolean) {
         viewModelScope.launch {
-            val schedule = Schedule()
+            val schedule = Schedule(stitle, content, date, price, category, cycle, shared, participant, inoutcome)
             val response = repository.createSchedule(schedule)
 
             when(response) {
@@ -82,7 +78,6 @@ class ScheduleViewModel @Inject constructor(
             }
         }
     }
-     */
 
     fun existUser(result:String, email: String) {
         Log.d(TAG, "existUser: 첫 부분")

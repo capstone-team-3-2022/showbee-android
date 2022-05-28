@@ -23,6 +23,7 @@
             android:paddingTop="5dp"/>
 
         <ImageView
+            android:id="@+id/item_remove"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="10dp"

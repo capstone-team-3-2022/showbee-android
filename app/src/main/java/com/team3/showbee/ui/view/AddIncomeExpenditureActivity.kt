@@ -1,14 +1,18 @@
 package com.team3.showbee.ui.view
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.Color
+import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.DatePicker
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -34,6 +38,14 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
 
     lateinit var inviteeListAdapter: InviteeListAdapter
 
+    var thisYear =""
+    var thisMonth = ""
+    var thisDay = ""
+    var category = true
+    var resultDay = ""
+    var cycle = 0
+    var shared = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityAddIncomeExpenditureBinding.inflate(layoutInflater)
@@ -50,34 +62,24 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        var category = ""
         binding.choiceIncomeExpense.setOnCheckedChangeListener{group, checkedId ->
             when (checkedId) {
                 R.id.radioButton -> {
                     binding.radioButton.setTextColor(Color.parseColor("#FF8B00"))
                     binding.radioButton2.setTextColor(Color.parseColor("#989898"))
-                    category = "income"
+                    category = true
 
                 }
                 R.id.radioButton2 -> {
                     binding.radioButton.setTextColor(Color.parseColor("#989898"))
                     binding.radioButton2.setTextColor(Color.parseColor("#FF8B00"))
-                    category = "expense"
+                    category = false
                 }
             }
         }
         //날짜 선택
-        var dateString = ""
         binding.datePicker.setOnClickListener {
-            val cal = Calendar.getInstance()    //캘린더뷰 만들기
-            val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
-                dateString = "${year}년 ${month+1}월 ${dayOfMonth}일"
-                binding.datePicker.setText(dateString)
-                Toast.makeText( this@AddIncomeExpenditureActivity,"날짜/시간 :  ${dateString}", Toast.LENGTH_SHORT).show()
-                Log.d("date", "${month+1}, ${dayOfMonth}")
-            }
-            DatePickerDialog(this, dateSetListener, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(
-                Calendar.DAY_OF_MONTH)).show()
+            setCalenderDay()
         }
 
         //반복주기 선택
@@ -97,6 +99,14 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
                 // An item was selected. You can retrieve the selected item using
                 // parent.getItemAtPosition(pos)
                 if(pos !=0 ) {
+                    var selectedSpinner = binding.cycleSpinner.selectedItem.toString()
+                    if(selectedSpinner =="매주") {
+                        cycle = 7
+                    } else if(selectedSpinner == "2주") {
+                        cycle = 14
+                    } else if(selectedSpinner == "한달") {
+                        cycle = 1
+                    }
                     Toast.makeText(this@AddIncomeExpenditureActivity, binding.cycleSpinner.selectedItem.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
@@ -129,9 +139,60 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
             val email = binding.inputEmail.text.toString()
             inviteeListAdapter.addItems(email)
             inviteeListAdapter.notifyDataSetChanged()
+            Log.d("글 등록 구현", "initView: 저장하기 전")
+            Log.d("글 등록 구현", "initView: ${binding.editTextTextPersonName.text}+${binding.memo.text}+${resultDay}+${binding.price.text}+${binding.selecCategory.text}+${cycle}+${shared}+${inviteeListAdapter.getItem()}+${category}")
         }
-        //텍스트뷰 목록 만들어주기
-        val inviteeEmail = intent.getStringExtra("email")
+
+        binding.imageView2.setOnClickListener {
+            Log.d("글 등록 구현", "initView: ${shared}")
+            isParticipant()
+            Log.d("글 등록 구현", "initView: ${shared}")
+            /*
+            viewModel.createS(stitle = binding.editTextTextPersonName.toString(), content = binding.memo.toString(), date = resultDay, price = binding.price.toString().toInt(),
+                category = binding.selecCategory.toString(), cycle=cycle, shared = shared , participant = inviteeListAdapter.getItem(), inoutcome = category)
+
+             */
+            Log.d("글 등록 구현22", "initView: ${binding.editTextTextPersonName.text}+${binding.memo.text}+${resultDay}+${binding.price.text}+${binding.selecCategory.text}+${cycle}+${shared}+${inviteeListAdapter.getItem()}+${category}")
+        }
+    }
+    private fun isParticipant() {
+        if (inviteeListAdapter.itemCount() != 0) {
+            shared = true
+        }
+    }
+
+    private fun setCalenderDay() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val dateListener = object : DatePickerDialog.OnDateSetListener {
+            @SuppressLint("SetTextI18n")
+            override fun onDateSet(
+                view: DatePicker?,
+                yearDate: Int,
+                monthDate: Int,
+                dayOfMonth: Int
+            ) {
+                binding.datePicker.text = "${yearDate}년 ${monthDate+1}월 ${dayOfMonth}일"
+                thisMonth = "${monthDate+1}"
+                thisDay = "$dayOfMonth"
+
+                if(thisMonth.length != 2){
+                    thisMonth = "0$thisMonth"
+                }
+
+                if(thisDay.length != 2){
+                    thisDay = "0$thisDay"
+                }
+                thisYear = "$yearDate"
+                resultDay = "$thisYear-$thisMonth-$thisDay"
+            }
+        }
+
+        val datePicker = DatePickerDialog(this, dateListener, year, month, day)
+        datePicker.show()
     }
 
     private fun observeData() {

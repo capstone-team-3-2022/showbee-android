@@ -1,12 +1,10 @@
 package com.team3.showbee.data.network.api
 
 
-import com.team3.showbee.data.entity.BaseResponse
-import com.team3.showbee.data.entity.ErrorResponse
-import com.team3.showbee.data.entity.Financial
-import com.team3.showbee.data.entity.InviteeResponse
+import com.team3.showbee.data.entity.*
 import com.team3.showbee.data.network.NetworkResponse
 import retrofit2.http.*
+import retrofit2.http.Body
 
 interface Service {
     @POST("v1/signin")
@@ -42,6 +40,11 @@ interface Service {
     @DELETE("v1/financial/delete/{fid}")
     suspend fun deleteFinancialResponse(@Path("fid") fid: Int): NetworkResponse<BaseResponse, ErrorResponse>
 
+    //schedule
     @GET("v1/user/get/{email}")
     suspend fun inviteUserEmailResponse(@Path("email")email: String): NetworkResponse<InviteeResponse, ErrorResponse>
+
+    @POST("v1/schedule/post")
+    suspend fun createScheduleResponse(
+        @Body schedule: Schedule) : NetworkResponse<Int, ErrorResponse>
 }

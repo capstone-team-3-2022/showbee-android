@@ -138,7 +138,7 @@
                         android:text="@string/choice_day"
                         android:textSize="18sp" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/datePicker"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -186,7 +186,7 @@
                         android:textSize="18sp" />
 
                     <EditText
-                        android:id="@+id/editTextTextPersonName5"
+                        android:id="@+id/price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -327,23 +327,20 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@color/white"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="wrap_content"
                     android:background="@color/under_line1" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="10dp">
 
