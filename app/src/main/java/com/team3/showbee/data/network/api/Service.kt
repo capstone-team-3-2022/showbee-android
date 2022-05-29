@@ -48,4 +48,12 @@ interface Service {
 
     @DELETE("v1/financial/delete/{fid}")
     suspend fun deleteFinancialResponse(@Path("fid") fid: Int): NetworkResponse<BaseResponse, ErrorResponse>
+
+    //schedule
+    @GET("v1/user/get/{email}")
+    suspend fun inviteUserEmailResponse(@Path("email")email: String): NetworkResponse<InviteeResponse, ErrorResponse>
+
+    @POST("v1/schedule/post")
+    suspend fun createScheduleResponse(
+        @Body schedule: Schedule) : NetworkResponse<Int, ErrorResponse>
 }
