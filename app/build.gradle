@@ -86,4 +86,7 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$hilt_version"
     kapt "com.google.dagger:dagger-android-processor:$hilt_version"
     implementation "com.google.dagger:dagger-android-support:$hilt_version"
+
+    //리사이클러뷰
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
 }

@@ -34,8 +34,17 @@ interface Service {
     suspend fun createFinancialResponse(
         @Body financial: Financial) : NetworkResponse<Int, ErrorResponse>
 
-    @GET("v1/financial/lists")
-    suspend fun getFinancialListResponse(): NetworkResponse<BaseResponse, ErrorResponse>
+    @GET("v1/financial/get")
+    suspend fun getFinancialResponse(@Query("fid") fid:Long): NetworkResponse<Financial, ErrorResponse>
+
+    @GET("v1/financial/getMonthlyTotal")
+    suspend fun getMonthlyTotalResponse(@Query("nowDate") nowDate:String): NetworkResponse<List<Long>, ErrorResponse>
+
+    @GET("v1/financial/getMonthly")
+    suspend fun getMonthlyResponse(@Query("nowDate") nowDate:String): NetworkResponse<Map<String, List<Long>>, ErrorResponse>
+
+    @GET("v1/financial/getlist")
+    suspend fun getListResponse(@Query("nowDate") nowDate:String): NetworkResponse<MutableMap<String, MutableList<FinancialContentModel>>, ErrorResponse>
 
     @DELETE("v1/financial/delete/{fid}")
     suspend fun deleteFinancialResponse(@Path("fid") fid: Int): NetworkResponse<BaseResponse, ErrorResponse>

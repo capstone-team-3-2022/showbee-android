@@ -10,14 +10,15 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.team3.showbee.R
 import com.team3.showbee.databinding.ActivityAddFinancialBinding
+import com.team3.showbee.databinding.ActivityUpdateFinancialBinding
 import com.team3.showbee.ui.viewmodel.FinancialViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class AddFinancialActivity : AppCompatActivity() {
-    private var _binding: ActivityAddFinancialBinding? = null
-    private val binding: ActivityAddFinancialBinding get() = requireNotNull(_binding)
+class UpdateFinancialActivity : AppCompatActivity() {
+    private var _binding: ActivityUpdateFinancialBinding? = null
+    private val binding: ActivityUpdateFinancialBinding get() = requireNotNull(_binding)
     private lateinit var viewModel: FinancialViewModel
 
     var thisYear =""
@@ -28,7 +29,7 @@ class AddFinancialActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityAddFinancialBinding.inflate(layoutInflater)
+        _binding = ActivityUpdateFinancialBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(FinancialViewModel::class.java)
         setContentView(binding.root)
 
@@ -59,6 +60,12 @@ class AddFinancialActivity : AppCompatActivity() {
             viewModel.create(date = resultDay, content = binding.editTextContent.text.toString(),
                 category = binding.editTextCategory.text.toString(), price = binding.editTextAmount.text.toString(), bank = binding.editTextBank.text.toString(), memo = binding.memo.text.toString(), inoutcome = inoutcome)
         }
+
+        if (intent.hasExtra("fid")) {
+            val fid = intent.getLongExtra("fid", 0)
+            viewModel.getFinancial(fid)
+        }
+
     }
 
     private fun setCalenderDay() {
@@ -97,9 +104,15 @@ class AddFinancialActivity : AppCompatActivity() {
 
     private fun observeData() {
         with(viewModel) {
-            msg.observe(this@AddFinancialActivity) { event ->
+            msg.observe(this@UpdateFinancialActivity) { event ->
                 event.getContentIfNotHandled()?.let {
-                    Toast.makeText(this@AddFinancialActivity, "성공했습니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@UpdateFinancialActivity, "성공했습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            financial.observe(this@UpdateFinancialActivity) { event ->
+                event.getContentIfNotHandled()?.let {
+                    binding.model = it
                 }
             }
         }
