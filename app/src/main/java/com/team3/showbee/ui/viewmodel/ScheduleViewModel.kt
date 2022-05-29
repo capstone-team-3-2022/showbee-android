@@ -57,10 +57,10 @@ class ScheduleViewModel @Inject constructor(
             }
         }
     }
-    fun createS(stitle:String, content:String, date:String, price:Int, category:String, cycle:Int, shared:Boolean, participant:ArrayList<String>, inoutcome:Boolean) {
+    fun createS(stitle:String, content:String, price:Int, date:String, cycle:Int, shared:Boolean, participant:ArrayList<String>, inoutcome:Boolean,category:String) {
         viewModelScope.launch {
-            val schedule = Schedule(stitle, content, date, price, category, cycle, shared, participant, inoutcome)
-            val response = repository.createSchedule(schedule)
+            val schedule = Schedule(stitle, content, price, date, cycle, shared, participant, inoutcome, category)
+            val response:NetworkResponse<Int, ErrorResponse> = repository.createSchedule(schedule)
 
             when(response) {
                 is NetworkResponse.Success -> {

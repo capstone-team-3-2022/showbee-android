@@ -42,9 +42,15 @@ class InviteeListAdapter(): RecyclerView.Adapter<InviteeListAdapter.Holder>() {
     }
     var participantArrayList:ArrayList<String> = arrayListOf()
     fun getItem(): ArrayList<String> {
+        clearItem()
         for (i in 0 until itemList.size) {
             participantArrayList.add(itemList[i])
         }
+        participantArrayList.distinct()
+        return participantArrayList
+    }
+    fun clearItem(): ArrayList<String> {
+        participantArrayList.clear()
         return participantArrayList
     }
 }
