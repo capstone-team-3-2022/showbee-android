@@ -66,6 +66,7 @@ class FinancialDayListAdapter(val context: Context): RecyclerView.Adapter<Financ
     }
 
     fun setItems(item: MutableMap<String, MutableList<FinancialContentModel>>) {
+        itemList.clear()
         itemList.putAll(item)
     }
 
