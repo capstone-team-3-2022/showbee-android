@@ -1,6 +1,7 @@
 package com.team3.showbee.data.entity
 
 data class Financial(
+    val fid: Long? = null,
     val date: String = "",
     val content: String? = null,
     val price: String = "",
