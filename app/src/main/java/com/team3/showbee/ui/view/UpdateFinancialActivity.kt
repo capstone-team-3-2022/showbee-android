@@ -9,7 +9,6 @@ import android.widget.DatePicker
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.team3.showbee.R
-import com.team3.showbee.databinding.ActivityAddFinancialBinding
 import com.team3.showbee.databinding.ActivityUpdateFinancialBinding
 import com.team3.showbee.ui.viewmodel.FinancialViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,14 +55,19 @@ class UpdateFinancialActivity : AppCompatActivity() {
         binding.editTextDay.setOnClickListener {
             setCalenderDay()
         }
-        binding.save.setOnClickListener {
-            viewModel.create(date = resultDay, content = binding.editTextContent.text.toString(),
-                category = binding.editTextCategory.text.toString(), price = binding.editTextAmount.text.toString(), bank = binding.editTextBank.text.toString(), memo = binding.memo.text.toString(), inoutcome = inoutcome)
-        }
 
         if (intent.hasExtra("fid")) {
             val fid = intent.getLongExtra("fid", 0)
             viewModel.getFinancial(fid)
+
+            binding.delete.setOnClickListener {
+                viewModel.delete(fid)
+            }
+
+            binding.save.setOnClickListener {
+                viewModel.update(fid = fid, date = binding.editTextDay.text.toString(), content = binding.editTextContent.text.toString(),
+                    category = binding.editTextCategory.text.toString(), price = binding.editTextAmount.text.toString(), bank = binding.editTextBank.text.toString(), memo = binding.memo.text.toString(), inoutcome = inoutcome)
+            }
         }
 
     }
@@ -74,15 +78,8 @@ class UpdateFinancialActivity : AppCompatActivity() {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val dateListener = object : DatePickerDialog.OnDateSetListener {
-            @SuppressLint("SetTextI18n")
-            override fun onDateSet(
-                view: DatePicker?,
-                yearDate: Int,
-                monthDate: Int,
-                dayOfMonth: Int
-            ) {
-                binding.editTextDay.text = "${yearDate}년 ${monthDate+1}월 ${dayOfMonth}일"
+        val dateListener =
+            DatePickerDialog.OnDateSetListener { _, yearDate, monthDate, dayOfMonth ->
                 thisMonth = "${monthDate+1}"
                 thisDay = "$dayOfMonth"
 
@@ -95,8 +92,8 @@ class UpdateFinancialActivity : AppCompatActivity() {
                 }
                 thisYear = "$yearDate"
                 resultDay = "$thisYear-$thisMonth-$thisDay"
+                binding.editTextDay.text = resultDay
             }
-        }
 
         val datePicker = DatePickerDialog(this, dateListener, year, month, day)
         datePicker.show()
@@ -106,13 +103,23 @@ class UpdateFinancialActivity : AppCompatActivity() {
         with(viewModel) {
             msg.observe(this@UpdateFinancialActivity) { event ->
                 event.getContentIfNotHandled()?.let {
-                    Toast.makeText(this@UpdateFinancialActivity, "성공했습니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@UpdateFinancialActivity, it, Toast.LENGTH_SHORT).show()
                 }
             }
 
             financial.observe(this@UpdateFinancialActivity) { event ->
                 event.getContentIfNotHandled()?.let {
                     binding.model = it
+                    inoutcome = it.inoutcome
+                    if (it.inoutcome) {
+                        binding.choiceIncomeExpense.check(R.id.radioButton)
+                        binding.radioButton.setTextColor(Color.parseColor("#FF8B00"))
+                        binding.radioButton2.setTextColor(Color.parseColor("#989898"))
+                    } else {
+                        binding.choiceIncomeExpense.check(R.id.radioButton2)
+                        binding.radioButton.setTextColor(Color.parseColor("#989898"))
+                        binding.radioButton2.setTextColor(Color.parseColor("#FF8B00"))
+                    }
                 }
             }
         }

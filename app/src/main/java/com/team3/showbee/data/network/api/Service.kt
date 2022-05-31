@@ -46,8 +46,13 @@ interface Service {
     @GET("v1/financial/getlist")
     suspend fun getListResponse(@Query("nowDate") nowDate:String): NetworkResponse<MutableMap<String, MutableList<FinancialContentModel>>, ErrorResponse>
 
+    @PUT("v1/financial/modify")
+    suspend fun updateFinancialResponse(@Body financial: Financial): NetworkResponse<BaseResponse, ErrorResponse>
+
     @DELETE("v1/financial/delete/{fid}")
-    suspend fun deleteFinancialResponse(@Path("fid") fid: Int): NetworkResponse<BaseResponse, ErrorResponse>
+    suspend fun deleteFinancialResponse(@Path("fid") fid: Long): NetworkResponse<BaseResponse, ErrorResponse>
+
+    //----
 
     //schedule
     @GET("v1/user/get/{email}")

@@ -5,6 +5,9 @@ import android.app.DatePickerDialog
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +28,8 @@ class AddFinancialActivity : AppCompatActivity() {
     var thisDay = ""
     var inoutcome = true
     var resultDay = ""
+    var bank = ""
+    var category = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +62,54 @@ class AddFinancialActivity : AppCompatActivity() {
         }
         binding.save.setOnClickListener {
             viewModel.create(date = resultDay, content = binding.editTextContent.text.toString(),
-                category = binding.editTextCategory.text.toString(), price = binding.editTextAmount.text.toString(), bank = binding.editTextBank.text.toString(), memo = binding.memo.text.toString(), inoutcome = inoutcome)
+                category = category, price = binding.editTextAmount.text.toString(), bank = bank, memo = binding.memo.text.toString(), inoutcome = inoutcome)
+        }
+
+        //반복주기 선택
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.bank_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.bankSpinner.adapter = adapter
+        }
+
+        binding.bankSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+                if(pos != 0 ) {
+                    bank = binding.bankSpinner.selectedItem.toString()
+
+                    Toast.makeText(this@AddFinancialActivity, bank, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Another interface callback
+            }
+        }
+
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.category_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.categorySpinner.adapter = adapter
+        }
+
+        binding.categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+                if(pos != 0 ) {
+                    category = binding.categorySpinner.selectedItem.toString()
+
+                    Toast.makeText(this@AddFinancialActivity, category, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Another interface callback
+            }
         }
     }
 
@@ -75,7 +127,6 @@ class AddFinancialActivity : AppCompatActivity() {
                 monthDate: Int,
                 dayOfMonth: Int
             ) {
-                binding.editTextDay.text = "${yearDate}년 ${monthDate+1}월 ${dayOfMonth}일"
                 thisMonth = "${monthDate+1}"
                 thisDay = "$dayOfMonth"
 
@@ -88,6 +139,7 @@ class AddFinancialActivity : AppCompatActivity() {
                 }
                 thisYear = "$yearDate"
                 resultDay = "$thisYear-$thisMonth-$thisDay"
+                binding.editTextDay.text = resultDay
             }
         }
 

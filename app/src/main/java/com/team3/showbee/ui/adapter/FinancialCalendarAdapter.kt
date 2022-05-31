@@ -118,6 +118,7 @@ class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeL
     }
 
     fun setItems(item: Map<String, List<Long>>) {
+        dateMap.clear()
         dateMap.putAll(item)
     }
 }

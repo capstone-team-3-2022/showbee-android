@@ -35,7 +35,7 @@ class FinancialViewModel @Inject constructor(
 
     fun create(date: String, content: String, price: String, category: String, bank: String, memo: String, inoutcome: Boolean) {
         viewModelScope.launch {
-            val financial = Financial(date, content, price, category, bank, memo, inoutcome)
+            val financial = Financial(date = date, content = content, price = price, category = category, bank = bank, memo = memo, inoutcome = inoutcome)
             val response = repository.createFinancial(financial)
 
             when(response) {
@@ -139,7 +139,29 @@ class FinancialViewModel @Inject constructor(
         }
     }
 
-    fun delete(fid: Int) {
+    fun update(fid: Long, date: String, content: String, price: String, category: String, bank: String, memo: String, inoutcome: Boolean) {
+        viewModelScope.launch {
+            val financial = Financial(fid = fid, date = date, content = content, price = price, category = category, bank = bank, memo = memo, inoutcome = inoutcome)
+            val response = repository.createFinancial(financial)
+
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _msg.postValue(Event(response.body.toString()))
+                }
+                is NetworkResponse.ApiError -> {
+                    postValueEvent(0)
+                }
+                is NetworkResponse.NetworkError -> {
+                    postValueEvent(1)
+                }
+                is NetworkResponse.UnknownError -> {
+                    postValueEvent(2)
+                }
+            }
+        }
+    }
+
+    fun delete(fid: Long) {
         viewModelScope.launch {
             val response = repository.deleteFinancial(fid)
 
