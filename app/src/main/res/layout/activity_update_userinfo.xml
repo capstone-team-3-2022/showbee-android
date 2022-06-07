@@ -24,12 +24,14 @@
                 android:id="@+id/tv_explain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="회원 정보 수정을 하고나면 되돌릴 수 없다는 내용의 경고를 적어둘 것!!!"
-                android:textColor="@color/black"
+                android:text="회원 정보 변경 후 이전 정보는 삭제됩니다.
+                            이 점 유의해주시기 바랍니다."
+                android:textAlignment="center"
+                android:textColor="@color/expense_color"
                 android:backgroundTint="@color/under_line2"
                 android:background="@drawable/background_dialog"
                 android:padding="10dp"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -78,13 +80,13 @@
                 android:text="@string/change_password"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:backgroundTint="@color/main_color1"/>
+                android:backgroundTint="@color/app_color4"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="20dp">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -110,7 +112,7 @@
                 android:text="@string/change_nickname"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:backgroundTint="@color/main_color1"/>
+                android:backgroundTint="@color/app_color4"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
