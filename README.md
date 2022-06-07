@@ -5,7 +5,7 @@
 정기결제알림 어플입니다.
 
 ### 팀원 구성
-서버 1 -> kkimhaji
+서버 1 -> kkimhaji <br>
 안드로이드 3-> noion0511, nayeon0731, bbye-rim
 
 ### 프로젝트 시작
