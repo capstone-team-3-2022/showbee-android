@@ -17,4 +17,7 @@ class ScheduleRepositoryImpl @Inject constructor(
     override suspend fun inviteUser(email: String): NetworkResponse<InviteeResponse, ErrorResponse> {
         return service.inviteUserEmailResponse(email)
     }
+    override suspend fun getCategoryIcon(nowDate: String): NetworkResponse<Map<String, List<String>>, ErrorResponse> {
+        return service.getMonthlyCategoryResponse(nowDate)
+    }
 }

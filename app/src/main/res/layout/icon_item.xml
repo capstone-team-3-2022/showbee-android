@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="105dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <LinearLayout
@@ -26,38 +27,22 @@
                 android:layout_marginStart="5dp"
                 android:layout_gravity="start"
                 android:gravity="start"/>
-
-            <TextView
-                android:id="@+id/academicSchedule"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:padding="3dp"
-                android:textColor="@color/income_color"
-                android:textSize="11sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.05"/>
-
-            <TextView
-                android:id="@+id/academicSchedule2"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:textColor="@color/expense_color"
-                android:padding="3dp"
-                android:textSize="11sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.05"/>
-
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/category_recyclerview"
+                tools:itemCount="3"
+                tools:listitem="@layout/category_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:orientation="vertical"
+                tools:scrollbars="vertical"
+                tools:spanCount="2" />
             <View
                 android:id="@+id/classView2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/under_line1"/>
         </LinearLayout>
-
         <View
             android:id="@+id/classView4"
             android:layout_width="1dp"

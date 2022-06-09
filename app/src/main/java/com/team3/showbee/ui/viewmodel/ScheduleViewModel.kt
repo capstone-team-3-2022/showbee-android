@@ -24,6 +24,9 @@ class ScheduleViewModel @Inject constructor(
     val email:LiveData<String>
         get() = _email
 
+    private val _category = MutableLiveData<Event<Map<String,List<String>>>>()
+    val category : LiveData<Event<Map<String,List<String>>>> = _category
+
     init {
         _email.value = ""
     }
@@ -65,6 +68,27 @@ class ScheduleViewModel @Inject constructor(
             when(response) {
                 is NetworkResponse.Success -> {
                     _msg.postValue(Event(response.body.toString()))
+                }
+                is NetworkResponse.ApiError -> {
+                    postValueEvent(0)
+                }
+                is NetworkResponse.NetworkError -> {
+                    postValueEvent(1)
+                }
+                is NetworkResponse.UnknownError -> {
+                    postValueEvent(2)
+                }
+            }
+        }
+    }
+
+    fun getCategory(nowDate:String) {
+        viewModelScope.launch {
+            val response = repository.getCategoryIcon(nowDate = nowDate)
+
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _category.postValue(Event(response.body))
                 }
                 is NetworkResponse.ApiError -> {
                     postValueEvent(0)

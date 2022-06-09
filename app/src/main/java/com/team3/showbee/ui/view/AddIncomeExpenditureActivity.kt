@@ -150,6 +150,7 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
             viewModel.createS(stitle = binding.editTextTextPersonName.text.toString(), content = binding.memo.text.toString(), price = binding.price.text.toString().toInt(), date = resultDay,
                 cycle=cycle, shared = shared, participant = inviteeListAdapter.getItem() ,inoutcome = category, category = binding.selecCategory.text.toString())
             Log.d("글 등록 구현22", "initView: ${binding.editTextTextPersonName.text}+${binding.memo.text}+${resultDay}+${binding.price.text}+${binding.selecCategory.text}+${cycle}+${shared}+${inviteeListAdapter.getItem()}+${category}")
+
         }
     }
     private fun isParticipant() {

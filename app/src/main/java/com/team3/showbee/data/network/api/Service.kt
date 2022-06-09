@@ -61,4 +61,8 @@ interface Service {
     @POST("v1/schedule/post")
     suspend fun createScheduleResponse(
         @Body schedule: Schedule) : NetworkResponse<Int, ErrorResponse>
+
+    @GET("v1/schedule/getMonthly")
+    suspend fun getMonthlyCategoryResponse(@Query("nowDate") nowDate: String): NetworkResponse<Map<String, List<String>>, ErrorResponse>
+
 }

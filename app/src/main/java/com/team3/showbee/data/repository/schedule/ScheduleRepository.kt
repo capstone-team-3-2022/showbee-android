@@ -7,4 +7,5 @@ import com.team3.showbee.data.network.NetworkResponse
 interface ScheduleRepository {
     suspend fun inviteUser(email: String) : NetworkResponse<InviteeResponse, ErrorResponse>
     suspend fun createSchedule(schedule: Schedule) : NetworkResponse<Int, ErrorResponse>
+    suspend fun getCategoryIcon(nowDate : String) : NetworkResponse<Map<String, List<String>>, ErrorResponse>
 }
