@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.team3.showbee.R
 import com.team3.showbee.SharedPref
+import com.team3.showbee.data.entity.Schedule
 import com.team3.showbee.data.entity.Token
 import com.team3.showbee.databinding.ActivityMainBinding
 import com.team3.showbee.ui.viewmodel.UserViewModel
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var listFragment: ListFragment
     lateinit var fragmentManager: FragmentManager
     lateinit var transaction: FragmentTransaction
-
+    lateinit var scheduleListFragment:ScheduleListFragment
     var triger = "financial"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,6 +87,7 @@ class MainActivity : AppCompatActivity() {
         financialFragment = FinancialFragment()
         scheduleFragment = ScheduleFragment()
         listFragment = ListFragment()
+        scheduleListFragment = ScheduleListFragment()
 
         choiceFragment(triger)
 
@@ -119,6 +121,9 @@ class MainActivity : AppCompatActivity() {
         }
         else if(tag == "list"){
             transaction.replace(binding.frameLayout.id, listFragment).commit()
+        }
+        else if(tag == "scheduleList") {
+            transaction.replace(binding.frameLayout.id, scheduleListFragment).commit()
         }
     }
 

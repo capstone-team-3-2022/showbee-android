@@ -28,7 +28,6 @@ class FinancialDayListAdapter(val context: Context): RecyclerView.Adapter<Financ
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(itemList, position)
-//        holder.bind(itemList.list[position])
     }
 
     override fun getItemCount(): Int {

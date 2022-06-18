@@ -2,11 +2,9 @@ package com.team3.showbee.ui.adapter
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.Icon
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +18,7 @@ import java.util.*
 class ScheduleCalendarAdapter(private val onMonthChangeListener: OnMonthChangeListener? = null, val context: Context) : RecyclerView.Adapter<ScheduleCalendarAdapter.CalendarItemViewHolder>() {
 
     private val baseCalendar = BaseCalendar()
+    private lateinit var itemClickListener: OnItemClickListener
     private lateinit var dateMap: MutableMap<String, List<String>>
 
     private lateinit var sheduleCategoryAdapter: ScheduleCategoryAdapter
@@ -42,36 +41,12 @@ class ScheduleCalendarAdapter(private val onMonthChangeListener: OnMonthChangeLi
         return BaseCalendar.LOW_OF_CALENDAR * BaseCalendar.DAYS_OF_WEEK
     }
 
-    //override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-//        val tvDate: TextView = holder.itemView.findViewById(R.id.tv_date)
-//        val categoryIcon: ImageView = holder.itemView.findViewById(R.id.category_icon)
-
-
-
-//        if (position % BaseCalendar.DAYS_OF_WEEK == 0) tvDate.setTextColor(Color.parseColor("#FF1E1E"))
-//        else if(position % BaseCalendar.DAYS_OF_WEEK == 6) tvDate.setTextColor(Color.parseColor("#2079FF"))
-//        else tvDate.setTextColor(Color.parseColor("#676d6e"))
-//
-//        val day = baseCalendar.data[position]
-//
-//        tvDate.text = baseCalendar.data[position].toString()
-//
-//        if (position < baseCalendar.preMonth
-//            || position >= baseCalendar.preMonth + baseCalendar.currentMonth) {
-//            tvDate.alpha = 0.3f
-//            tvDate.setTextColor(Color.parseColor("#8d93ab"))
-//        } else {
-//            tvDate.alpha = 1f
-//        }
-    //}
-
     fun changeToPrevMonth() {
         baseCalendar.changeToPrevMonth {
             onMonthChangeListener?.onMonthChanged(it)
             notifyDataSetChanged()
         }
     }
-
 
     fun changeToNextMonth() {
         baseCalendar.changeToNextMonth {
@@ -80,9 +55,16 @@ class ScheduleCalendarAdapter(private val onMonthChangeListener: OnMonthChangeLi
         }
     }
 
-
     interface OnMonthChangeListener {
         fun onMonthChanged(calendar : Calendar)
+    }
+
+    interface OnItemClickListener {
+        fun onClick(v: View, position: Int)
+    }
+
+    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
+        this.itemClickListener = onItemClickListener
     }
 
     fun setItems(item: Map<String, List<String>>) {
@@ -91,7 +73,7 @@ class ScheduleCalendarAdapter(private val onMonthChangeListener: OnMonthChangeLi
     }
 
     inner class CalendarItemViewHolder(private val binding: IconItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(date: Int, map: Map<String, List<String>>, position: Int) {
+        fun bind(date: Int, map: MutableMap<String, List<String>>, position: Int) {
             binding.tvDate.text = date.toString()
 
             for(i in map.keys) {
@@ -120,9 +102,9 @@ class ScheduleCalendarAdapter(private val onMonthChangeListener: OnMonthChangeLi
             val pos = absoluteAdapterPosition
             if(pos!= RecyclerView.NO_POSITION)
             {
-//                itemView.setOnClickListener {
-//                    itemClickListener.onClick(itemView,pos)
-//                }
+                itemView.setOnClickListener {
+                    itemClickListener.onClick(itemView,pos)
+                }
             }
         }
     }

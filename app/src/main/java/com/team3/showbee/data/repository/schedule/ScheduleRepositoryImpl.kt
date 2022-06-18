@@ -20,4 +20,7 @@ class ScheduleRepositoryImpl @Inject constructor(
     override suspend fun getCategoryIcon(nowDate: String): NetworkResponse<Map<String, List<String>>, ErrorResponse> {
         return service.getMonthlyCategoryResponse(nowDate)
     }
+    override suspend fun getSList(nowDate: String): NetworkResponse<MutableMap<String, MutableList<ScheduleContentModel>>, ErrorResponse> {
+        return service.getSListResponse(nowDate)
+    }
 }

@@ -1,6 +1,5 @@
 package com.team3.showbee.ui.view
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,59 +9,52 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.GridLayoutManager
-import com.team3.showbee.databinding.FragmentScheduleBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.team3.showbee.R
+import com.team3.showbee.databinding.FragmentScheduleListBinding
 import com.team3.showbee.ui.adapter.FinancialCalendarAdapter
+import com.team3.showbee.ui.adapter.FinancialDayListAdapter
 import com.team3.showbee.ui.adapter.ScheduleCalendarAdapter
-import com.team3.showbee.ui.adapter.ScheduleCategoryAdapter
+import com.team3.showbee.ui.adapter.ScheduleDayListAdapter
 import com.team3.showbee.ui.viewmodel.BaseCalendar
 import com.team3.showbee.ui.viewmodel.ScheduleViewModel
-import com.team3.showbee.ui.viewmodel.UserViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ScheduleFragment : Fragment(), ScheduleCalendarAdapter.OnMonthChangeListener {
-    private var _binding: FragmentScheduleBinding? = null
-    private val binding: FragmentScheduleBinding get() = requireNotNull(_binding)
+class ScheduleListFragment : Fragment(), ScheduleCalendarAdapter.OnMonthChangeListener {
+    private var _binding: FragmentScheduleListBinding?=null
+    private val binding: FragmentScheduleListBinding get() = requireNotNull(_binding)
     private val viewModel by activityViewModels<ScheduleViewModel>()
 
-    lateinit var scheduleCalendarAdapter: ScheduleCalendarAdapter
+    private lateinit var scheduleCalendarAdapter: ScheduleCalendarAdapter
+    private lateinit var scheduleDayListAdapter: ScheduleDayListAdapter
     private val baseCalendar = BaseCalendar()
-    var mainActivity: MainActivity? = null
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mainActivity = activity as MainActivity
-        Log.d("schedule", "onAttach: vvv")
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentScheduleBinding.inflate(layoutInflater)
-//        val view = inflater.inflate(R.layout.fragment_schedule, container, false)
-
+        _binding = FragmentScheduleListBinding.inflate(layoutInflater)
         observeData()
         initView()
         return binding.root
     }
-    override fun onDetach() {
-        super.onDetach()
-        mainActivity = null
-    }
 
     fun initView() {
-        scheduleCalendarAdapter = ScheduleCalendarAdapter(onMonthChangeListener = this, requireContext())
+        scheduleCalendarAdapter = ScheduleCalendarAdapter(onMonthChangeListener = this, context = requireContext() )
+        scheduleDayListAdapter = ScheduleDayListAdapter(requireContext())
+        binding.listRv.layoutManager = LinearLayoutManager(context)
+        binding.listRv.adapter = scheduleDayListAdapter
 
-        binding.fgCalRv.layoutManager = GridLayoutManager(context, BaseCalendar.DAYS_OF_WEEK)
-        binding.fgCalRv.adapter = scheduleCalendarAdapter
+        baseCalendar.initBaseCalendar {
+            onMonthChanged(it)
+        }
 
-        scheduleCalendarAdapter.setItemClickListener(object : ScheduleCalendarAdapter.OnItemClickListener {
+        scheduleDayListAdapter.setItemClickListener(object : ScheduleDayListAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 activity?.let {
-                    Log.d("schedule", "adapter: click")
-                    mainActivity?.choiceFragment("scheduleList")
+                    Log.d("schedule", "adapter: ${position}")
                 }
             }
         })
@@ -74,16 +66,11 @@ class ScheduleFragment : Fragment(), ScheduleCalendarAdapter.OnMonthChangeListen
         binding.fgCalNext.setOnClickListener {
             scheduleCalendarAdapter.changeToNextMonth()
         }
-
-        baseCalendar.initBaseCalendar {
-            onMonthChanged(it)
-        }
-
     }
 
     private fun observeData() {
         with(viewModel) {
-            msg.observe(viewLifecycleOwner) { event ->
+            msg.observe(viewLifecycleOwner) {event ->
                 event.getContentIfNotHandled()?.let {
                     Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                     if (it=="성공하였습니다.") {
@@ -94,20 +81,23 @@ class ScheduleFragment : Fragment(), ScheduleCalendarAdapter.OnMonthChangeListen
                     }
                 }
             }
-            category.observe(viewLifecycleOwner) { event ->
+            list.observe(viewLifecycleOwner) {event ->
                 event.getContentIfNotHandled()?.let {
-                    scheduleCalendarAdapter.setItems(it)
-                    scheduleCalendarAdapter.notifyDataSetChanged()
+                    scheduleDayListAdapter.setItems(it)
+                    scheduleDayListAdapter.notifyDataSetChanged()
                 }
             }
-
         }
+
     }
 
     override fun onMonthChanged(calendar: Calendar) {
         val sdf = SimpleDateFormat("yyyy년 MM월", Locale.KOREAN)
         val sdf2 = SimpleDateFormat("yyyy-MM", Locale.KOREAN)
         binding.fgCalMonth.text = sdf.format(calendar.time)
-        viewModel.getCategory(sdf2.format(calendar.time))
+        //viewModel.getMonthlyTotal(sdf2.format(calendar.time))
+        Log.d("financial", "onMonthChanged")
+        viewModel.getSList(sdf2.format(calendar.time))
     }
+
 }
