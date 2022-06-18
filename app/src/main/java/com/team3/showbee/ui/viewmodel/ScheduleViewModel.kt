@@ -113,6 +113,7 @@ class ScheduleViewModel @Inject constructor(
             when(response) {
                 is NetworkResponse.Success -> {
                     _list.postValue(Event(response.body))
+                    Log.d("response", "getSList: ${response.body}")
                 }
                 is NetworkResponse.ApiError -> {
                     postValueEvent(0)

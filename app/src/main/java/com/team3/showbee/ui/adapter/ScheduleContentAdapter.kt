@@ -1,6 +1,7 @@
 package com.team3.showbee.ui.adapter
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,8 +34,8 @@ class ScheduleContentAdapter(private val itemList: MutableList<ScheduleContentMo
         fun bind(item: ScheduleContentModel) {
             val dec = DecimalFormat("#,###원")
             binding.textView13.text = dec.format(item.price.toInt())
-            binding.textView12.text = item.title
-            binding.textView14.text = item.price
+            binding.textView12.text = item.price
+            binding.textView14.text = item.stitle
 
 
             val pos = absoluteAdapterPosition
