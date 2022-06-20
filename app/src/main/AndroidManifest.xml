@@ -20,9 +20,6 @@
             android:name=".ui.view.UpdateUserInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.SearchViewActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.view.CategoryTransferActivity"
             android:exported="false" />
         <activity
@@ -51,6 +48,14 @@
         </activity>
         <activity android:name=".ui.view.MainActivity" />
         <activity android:name=".ui.view.SignUpActivity" />
-    </application>
 
+        <service android:name=".NotificationListener"
+            android:label="My Notification Listener"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+    </application>
 </manifest>

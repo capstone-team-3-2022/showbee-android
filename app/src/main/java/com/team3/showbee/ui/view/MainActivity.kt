@@ -7,11 +7,13 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import com.team3.showbee.NotificationListener
 import com.team3.showbee.R
 import com.team3.showbee.SharedPref
 import com.team3.showbee.data.entity.Token
@@ -38,6 +40,13 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         viewModel =ViewModelProvider(this).get(UserViewModel::class.java)
         setContentView(binding.root)
+
+        if (!permissionGranted()) {
+            val intent = Intent(
+                "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"
+            )
+            startActivity(intent)
+        }
 
         initView()
         observeData()
@@ -129,6 +138,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun permissionGranted(): Boolean {
+        val sets = NotificationManagerCompat.getEnabledListenerPackages(this)
+        return sets.contains(packageName)
     }
 
     private fun observeData() {
