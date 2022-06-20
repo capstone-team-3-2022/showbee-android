@@ -94,6 +94,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnAddExpenseAndIncome.setOnClickListener {
             if (triger == "schedule") {
                 val intent = Intent(this, AddIncomeExpenditureActivity::class.java)
+                intent.putExtra("mode", true)
                 startActivity(intent)
             }
             else {

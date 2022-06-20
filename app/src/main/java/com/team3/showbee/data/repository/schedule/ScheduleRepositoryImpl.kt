@@ -23,4 +23,8 @@ class ScheduleRepositoryImpl @Inject constructor(
     override suspend fun getSList(nowDate: String): NetworkResponse<MutableMap<String, MutableList<ScheduleContentModel>>, ErrorResponse> {
         return service.getSListResponse(nowDate)
     }
+
+    override suspend fun updateSchedule(schedule: Schedule): NetworkResponse<BaseResponse, ErrorResponse> {
+        return service.updateScheduleResponse(schedule)
+    }
 }

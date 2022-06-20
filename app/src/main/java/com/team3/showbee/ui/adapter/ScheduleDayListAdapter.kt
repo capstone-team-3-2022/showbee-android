@@ -12,6 +12,7 @@ import com.team3.showbee.data.entity.FinancialContentModel
 import com.team3.showbee.data.entity.ScheduleContentModel
 import com.team3.showbee.databinding.ListStitleItemBinding
 import com.team3.showbee.databinding.ListTitleItemBinding
+import com.team3.showbee.ui.view.AddIncomeExpenditureActivity
 import com.team3.showbee.ui.view.UpdateFinancialActivity
 
 class ScheduleDayListAdapter(val context: Context): RecyclerView.Adapter<ScheduleDayListAdapter.Holder>() {
@@ -49,8 +50,9 @@ class ScheduleDayListAdapter(val context: Context): RecyclerView.Adapter<Schedul
                 override fun onClick(v: View, position: Int) {
                     Log.d("schedule", "contentadapter: ${content[position].sid}")
                     //수정할것
-                    val intent = Intent(context, UpdateFinancialActivity::class.java)
+                    val intent = Intent(context, AddIncomeExpenditureActivity::class.java)
                         .putExtra("sid", content[position].sid)
+                        .putExtra("mode", false)
                     context.startActivity(intent)
                 }
             })

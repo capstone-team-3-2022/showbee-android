@@ -9,4 +9,5 @@ interface ScheduleRepository {
     suspend fun createSchedule(schedule: Schedule) : NetworkResponse<Int, ErrorResponse>
     suspend fun getCategoryIcon(nowDate : String) : NetworkResponse<Map<String, List<String>>, ErrorResponse>
     suspend fun getSList(nowDate: String) : NetworkResponse<MutableMap<String, MutableList<ScheduleContentModel>>, ErrorResponse>
+    suspend fun updateSchedule(schedule: Schedule) : NetworkResponse<BaseResponse, ErrorResponse>
 }

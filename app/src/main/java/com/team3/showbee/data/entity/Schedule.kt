@@ -1,6 +1,7 @@
 package com.team3.showbee.data.entity
 
 data class Schedule(
+    val sid: Long? = null,
     val stitle: String = "",
     val content: String = "",
     val price: Int = 0,

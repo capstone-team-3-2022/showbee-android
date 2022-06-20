@@ -67,4 +67,7 @@ interface Service {
 
     @GET("v1/schedule/getlist")
     suspend fun getSListResponse(@Query("nowDate") nowDate: String): NetworkResponse<MutableMap<String, MutableList<ScheduleContentModel>>, ErrorResponse>
+
+    @PUT("v1/schedule/modify")
+    suspend fun updateScheduleResponse(@Body schedule: Schedule): NetworkResponse<BaseResponse, ErrorResponse>
 }

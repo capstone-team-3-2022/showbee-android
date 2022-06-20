@@ -65,7 +65,7 @@ class ScheduleViewModel @Inject constructor(
     }
     fun createS(stitle:String, content:String, price:Int, date:String, cycle:Int, shared:Boolean, participant:ArrayList<String>, inoutcome:Boolean,category:String) {
         viewModelScope.launch {
-            val schedule = Schedule(stitle, content, price, date, cycle, shared, participant, inoutcome, category)
+            val schedule = Schedule(stitle = stitle, content= content, price = price, date = date, cycle = cycle, shared = shared, participant = participant, inoutcome = inoutcome, category = category)
             val response:NetworkResponse<Int, ErrorResponse> = repository.createSchedule(schedule)
 
             when(response) {
@@ -138,6 +138,28 @@ class ScheduleViewModel @Inject constructor(
             inviteeList.add(Pair(email, "sdfksjf"))
             Log.d("텍스트띄우기", "onCreate: ${inviteeList.size} + ${inviteeList[0].first} + ${inviteeList[0].second}")
             Log.d(TAG, "existUser: ${inviteeList}")
+        }
+    }
+
+    fun updateSchedule(sid:Long, stitle:String, content:String, price:Int, date:String, cycle:Int, shared:Boolean, participant:ArrayList<String>, inoutcome:Boolean,category:String) {
+        viewModelScope.launch {
+            val schedule = Schedule(sid = sid, stitle = stitle, content= content, price = price, date = date, cycle = cycle, shared = shared, participant = participant, inoutcome = inoutcome, category = category)
+            val response = repository.createSchedule(schedule)
+
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _msg.postValue(Event((response.body.toString())))
+                }
+                is NetworkResponse.ApiError -> {
+                    postValueEvent(0)
+                }
+                is NetworkResponse.NetworkError -> {
+                    postValueEvent(1)
+                }
+                is NetworkResponse.UnknownError -> {
+                    postValueEvent(2)
+                }
+            }
         }
     }
 
