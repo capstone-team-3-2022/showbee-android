@@ -1,8 +1,11 @@
 package com.team3.showbee
 
 import android.app.Application
+import android.content.Intent
 import android.content.SharedPreferences
+import androidx.core.app.NotificationManagerCompat
 import dagger.hilt.android.HiltAndroidApp
+
 
 @HiltAndroidApp
 class App : Application() {
