@@ -48,7 +48,7 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
     var cycle = 0
     var shared = false
     var mode = true
-    var sid: Long? = null
+    var sid: Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,11 +79,48 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
         if (!mode) {
             //조회, 수정
             binding.save.visibility = View.GONE
+            viewModel.getSchedule(sid)
+
+            binding.delete.setOnClickListener {
+                viewModel.deleteSchedule(sid)
+            }
+
+            binding.save.setOnClickListener {
+                write()
+                viewModel.updateSchedule(
+                    sid = sid,
+                    stitle = binding.editTextTextPersonName.text.toString(),
+                    content = binding.memo.text.toString(),
+                    price = binding.price.text.toString().toInt(),
+                    date = resultDay,
+                    cycle = cycle,
+                    shared = shared,
+                    participant = inviteeListAdapter.getItem(),
+                    inoutcome = category,
+                    category = binding.selecCategory.text.toString()
+                )
+            }
 
         } else {
             binding.delete.visibility = View.GONE
             binding.update.visibility = View.GONE
             write()
+            binding.save.setOnClickListener {
+                Log.d("글 등록 구현", "initView: ${shared}")
+                isParticipant()
+                Log.d("글 등록 구현", "initView: ${shared}")
+                viewModel.createS(
+                    stitle = binding.editTextTextPersonName.text.toString(),
+                    content = binding.memo.text.toString(),
+                    price = binding.price.text.toString().toInt(),
+                    date = resultDay,
+                    cycle = cycle,
+                    shared = shared,
+                    participant = inviteeListAdapter.getItem(),
+                    inoutcome = category,
+                    category = binding.selecCategory.text.toString()
+                )
+            }
         }
     }
 
@@ -173,23 +210,6 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
             Log.d(
                 "글 등록 구현",
                 "initView: ${binding.editTextTextPersonName.text}+${binding.memo.text}+${resultDay}+${binding.price.text}+${binding.selecCategory.text}+${cycle}+${shared}+${inviteeListAdapter.getItem()}+${category}"
-            )
-        }
-
-        binding.save.setOnClickListener {
-            Log.d("글 등록 구현", "initView: ${shared}")
-            isParticipant()
-            Log.d("글 등록 구현", "initView: ${shared}")
-            viewModel.createS(
-                stitle = binding.editTextTextPersonName.text.toString(),
-                content = binding.memo.text.toString(),
-                price = binding.price.text.toString().toInt(),
-                date = resultDay,
-                cycle = cycle,
-                shared = shared,
-                participant = inviteeListAdapter.getItem(),
-                inoutcome = category,
-                category = binding.selecCategory.text.toString()
             )
         }
     }

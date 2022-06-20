@@ -70,4 +70,10 @@ interface Service {
 
     @PUT("v1/schedule/modify")
     suspend fun updateScheduleResponse(@Body schedule: Schedule): NetworkResponse<BaseResponse, ErrorResponse>
+
+    @GET("v1/schedule/get")
+    suspend fun getScheduleResponse(@Query("sid") sid: Long): NetworkResponse<Schedule, ErrorResponse>
+
+    @DELETE("v1/schedule/delete/{sid}")
+    suspend fun deleteScheduleResponse(@Path("sid") sid: Long): NetworkResponse<BaseResponse, ErrorResponse>
 }

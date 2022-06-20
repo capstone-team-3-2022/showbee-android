@@ -30,6 +30,9 @@ class ScheduleViewModel @Inject constructor(
     private val _list = MutableLiveData<Event<MutableMap<String, MutableList<ScheduleContentModel>>>>()
     val list : LiveData<Event<MutableMap<String, MutableList<ScheduleContentModel>>>> = _list
 
+    private val _schedule = MutableLiveData<Event<Schedule>>()
+    val schedule : LiveData<Event<Schedule>> = _schedule
+
     init {
         _email.value = ""
     }
@@ -71,6 +74,27 @@ class ScheduleViewModel @Inject constructor(
             when(response) {
                 is NetworkResponse.Success -> {
                     _msg.postValue(Event(response.body.toString()))
+                }
+                is NetworkResponse.ApiError -> {
+                    postValueEvent(0)
+                }
+                is NetworkResponse.NetworkError -> {
+                    postValueEvent(1)
+                }
+                is NetworkResponse.UnknownError -> {
+                    postValueEvent(2)
+                }
+            }
+        }
+    }
+
+    fun getSchedule(sid: Long) {
+        viewModelScope.launch {
+            val response = repository.getSchedule(sid)
+
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _schedule.postValue(Event(response.body))
                 }
                 is NetworkResponse.ApiError -> {
                     postValueEvent(0)
@@ -163,6 +187,26 @@ class ScheduleViewModel @Inject constructor(
         }
     }
 
+    fun deleteSchedule(sid: Long) {
+        viewModelScope.launch {
+            val response = repository.deleteSchedule(sid)
+
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _msg.postValue(Event((response.body.msg)))
+                }
+                is NetworkResponse.ApiError -> {
+                    postValueEvent(0)
+                }
+                is NetworkResponse.NetworkError -> {
+                    postValueEvent(1)
+                }
+                is NetworkResponse.UnknownError -> {
+                    postValueEvent(2)
+                }
+            }
+        }
+    }
 
     private fun validation(email: String): Boolean {
         if (email.isEmpty()) {
