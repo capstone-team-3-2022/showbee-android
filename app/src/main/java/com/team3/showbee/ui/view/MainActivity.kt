@@ -115,6 +115,10 @@ class MainActivity : AppCompatActivity() {
                     })
                     dialog.show(supportFragmentManager, "CustomDialog")
                 }
+                "친구 관리" -> {
+                    val intent = Intent(this, SharedScheduleActivity::class.java)
+                    startActivity(intent)
+                }
             }
             true
         }

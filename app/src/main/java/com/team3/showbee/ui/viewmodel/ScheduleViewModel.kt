@@ -36,6 +36,9 @@ class ScheduleViewModel @Inject constructor(
     private val _total = MutableLiveData<Event<List<Long>>>()
     val total : LiveData<Event<List<Long>>> = _total
 
+    private val _shared = MutableLiveData<Event<List<SharedContentModel>>>()
+    val shared : LiveData<Event<List<SharedContentModel>>> = _shared
+
     init {
         _email.value = ""
     }
@@ -163,6 +166,27 @@ class ScheduleViewModel @Inject constructor(
             when(response) {
                 is NetworkResponse.Success -> {
                     _total.postValue(Event(response.body))
+                }
+                is NetworkResponse.ApiError -> {
+                    postValueEvent(0)
+                }
+                is NetworkResponse.NetworkError -> {
+                    postValueEvent(1)
+                }
+                is NetworkResponse.UnknownError -> {
+                    postValueEvent(2)
+                }
+            }
+        }
+    }
+
+    fun getShared() {
+        viewModelScope.launch {
+            val response = repository.getShared()
+
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _shared.postValue(Event(response.body))
                 }
                 is NetworkResponse.ApiError -> {
                     postValueEvent(0)

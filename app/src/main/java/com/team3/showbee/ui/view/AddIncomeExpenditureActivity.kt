@@ -91,6 +91,8 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
             Log.d(TAG, "checkMode: 여기는 데이터 부르고 난 후")
             binding.delete.setOnClickListener {
                 viewModel.deleteSchedule(sid)
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
             }
             binding.choiceIncomeExpense.setOnCheckedChangeListener{group, checkedId ->
                 when (checkedId) {
@@ -110,6 +112,7 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
 
             binding.update.setOnClickListener {
                 Log.d(TAG, "checkMode: 들어왔나???")
+                isParticipant()
                 viewModel.updateSchedule(
                     sid = sid,
                     stitle = binding.editTextTextPersonName.text.toString(),
@@ -122,6 +125,8 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
                     inoutcome = category,
                     category = binding.selecCategory.text.toString()
                 )
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
             }
 
         } else {
@@ -304,15 +309,12 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
                             binding.cycleSpinner.setSelection(0)
                         }
                     }
-                    /*
                     if(it.shared) {
                         for (i in 0 until it.participant.size) {
                             inviteeListAdapter.addItems(it.participant[i])
                             inviteeListAdapter.notifyDataSetChanged()
                         }
                     }
-
-                     */
 
                     inoutcome = it.inoutcome
                     if (it.inoutcome) {
