@@ -50,6 +50,7 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
     var shared = false
     var mode = true
     var sid: Long = -1
+    var inoutcome = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,7 +92,21 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
             binding.delete.setOnClickListener {
                 viewModel.deleteSchedule(sid)
             }
+            binding.choiceIncomeExpense.setOnCheckedChangeListener{group, checkedId ->
+                when (checkedId) {
+                    R.id.radioButton -> {
+                        binding.radioButton.setTextColor(Color.parseColor("#FF8B00"))
+                        binding.radioButton2.setTextColor(Color.parseColor("#989898"))
+                        inoutcome = true
 
+                    }
+                    R.id.radioButton2 -> {
+                        binding.radioButton.setTextColor(Color.parseColor("#989898"))
+                        binding.radioButton2.setTextColor(Color.parseColor("#FF8B00"))
+                        inoutcome = false
+                    }
+                }
+            }
 
             binding.update.setOnClickListener {
                 Log.d(TAG, "checkMode: 들어왔나???")
@@ -114,11 +129,6 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
             binding.delete.visibility = View.GONE
             binding.update.visibility = View.GONE
 
-            val text = intent.getStringExtra("icon")
-            Log.d(TAG, "write: ${text}")
-            binding.selecCategory.text = text
-            Log.d(TAG, "binding.selecCategory.text.toString: ${binding.selecCategory.text.toString()}")
-
             binding.save.setOnClickListener {
                 Log.d("글 등록 구현", "initView: ${shared}")
                 isParticipant()
@@ -134,6 +144,8 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
                     inoutcome = category,
                     category = binding.selecCategory.text.toString()
                 )
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
             }
         }
     }
@@ -200,12 +212,11 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
             val moveToCategory = Intent(this, CategoryActivity::class.java)
             startActivity(moveToCategory)
         }
+        val text = intent.getStringExtra("icon")
+        Log.d(TAG, "write: ${text}")
+        binding.selecCategory.text = text
+        Log.d(TAG, "binding.selecCategory.text.toString: ${binding.selecCategory.text.toString()}")
 
-
-        binding.save.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
         //사용자 초대
         binding.searchBtn.setOnClickListener {
             val email = binding.inputEmail.text.toString()
@@ -300,8 +311,9 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
                             inviteeListAdapter.notifyDataSetChanged()
                         }
                     }
+
                      */
-                    /*
+
                     inoutcome = it.inoutcome
                     if (it.inoutcome) {
                         binding.choiceIncomeExpense.check(R.id.radioButton)
@@ -312,7 +324,6 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
                         binding.radioButton.setTextColor(Color.parseColor("#989898"))
                         binding.radioButton2.setTextColor(Color.parseColor("#FF8B00"))
                     }
-                     */
                 }
             }
         }
