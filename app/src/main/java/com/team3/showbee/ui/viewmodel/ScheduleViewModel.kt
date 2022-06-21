@@ -33,6 +33,9 @@ class ScheduleViewModel @Inject constructor(
     private val _schedule = MutableLiveData<Event<Schedule>>()
     val schedule : LiveData<Event<Schedule>> = _schedule
 
+    private val _total = MutableLiveData<Event<List<Long>>>()
+    val total : LiveData<Event<List<Long>>> = _total
+
     init {
         _email.value = ""
     }
@@ -139,6 +142,27 @@ class ScheduleViewModel @Inject constructor(
                 is NetworkResponse.Success -> {
                     _list.postValue(Event(response.body))
                     Log.d("response", "getSList: ${response.body}")
+                }
+                is NetworkResponse.ApiError -> {
+                    postValueEvent(0)
+                }
+                is NetworkResponse.NetworkError -> {
+                    postValueEvent(1)
+                }
+                is NetworkResponse.UnknownError -> {
+                    postValueEvent(2)
+                }
+            }
+        }
+    }
+
+    fun getSMonthlyTotal(nowDate: String) {
+        viewModelScope.launch {
+            val response = repository.getSMonthlyTotal(nowDate = nowDate)
+
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _total.postValue(Event(response.body))
                 }
                 is NetworkResponse.ApiError -> {
                     postValueEvent(0)

@@ -18,6 +18,7 @@ import com.team3.showbee.ui.adapter.ScheduleCalendarAdapter
 import com.team3.showbee.ui.adapter.ScheduleDayListAdapter
 import com.team3.showbee.ui.viewmodel.BaseCalendar
 import com.team3.showbee.ui.viewmodel.ScheduleViewModel
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -87,6 +88,13 @@ class ScheduleListFragment : Fragment(), ScheduleCalendarAdapter.OnMonthChangeLi
                     scheduleDayListAdapter.notifyDataSetChanged()
                 }
             }
+            total.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let {
+                    val dec = DecimalFormat("#,###원")
+                    binding.incomeContent.text = dec.format(it[0])
+                    binding.expenseContent.text = dec.format(it[1])
+                }
+            }
         }
 
     }
@@ -95,7 +103,7 @@ class ScheduleListFragment : Fragment(), ScheduleCalendarAdapter.OnMonthChangeLi
         val sdf = SimpleDateFormat("yyyy년 MM월", Locale.KOREAN)
         val sdf2 = SimpleDateFormat("yyyy-MM", Locale.KOREAN)
         binding.fgCalMonth.text = sdf.format(calendar.time)
-        //viewModel.getMonthlyTotal(sdf2.format(calendar.time))
+        viewModel.getSMonthlyTotal(sdf2.format(calendar.time))
         Log.d("financial", "onMonthChanged")
         viewModel.getSList(sdf2.format(calendar.time))
     }

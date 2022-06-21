@@ -12,4 +12,5 @@ interface ScheduleRepository {
     suspend fun updateSchedule(schedule: Schedule) : NetworkResponse<BaseResponse, ErrorResponse>
     suspend fun getSchedule(sid: Long) : NetworkResponse<Schedule, ErrorResponse>
     suspend fun deleteSchedule(sid: Long): NetworkResponse<BaseResponse, ErrorResponse>
+    suspend fun getSMonthlyTotal(nowDate: String): NetworkResponse<List<Long>, ErrorResponse>
 }

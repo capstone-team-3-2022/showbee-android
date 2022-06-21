@@ -65,6 +65,9 @@ interface Service {
     @GET("v1/schedule/getMonthly")
     suspend fun getMonthlyCategoryResponse(@Query("nowDate") nowDate: String): NetworkResponse<Map<String, List<String>>, ErrorResponse>
 
+    @GET("v1/schedule/getMonthlyTotal")
+    suspend fun getSMonthlyTotalResponse(@Query("nowDate") nowDate:String): NetworkResponse<List<Long>, ErrorResponse>
+
     @GET("v1/schedule/getlist")
     suspend fun getSListResponse(@Query("nowDate") nowDate: String): NetworkResponse<MutableMap<String, MutableList<ScheduleContentModel>>, ErrorResponse>
 

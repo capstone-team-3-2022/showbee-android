@@ -32,4 +32,7 @@ class ScheduleRepositoryImpl @Inject constructor(
     override suspend fun deleteSchedule(sid: Long): NetworkResponse<BaseResponse, ErrorResponse> {
         return service.deleteScheduleResponse(sid)
     }
+    override suspend fun getSMonthlyTotal(nowDate: String): NetworkResponse<List<Long>, ErrorResponse> {
+        return service.getSMonthlyTotalResponse(nowDate)
+    }
 }
