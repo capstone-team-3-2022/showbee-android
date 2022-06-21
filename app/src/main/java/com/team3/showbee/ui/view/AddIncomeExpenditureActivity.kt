@@ -69,16 +69,16 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
 
         initView()
         observeData()
-
     }
 
     private fun initView() {
         checkMode()
+        write()
+
     }
 
     private fun checkMode() {
         Log.d(TAG, "checkMode: @@@@@@@@@@@@@@@@@@@")
-        write()
         if (!mode) {
             //조회, 수정
             Log.d(TAG, "checkMode: 여기는 수정모드")    
@@ -91,6 +91,7 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
             binding.delete.setOnClickListener {
                 viewModel.deleteSchedule(sid)
             }
+
 
             binding.update.setOnClickListener {
                 Log.d(TAG, "checkMode: 들어왔나???")
@@ -106,13 +107,17 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
                     inoutcome = category,
                     category = binding.selecCategory.text.toString()
                 )
-
             }
 
         } else {
             Log.d(TAG, "checkMode: 여기는 글작성 모드")
             binding.delete.visibility = View.GONE
             binding.update.visibility = View.GONE
+
+            val text = intent.getStringExtra("icon")
+            Log.d(TAG, "write: ${text}")
+            binding.selecCategory.text = text
+            Log.d(TAG, "binding.selecCategory.text.toString: ${binding.selecCategory.text.toString()}")
 
             binding.save.setOnClickListener {
                 Log.d("글 등록 구현", "initView: ${shared}")
@@ -195,8 +200,7 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
             val moveToCategory = Intent(this, CategoryActivity::class.java)
             startActivity(moveToCategory)
         }
-        val text = intent.getStringExtra("icon")
-        binding.selecCategory.text = text
+
 
         binding.save.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
@@ -268,6 +272,9 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
                     val priceInt = it.price.toString()
                     binding.price.setText(priceInt)
 
+                    val category = it.category
+                    binding.selecCategory.setText(category)
+
                     when (it.cycle) {
                         7 -> {
                             Log.d(TAG, "observeData: 7")
@@ -286,11 +293,12 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
                             binding.cycleSpinner.setSelection(0)
                         }
                     }
-
                     /*
-                    for (i in 0 until it.participant.size) {
-                        inviteeListAdapter.addItems(it.participant[i])
-                        inviteeListAdapter.notifyDataSetChanged()
+                    if(it.shared) {
+                        for (i in 0 until it.participant.size) {
+                            inviteeListAdapter.addItems(it.participant[i])
+                            inviteeListAdapter.notifyDataSetChanged()
+                        }
                     }
                      */
                     /*
