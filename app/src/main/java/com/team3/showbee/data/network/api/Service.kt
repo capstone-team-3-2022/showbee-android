@@ -77,6 +77,9 @@ interface Service {
     @GET("v1/schedule/get")
     suspend fun getScheduleResponse(@Query("sid") sid: Long): NetworkResponse<Schedule, ErrorResponse>
 
+    @GET("v1/schedule/getShared")
+    suspend fun getSharedResponse(): NetworkResponse<MutableList<SharedContentModel>, ErrorResponse>
+
     @DELETE("v1/schedule/delete/{sid}")
     suspend fun deleteScheduleResponse(@Path("sid") sid: Long): NetworkResponse<BaseResponse, ErrorResponse>
 }

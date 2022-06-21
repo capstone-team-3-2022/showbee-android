@@ -35,4 +35,7 @@ class ScheduleRepositoryImpl @Inject constructor(
     override suspend fun getSMonthlyTotal(nowDate: String): NetworkResponse<List<Long>, ErrorResponse> {
         return service.getSMonthlyTotalResponse(nowDate)
     }
+    override suspend fun getShared(): NetworkResponse<List<SharedContentModel>, ErrorResponse> {
+        return service.getSharedResponse()
+    }
 }
