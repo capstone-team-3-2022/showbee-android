@@ -1,12 +1,17 @@
 package com.team3.showbee.ui.view
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
@@ -27,13 +32,14 @@ class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding get() = requireNotNull(_binding)
     private lateinit var viewModel: UserViewModel
 
-    lateinit var financialFragment:FinancialFragment
+    lateinit var financialFragment: FinancialFragment
     lateinit var scheduleFragment: ScheduleFragment
     lateinit var listFragment: ListFragment
     lateinit var fragmentManager: FragmentManager
     lateinit var transaction: FragmentTransaction
 
     var triger = "financial"
+    var CHANNEL_ID = "0716"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,9 +56,35 @@ class MainActivity : AppCompatActivity() {
 
         initView()
         observeData()
+        createNotificationChannel()
+    }
+
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.app_name)
+            val descriptionText = getString(R.string.app_name)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
     private fun initView() {
+        var builder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.logo)
+            .setContentTitle("ShowBee")
+            .setContentText("유튜브 프리미엄 결제")
+            .setStyle(NotificationCompat.BigTextStyle()
+                .bigText("6월 22일 : 10,450원"))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
         binding.mainNavigationView.setNavigationItemSelectedListener {
             Log.d("Info", "navigaion item click... ${it.title}")
             when(it.title) {
@@ -111,6 +143,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.floatingActionButton2.setOnClickListener {
+            with(NotificationManagerCompat.from(this)) {
+                // notificationId is a unique int for each notification that you must define
+                notify(0, builder.build())
+            }
             choiceFragment(triger)
         }
     }
@@ -118,16 +154,18 @@ class MainActivity : AppCompatActivity() {
     fun choiceFragment(tag: String) {
         transaction = fragmentManager.beginTransaction()
 
-        if (tag == "schedule") {
-            transaction.replace(binding.frameLayout.id, financialFragment).commitAllowingStateLoss()
-            triger = "financial"
-        }
-        else if(tag == "financial"){
-            transaction.replace(binding.frameLayout.id, scheduleFragment).commitAllowingStateLoss()
-            triger = "schedule"
-        }
-        else if(tag == "list"){
-            transaction.replace(binding.frameLayout.id, listFragment).commit()
+        when (tag) {
+            "schedule" -> {
+                transaction.replace(binding.frameLayout.id, financialFragment).commitAllowingStateLoss()
+                triger = "financial"
+            }
+            "financial" -> {
+                transaction.replace(binding.frameLayout.id, scheduleFragment).commitAllowingStateLoss()
+                triger = "schedule"
+            }
+            "list" -> {
+                transaction.replace(binding.frameLayout.id, listFragment).commit()
+            }
         }
     }
 
