@@ -24,6 +24,18 @@ class ScheduleViewModel @Inject constructor(
     val email:LiveData<String>
         get() = _email
 
+    private val _category = MutableLiveData<Event<Map<String,List<String>>>>()
+    val category : LiveData<Event<Map<String,List<String>>>> = _category
+
+    private val _list = MutableLiveData<Event<MutableMap<String, MutableList<ScheduleContentModel>>>>()
+    val list : LiveData<Event<MutableMap<String, MutableList<ScheduleContentModel>>>> = _list
+
+    private val _schedule = MutableLiveData<Event<Schedule>>()
+    val schedule : LiveData<Event<Schedule>> = _schedule
+
+    private val _total = MutableLiveData<Event<List<Long>>>()
+    val total : LiveData<Event<List<Long>>> = _total
+
     init {
         _email.value = ""
     }
@@ -59,12 +71,98 @@ class ScheduleViewModel @Inject constructor(
     }
     fun createS(stitle:String, content:String, price:Int, date:String, cycle:Int, shared:Boolean, participant:ArrayList<String>, inoutcome:Boolean,category:String) {
         viewModelScope.launch {
-            val schedule = Schedule(stitle, content, price, date, cycle, shared, participant, inoutcome, category)
+            val schedule = Schedule(stitle = stitle, content= content, price = price, date = date, cycle = cycle, shared = shared, participant = participant, inoutcome = inoutcome, category = category)
             val response:NetworkResponse<Int, ErrorResponse> = repository.createSchedule(schedule)
 
             when(response) {
                 is NetworkResponse.Success -> {
                     _msg.postValue(Event(response.body.toString()))
+                }
+                is NetworkResponse.ApiError -> {
+                    postValueEvent(0)
+                }
+                is NetworkResponse.NetworkError -> {
+                    postValueEvent(1)
+                }
+                is NetworkResponse.UnknownError -> {
+                    postValueEvent(2)
+                }
+            }
+        }
+    }
+
+    fun getSchedule(sid: Long) {
+        viewModelScope.launch {
+            val response = repository.getSchedule(sid)
+
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _schedule.postValue(Event(response.body))
+                    //var price = response.body.price.toString()
+                }
+                is NetworkResponse.ApiError -> {
+                    postValueEvent(0)
+                }
+                is NetworkResponse.NetworkError -> {
+                    postValueEvent(1)
+                }
+                is NetworkResponse.UnknownError -> {
+                    postValueEvent(2)
+                }
+            }
+        }
+    }
+
+    fun getCategory(nowDate:String) {
+        viewModelScope.launch {
+            val response = repository.getCategoryIcon(nowDate = nowDate)
+
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _category.postValue(Event(response.body))
+                }
+                is NetworkResponse.ApiError -> {
+                    postValueEvent(0)
+                }
+                is NetworkResponse.NetworkError -> {
+                    postValueEvent(1)
+                }
+                is NetworkResponse.UnknownError -> {
+                    postValueEvent(2)
+                }
+            }
+        }
+    }
+
+    fun getSList(nowDate: String) {
+        viewModelScope.launch {
+            val response = repository.getSList(nowDate = nowDate)
+
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _list.postValue(Event(response.body))
+                    Log.d("response", "getSList: ${response.body}")
+                }
+                is NetworkResponse.ApiError -> {
+                    postValueEvent(0)
+                }
+                is NetworkResponse.NetworkError -> {
+                    postValueEvent(1)
+                }
+                is NetworkResponse.UnknownError -> {
+                    postValueEvent(2)
+                }
+            }
+        }
+    }
+
+    fun getSMonthlyTotal(nowDate: String) {
+        viewModelScope.launch {
+            val response = repository.getSMonthlyTotal(nowDate = nowDate)
+
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _total.postValue(Event(response.body))
                 }
                 is NetworkResponse.ApiError -> {
                     postValueEvent(0)
@@ -92,6 +190,50 @@ class ScheduleViewModel @Inject constructor(
         }
     }
 
+    fun updateSchedule(sid:Long, stitle:String, content:String, price:Int, date:String, cycle:Int, shared:Boolean, participant:ArrayList<String>, inoutcome:Boolean,category:String) {
+        Log.d(TAG, "updateSchedule: update!")
+        viewModelScope.launch {
+            val schedule = Schedule(sid = sid, stitle = stitle, content= content, price = price, date = date, cycle = cycle, shared = shared, participant = participant, inoutcome = inoutcome, category = category)
+            val response = repository.createSchedule(schedule)
+
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _msg.postValue(Event((response.body.toString())))
+                    Log.d(TAG, "updateSchedule: isSuccess????")
+                }
+                is NetworkResponse.ApiError -> {
+                    postValueEvent(0)
+                }
+                is NetworkResponse.NetworkError -> {
+                    postValueEvent(1)
+                }
+                is NetworkResponse.UnknownError -> {
+                    postValueEvent(2)
+                }
+            }
+        }
+    }
+
+    fun deleteSchedule(sid: Long) {
+        viewModelScope.launch {
+            val response = repository.deleteSchedule(sid)
+
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _msg.postValue(Event((response.body.msg)))
+                }
+                is NetworkResponse.ApiError -> {
+                    postValueEvent(0)
+                }
+                is NetworkResponse.NetworkError -> {
+                    postValueEvent(1)
+                }
+                is NetworkResponse.UnknownError -> {
+                    postValueEvent(2)
+                }
+            }
+        }
+    }
 
     private fun validation(email: String): Boolean {
         if (email.isEmpty()) {

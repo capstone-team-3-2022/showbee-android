@@ -17,4 +17,22 @@ class ScheduleRepositoryImpl @Inject constructor(
     override suspend fun inviteUser(email: String): NetworkResponse<InviteeResponse, ErrorResponse> {
         return service.inviteUserEmailResponse(email)
     }
+    override suspend fun getCategoryIcon(nowDate: String): NetworkResponse<Map<String, List<String>>, ErrorResponse> {
+        return service.getMonthlyCategoryResponse(nowDate)
+    }
+    override suspend fun getSList(nowDate: String): NetworkResponse<MutableMap<String, MutableList<ScheduleContentModel>>, ErrorResponse> {
+        return service.getSListResponse(nowDate)
+    }
+    override suspend fun updateSchedule(schedule: Schedule): NetworkResponse<BaseResponse, ErrorResponse> {
+        return service.updateScheduleResponse(schedule)
+    }
+    override suspend fun getSchedule(sid: Long): NetworkResponse<Schedule, ErrorResponse> {
+        return service.getScheduleResponse(sid)
+    }
+    override suspend fun deleteSchedule(sid: Long): NetworkResponse<BaseResponse, ErrorResponse> {
+        return service.deleteScheduleResponse(sid)
+    }
+    override suspend fun getSMonthlyTotal(nowDate: String): NetworkResponse<List<Long>, ErrorResponse> {
+        return service.getSMonthlyTotalResponse(nowDate)
+    }
 }

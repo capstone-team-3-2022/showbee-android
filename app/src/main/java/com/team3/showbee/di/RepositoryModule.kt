@@ -37,4 +37,5 @@ abstract class RepositoryModule {
         repositoryImpl: ScheduleRepositoryImpl
     ): ScheduleRepository
 
+
 }

@@ -61,4 +61,22 @@ interface Service {
     @POST("v1/schedule/post")
     suspend fun createScheduleResponse(
         @Body schedule: Schedule) : NetworkResponse<Int, ErrorResponse>
+
+    @GET("v1/schedule/getMonthly")
+    suspend fun getMonthlyCategoryResponse(@Query("nowDate") nowDate: String): NetworkResponse<Map<String, List<String>>, ErrorResponse>
+
+    @GET("v1/schedule/getMonthlyTotal")
+    suspend fun getSMonthlyTotalResponse(@Query("nowDate") nowDate:String): NetworkResponse<List<Long>, ErrorResponse>
+
+    @GET("v1/schedule/getlist")
+    suspend fun getSListResponse(@Query("nowDate") nowDate: String): NetworkResponse<MutableMap<String, MutableList<ScheduleContentModel>>, ErrorResponse>
+
+    @PUT("v1/schedule/modify")
+    suspend fun updateScheduleResponse(@Body schedule: Schedule): NetworkResponse<BaseResponse, ErrorResponse>
+
+    @GET("v1/schedule/get")
+    suspend fun getScheduleResponse(@Query("sid") sid: Long): NetworkResponse<Schedule, ErrorResponse>
+
+    @DELETE("v1/schedule/delete/{sid}")
+    suspend fun deleteScheduleResponse(@Path("sid") sid: Long): NetworkResponse<BaseResponse, ErrorResponse>
 }
