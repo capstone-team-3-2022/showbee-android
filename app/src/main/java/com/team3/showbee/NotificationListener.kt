@@ -15,6 +15,7 @@ import com.team3.showbee.di.ApiModule
 import com.team3.showbee.ui.viewmodel.FinancialViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -40,14 +41,43 @@ class NotificationListener : NotificationListenerService() {
         val smallIcon = notification.smallIcon
         val largeIcon = notification.getLargeIcon()
 
-        if (sbn.packageName == "com.samsung.android.messaging"
-            || sbn.packageName == "viva.republica.toss") {
+        if (sbn.packageName == "com.kakaobank.channel") {
             val current = LocalDateTime.now()
             val formatter = DateTimeFormatter.ISO_DATE
             val formatted = current.format(formatter)
+            val financial = Financial()
 
-            val financial = Financial(date = formatted, content = text.toString(), category = title,
-                price = "3000", bank = sbn.packageName, memo = subText.toString(), inoutcome = true)
+            if (text != null) {
+                val textList = text.split(" ")
+                financial.bank = "카카오뱅크"
+                financial.content = textList[5]
+                financial.date = formatted
+                financial.category = "식비"
+
+                if (subText != null) {
+                    financial.memo = null
+                }
+                else {
+                    financial.memo = subText.toString()
+                }
+
+                if (text.contains("출금")) {
+                    financial.inoutcome = false
+                }
+                else if (text.contains("입금")) {
+                    financial.inoutcome = true
+                }
+
+//                val decimal = DecimalFormat("####")
+                val price = textList[4].replace(",", "")
+                    .replace("원", "")
+                financial.price = price
+//                Log.d(TAG, "1: ${textList[0]}, 2: ${textList[1]}, 3: ${textList[2]}, 4: ${textList[3]}, 5: ${textList[4]}")
+//                Log.d(TAG, "onNotificationPosted: $price")
+            }
+
+            val financial2 = Financial(date = formatted, content = text.toString(), category = title,
+                price = "3000", bank = sbn.packageName, memo = subText.toString(), inoutcome = false)
 
             val httpClient = ApiModule.provideOkHttpClient()
             val retrofit = ApiModule.provideRetrofit(httpClient)

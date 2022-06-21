@@ -89,4 +89,7 @@ dependencies {
 
     //리사이클러뷰
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    //notification
+    implementation "androidx.appcompat:appcompat:1.4.2"
 }
