@@ -99,7 +99,7 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
                     stitle = binding.editTextTextPersonName.text.toString(),
                     content = binding.memo.text.toString(),
                     price = binding.price.text.toString().toInt(),
-                    date = resultDay,
+                    date = binding.datePicker.text.toString(),
                     cycle = cycle,
                     shared = shared,
                     participant = inviteeListAdapter.getItem(),
@@ -287,11 +287,12 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
                         }
                     }
 
+                    /*
                     for (i in 0 until it.participant.size) {
                         inviteeListAdapter.addItems(it.participant[i])
                         inviteeListAdapter.notifyDataSetChanged()
                     }
-
+                     */
                     /*
                     inoutcome = it.inoutcome
                     if (it.inoutcome) {
