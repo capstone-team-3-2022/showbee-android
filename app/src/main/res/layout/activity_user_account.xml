@@ -280,6 +280,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/under_line1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:textStyle="bold"
+                android:background="@color/under_line2"
+                android:paddingTop="90dp"
+                android:paddingBottom="10dp"
+                android:text="고객센터 : 2022-1904 \n E-mail : ShowBee@gmail.com"
+                android:textSize="15dp"
+                android:textAlignment="center" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

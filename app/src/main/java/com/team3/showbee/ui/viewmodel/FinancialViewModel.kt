@@ -142,7 +142,7 @@ class FinancialViewModel @Inject constructor(
     fun update(fid: Long, date: String, content: String, price: String, category: String, bank: String, memo: String, inoutcome: Boolean) {
         viewModelScope.launch {
             val financial = Financial(fid = fid, date = date, content = content, price = price, category = category, bank = bank, memo = memo, inoutcome = inoutcome)
-            val response = repository.createFinancial(financial)
+            val response = repository.updateFinancial(financial)
 
             when(response) {
                 is NetworkResponse.Success -> {
