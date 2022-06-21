@@ -31,6 +31,7 @@ import com.team3.showbee.ui.viewmodel.ScheduleViewModel
 import com.team3.showbee.ui.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import kotlin.math.log
 
 @AndroidEntryPoint
 class AddIncomeExpenditureActivity : AppCompatActivity() {
@@ -76,17 +77,23 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
     }
 
     private fun checkMode() {
+        Log.d(TAG, "checkMode: @@@@@@@@@@@@@@@@@@@")
+        write()
         if (!mode) {
             //조회, 수정
+            Log.d(TAG, "checkMode: 여기는 수정모드")    
             binding.save.visibility = View.GONE
+
+            Log.d(TAG, "checkMode: 여기는 데이터 부르기전")
             viewModel.getSchedule(sid)
 
+            Log.d(TAG, "checkMode: 여기는 데이터 부르고 난 후")
             binding.delete.setOnClickListener {
                 viewModel.deleteSchedule(sid)
             }
 
-            binding.save.setOnClickListener {
-                write()
+            binding.update.setOnClickListener {
+                Log.d(TAG, "checkMode: 들어왔나???")
                 viewModel.updateSchedule(
                     sid = sid,
                     stitle = binding.editTextTextPersonName.text.toString(),
@@ -99,12 +106,14 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
                     inoutcome = category,
                     category = binding.selecCategory.text.toString()
                 )
+
             }
 
         } else {
+            Log.d(TAG, "checkMode: 여기는 글작성 모드")
             binding.delete.visibility = View.GONE
             binding.update.visibility = View.GONE
-            write()
+
             binding.save.setOnClickListener {
                 Log.d("글 등록 구현", "initView: ${shared}")
                 isParticipant()
@@ -159,8 +168,6 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
 
         binding.cycleSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
-                // An item was selected. You can retrieve the selected item using
-                // parent.getItemAtPosition(pos)
                 if (pos != 0) {
                     var selectedSpinner = binding.cycleSpinner.selectedItem.toString()
                     if (selectedSpinner == "매주") {
@@ -206,11 +213,6 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
             val email = binding.inputEmail.text.toString()
             inviteeListAdapter.addItems(email)
             inviteeListAdapter.notifyDataSetChanged()
-            Log.d("글 등록 구현", "initView: 저장하기 전")
-            Log.d(
-                "글 등록 구현",
-                "initView: ${binding.editTextTextPersonName.text}+${binding.memo.text}+${resultDay}+${binding.price.text}+${binding.selecCategory.text}+${cycle}+${shared}+${inviteeListAdapter.getItem()}+${category}"
-            )
         }
     }
 
@@ -258,6 +260,51 @@ class AddIncomeExpenditureActivity : AppCompatActivity() {
         with(viewModel) {
             email.observe(this@AddIncomeExpenditureActivity) {
                 binding.inviteEmail.text = it
+            }
+            schedule.observe(this@AddIncomeExpenditureActivity) { event ->
+                event.getContentIfNotHandled()?.let {
+                    binding.model = it
+
+                    val priceInt = it.price.toString()
+                    binding.price.setText(priceInt)
+
+                    when (it.cycle) {
+                        7 -> {
+                            Log.d(TAG, "observeData: 7")
+                            binding.cycleSpinner.setSelection(1)
+                        }
+                        14 -> {
+                            Log.d(TAG, "observeData: 14")
+                            binding.cycleSpinner.setSelection(2)
+                        }
+                        1 -> {
+                            Log.d(TAG, "observeData: 1")
+                            binding.cycleSpinner.setSelection(3)
+                        }
+                        else -> {
+                            Log.d(TAG, "observeData: 0")
+                            binding.cycleSpinner.setSelection(0)
+                        }
+                    }
+
+                    for (i in 0 until it.participant.size) {
+                        inviteeListAdapter.addItems(it.participant[i])
+                        inviteeListAdapter.notifyDataSetChanged()
+                    }
+
+                    /*
+                    inoutcome = it.inoutcome
+                    if (it.inoutcome) {
+                        binding.choiceIncomeExpense.check(R.id.radioButton)
+                        binding.radioButton.setTextColor(Color.parseColor("#FF8B00"))
+                        binding.radioButton2.setTextColor(Color.parseColor("#989898"))
+                    } else {
+                        binding.choiceIncomeExpense.check(R.id.radioButton2)
+                        binding.radioButton.setTextColor(Color.parseColor("#989898"))
+                        binding.radioButton2.setTextColor(Color.parseColor("#FF8B00"))
+                    }
+                     */
+                }
             }
         }
     }

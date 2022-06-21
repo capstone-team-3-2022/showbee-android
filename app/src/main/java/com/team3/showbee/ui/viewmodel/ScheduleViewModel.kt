@@ -95,6 +95,7 @@ class ScheduleViewModel @Inject constructor(
             when(response) {
                 is NetworkResponse.Success -> {
                     _schedule.postValue(Event(response.body))
+                    //var price = response.body.price.toString()
                 }
                 is NetworkResponse.ApiError -> {
                     postValueEvent(0)
@@ -166,6 +167,7 @@ class ScheduleViewModel @Inject constructor(
     }
 
     fun updateSchedule(sid:Long, stitle:String, content:String, price:Int, date:String, cycle:Int, shared:Boolean, participant:ArrayList<String>, inoutcome:Boolean,category:String) {
+        Log.d(TAG, "updateSchedule: update!")
         viewModelScope.launch {
             val schedule = Schedule(sid = sid, stitle = stitle, content= content, price = price, date = date, cycle = cycle, shared = shared, participant = participant, inoutcome = inoutcome, category = category)
             val response = repository.createSchedule(schedule)
@@ -173,6 +175,7 @@ class ScheduleViewModel @Inject constructor(
             when(response) {
                 is NetworkResponse.Success -> {
                     _msg.postValue(Event((response.body.toString())))
+                    Log.d(TAG, "updateSchedule: isSuccess????")
                 }
                 is NetworkResponse.ApiError -> {
                     postValueEvent(0)
