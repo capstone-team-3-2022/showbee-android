@@ -102,6 +102,10 @@
     <string name="content2">CU제주시청점</string>
     <string name="category2">식비</string>
 
+    <!--  manage friends strings  -->
+    <string name="search_email">이메일 검색</string>
+    <string name="added_friends_text">추가된 친구</string>
+
     <string name="date2">3.2</string>
 
     <string name="details_terms_of_service">이용약관</string>
