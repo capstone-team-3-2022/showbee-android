@@ -15,15 +15,15 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.view.SharedScheduleActivity"
-            android:name=".DetailsPrivacyPolicyActivity"
             android:exported="false" />
         <activity
-            android:name=".DetailsTermsOfServiceActivity"
-            android:exported="false"
-            android:label="@string/title_activity_details_terms_of_service"
-            android:theme="@style/Theme.ShowBee.NoActionBar" />
-        <activity
             android:name=".ui.view.TermsOfServiceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.view.DetailsPrivacyPolicyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.view.DetailsTermsOfServiceActivity"
             android:exported="false" />
         <activity
             android:name=".ui.view.UpdateFinancialActivity"

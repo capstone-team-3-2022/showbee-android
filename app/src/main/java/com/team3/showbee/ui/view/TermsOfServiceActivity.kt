@@ -4,8 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
-import com.team3.showbee.DetailsPrivacyPolicyActivity
-import com.team3.showbee.DetailsTermsOfServiceActivity
 import com.team3.showbee.R
 
 class TermsOfServiceActivity : AppCompatActivity() {

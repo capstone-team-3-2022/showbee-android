@@ -173,9 +173,9 @@ class MainActivity : AppCompatActivity() {
             "list" -> {
                 transaction.replace(binding.frameLayout.id, listFragment).commit()
             }
-        }
-        else if(tag == "scheduleList") {
-            transaction.replace(binding.frameLayout.id, scheduleListFragment).commit()
+            "scheduleList" -> {
+                transaction.replace(binding.frameLayout.id, scheduleListFragment).commit()
+            }
         }
     }
 
