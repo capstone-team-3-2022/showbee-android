@@ -13,7 +13,7 @@ import com.team3.showbee.databinding.CalItemBinding
 import java.text.DecimalFormat
 import java.util.*
 
-class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeListener? = null) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeListener? = null) : RecyclerView.Adapter<FinancialCalendarAdapter.CalendarItemViewHolder>() {
 
     private val baseCalendar = BaseCalendar()
     private lateinit var itemClickListener : OnItemClickListener
@@ -28,7 +28,7 @@ class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeL
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarItemViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = CalItemBinding.inflate(layoutInflater, parent, false)
         return CalendarItemViewHolder(binding)
@@ -36,12 +36,6 @@ class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeL
 
     override fun getItemCount(): Int {
         return BaseCalendar.LOW_OF_CALENDAR * BaseCalendar.DAYS_OF_WEEK
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is CalendarItemViewHolder) {
-            holder.bind(baseCalendar.data[position], dateMap, position)
-        }
     }
 
     fun changeToPrevMonth() {
@@ -59,19 +53,16 @@ class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeL
         }
     }
 
+    interface OnMonthChangeListener {
+        fun onMonthChanged(calendar : Calendar)
+    }
 
     interface OnItemClickListener {
         fun onClick(v: View, position: Int)
     }
 
-
     fun setItemClickListener(onItemClickListener: OnItemClickListener) {
         this.itemClickListener = onItemClickListener
-    }
-
-
-    interface OnMonthChangeListener {
-        fun onMonthChanged(calendar : Calendar)
     }
 
     inner class CalendarItemViewHolder(private val binding: CalItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -102,7 +93,9 @@ class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeL
             if (position < baseCalendar.preMonth
                 || position >= baseCalendar.preMonth + baseCalendar.currentMonth) {
                 binding.tvDate.alpha = 0.3f
+                binding.expense.alpha = 0.4f
                 binding.tvDate.setTextColor(Color.parseColor("#8d93ab"))
+
             } else {
                 binding.tvDate.alpha = 1f
             }
@@ -120,5 +113,11 @@ class FinancialCalendarAdapter(private val onMonthChangeListener: OnMonthChangeL
     fun setItems(item: Map<String, List<Long>>) {
         dateMap.clear()
         dateMap.putAll(item)
+    }
+
+    override fun onBindViewHolder(holder: CalendarItemViewHolder, position: Int) {
+        if (holder is CalendarItemViewHolder) {
+            holder.bind(baseCalendar.data[position], dateMap, position)
+        }
     }
 }

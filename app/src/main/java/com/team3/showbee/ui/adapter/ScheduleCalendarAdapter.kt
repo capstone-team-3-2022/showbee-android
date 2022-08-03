@@ -67,11 +67,6 @@ class ScheduleCalendarAdapter(private val onMonthChangeListener: OnMonthChangeLi
         this.itemClickListener = onItemClickListener
     }
 
-    fun setItems(item: Map<String, List<String>>) {
-        dateMap.clear()
-        dateMap.putAll(item)
-    }
-
     inner class CalendarItemViewHolder(private val binding: IconItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(date: Int, map: MutableMap<String, List<String>>, position: Int) {
             binding.tvDate.text = date.toString()
@@ -94,6 +89,7 @@ class ScheduleCalendarAdapter(private val onMonthChangeListener: OnMonthChangeLi
             if (position < baseCalendar.preMonth
                 || position >= baseCalendar.preMonth + baseCalendar.currentMonth) {
                 binding.tvDate.alpha = 0.3f
+                binding.categoryRecyclerview.alpha = 0.4f
                 binding.tvDate.setTextColor(Color.parseColor("#8d93ab"))
             } else {
                 binding.tvDate.alpha = 1f
@@ -107,6 +103,11 @@ class ScheduleCalendarAdapter(private val onMonthChangeListener: OnMonthChangeLi
                 }
             }
         }
+    }
+
+    fun setItems(item: Map<String, List<String>>) {
+        dateMap.clear()
+        dateMap.putAll(item)
     }
 
     override fun onBindViewHolder(holder: CalendarItemViewHolder, position: Int) {

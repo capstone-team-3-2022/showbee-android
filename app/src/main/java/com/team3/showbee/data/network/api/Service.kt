@@ -9,7 +9,7 @@ import retrofit2.http.Body
 interface Service {
     @POST("v1/signin")
     suspend fun signInResponse(@Query("email") email: String,
-                       @Query("password") password: String): NetworkResponse<BaseResponse, ErrorResponse>
+                       @Query("password") password: String): NetworkResponse<LoginResponse, ErrorResponse>
 
     @PUT("v1/user/modify/name")
     suspend fun updateUsernameResponse(@Query("name") name:String): NetworkResponse<Boolean, ErrorResponse>

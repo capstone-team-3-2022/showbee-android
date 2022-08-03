@@ -1,6 +1,5 @@
 package com.team3.showbee.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,7 +32,7 @@ class LogInViewModel @Inject constructor(
 
                 when(response) {
                     is NetworkResponse.Success -> {
-                        _token.postValue(Token(response.body.data!!.toString()))
+                        _token.postValue(response.body.data!!)
                     }
                     is NetworkResponse.ApiError -> {
                         postValueEvent(0, type)

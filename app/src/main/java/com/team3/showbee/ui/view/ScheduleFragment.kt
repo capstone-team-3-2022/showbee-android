@@ -34,7 +34,7 @@ class ScheduleFragment : Fragment(), ScheduleCalendarAdapter.OnMonthChangeListen
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = activity as MainActivity
-        Log.d("schedule", "onAttach: vvv")
+//        Log.d("schedule", "onAttach: vvv")
     }
 
     override fun onCreateView(
@@ -62,7 +62,7 @@ class ScheduleFragment : Fragment(), ScheduleCalendarAdapter.OnMonthChangeListen
         scheduleCalendarAdapter.setItemClickListener(object : ScheduleCalendarAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 activity?.let {
-                    Log.d("schedule", "adapter: click")
+//                    Log.d("schedule", "adapter: click")
                     mainActivity?.choiceFragment("scheduleList")
                 }
             }

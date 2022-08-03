@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                     val dialog = LogOutDialog()
                     dialog.setButtonClickListener(object : LogOutDialog.OnButtonClickListener {
                         override fun onLogOutOkClicked() {
-                            SharedPref.saveToken(Token(""))
+                            SharedPref.saveToken(Token("", ""))
                             val intent = Intent(this@MainActivity, LogInActivity::class.java)
                                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

@@ -92,4 +92,7 @@ dependencies {
 
     //notification
     implementation "androidx.appcompat:appcompat:1.4.2"
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
 }

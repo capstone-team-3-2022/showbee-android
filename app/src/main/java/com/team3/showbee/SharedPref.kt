@@ -16,7 +16,7 @@ object SharedPref {
 
     fun getToken() : Token? {
         if (token == null) {
-            token = Token("")
+            token = Token("", "")
         }
         return token
     }
@@ -24,7 +24,7 @@ object SharedPref {
     fun saveToken(token: Token) {
         this.token = token
         val editor = App.prefs.edit()
-        editor.putString("token", token.data)
+        editor.putString("token", token.accessToken)
         editor.apply()
     }
 }

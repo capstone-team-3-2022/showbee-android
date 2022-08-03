@@ -34,7 +34,7 @@ object ApiModule {
                     it.proceed(request)
                 } else {
                     it.proceed(request.newBuilder().apply {
-                        addHeader("X-AUTH-TOKEN", SharedPref.getToken()!!.data)
+                        addHeader("X-AUTH-TOKEN", SharedPref.getToken()!!.accessToken)
                     }.build())
                 }
             }.build()
