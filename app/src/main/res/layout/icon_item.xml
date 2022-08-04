@@ -17,28 +17,36 @@
             android:orientation="vertical"
             android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/tv_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:layout_marginStart="5dp"
-                android:layout_gravity="start"
-                android:gravity="start"/>
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="5dp"
+                    android:layout_gravity="start"
+                    android:gravity="start"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/category_recyclerview"
-                tools:itemCount="2"
-                tools:listitem="@layout/category_item"
+            <LinearLayout
+                android:id="@+id/item"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                tools:orientation="vertical"
-                tools:scrollbars="vertical"
-                tools:spanCount="4" />
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/category_recyclerview"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/category_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    tools:orientation="vertical"
+                    tools:scrollbars="vertical"
+                    tools:spanCount="4" />
+            </LinearLayout>
 
             <View
                 android:id="@+id/classView2"

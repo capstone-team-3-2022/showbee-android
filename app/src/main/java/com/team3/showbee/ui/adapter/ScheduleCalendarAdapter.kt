@@ -88,11 +88,11 @@ class ScheduleCalendarAdapter(private val onMonthChangeListener: OnMonthChangeLi
 
             if (position < baseCalendar.preMonth
                 || position >= baseCalendar.preMonth + baseCalendar.currentMonth) {
-                binding.tvDate.alpha = 0.3f
-                binding.categoryRecyclerview.alpha = 0.4f
-                binding.tvDate.setTextColor(Color.parseColor("#8d93ab"))
+//                binding.tvDate.alpha = 0.3f
+                binding.item.alpha = 0f
+                binding.tvDate.setTextColor(Color.parseColor("#C4C4C4"))
             } else {
-                binding.tvDate.alpha = 1f
+                binding.item.alpha = 1f
             }
 
             val pos = absoluteAdapterPosition

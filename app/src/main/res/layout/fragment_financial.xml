@@ -21,7 +21,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal">
@@ -39,13 +39,12 @@
                     android:id="@+id/income_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/expense2"
                     android:textColor="@color/income_color"
                     android:textSize="19sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal">
@@ -63,7 +62,6 @@
                     android:id="@+id/expense_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/income2"
                     android:textColor="@color/expense_color"
                     android:textSize="19sp" />
             </LinearLayout>

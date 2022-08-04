@@ -32,6 +32,11 @@ class ScheduleCategoryAdapter(private val itemList: List<String>?): RecyclerView
                 "쿠팡" -> Glide.with(itemView.context).load(R.drawable.coupang).into(binding.imageView)
                 "KT" -> Glide.with(itemView.context).load(R.drawable.kt).into(binding.imageView)
                 "LG" -> Glide.with(itemView.context).load(R.drawable.lg).into(binding.imageView)
+                "월급" -> Glide.with(itemView.context).load(R.drawable.salary).into(binding.imageView)
+                "리디북스" -> Glide.with(itemView.context).load(R.drawable.ridibooks).into(binding.imageView)
+                "적금" -> Glide.with(itemView.context).load(R.drawable.savings).into(binding.imageView)
+                "넷플릭스" -> Glide.with(itemView.context).load(R.drawable.netflex).into(binding.imageView)
+                "헬스" -> Glide.with(itemView.context).load(R.drawable.health).into(binding.imageView)
             }
 //            binding.category.text = list?.get(position)
 //            Glide.with(itemView.context).load(R.drawable.audio_book).into(binding.imageView)
