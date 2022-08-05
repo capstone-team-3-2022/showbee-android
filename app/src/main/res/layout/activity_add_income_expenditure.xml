@@ -279,9 +279,9 @@
 
                                 <ImageView
                                     android:id="@+id/search_btn"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginRight="6dp"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:padding="6dp"
                                     app:srcCompat="@drawable/search"
                                     app:tint="@color/black" />
                             </LinearLayout>
@@ -303,9 +303,11 @@
 
                                 <ImageView
                                     android:id="@+id/add_invitee_list"
-                                    android:layout_width="50dp"
-                                    android:layout_height="50dp"
-                                    app:srcCompat="@android:drawable/ic_menu_add" />
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:padding="10dp"
+                                    app:tint="@color/black"
+                                    app:srcCompat="@drawable/plus2" />
                             </LinearLayout>
                         </LinearLayout>
 

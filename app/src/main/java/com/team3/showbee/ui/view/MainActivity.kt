@@ -81,9 +81,9 @@ class MainActivity : AppCompatActivity() {
         var builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.logo)
             .setContentTitle("ShowBee")
-            .setContentText("유튜브 프리미엄 결제")
+            .setContentText("리디북스 결제")
             .setStyle(NotificationCompat.BigTextStyle()
-                .bigText("6월 22일 : 10,450원"))
+                .bigText("8월 5일 : 20,000원"))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         binding.mainNavigationView.setNavigationItemSelectedListener {
@@ -149,7 +149,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        binding.floatingActionButton2.setOnClickListener {
+        binding.btnChangeView.setOnClickListener {
             with(NotificationManagerCompat.from(this)) {
                 // notificationId is a unique int for each notification that you must define
                 notify(0, builder.build())
@@ -165,10 +165,12 @@ class MainActivity : AppCompatActivity() {
             "schedule" -> {
                 transaction.replace(binding.frameLayout.id, financialFragment).commitAllowingStateLoss()
                 triger = "financial"
+                binding.btnChangeView.setImageResource(R.drawable.money)
             }
             "financial" -> {
                 transaction.replace(binding.frameLayout.id, scheduleFragment).commitAllowingStateLoss()
                 triger = "schedule"
+                binding.btnChangeView.setImageResource(R.drawable.change)
             }
             "list" -> {
                 transaction.replace(binding.frameLayout.id, listFragment).commit()
