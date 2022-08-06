@@ -17,8 +17,10 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            app:cardElevation="15dp">
+            android:layout_marginBottom="2dp"
+            app:cardElevation="1dp"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -27,12 +29,13 @@
 
                 <TextView
                     android:id="@+id/textView11"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp"
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:background="@color/app_color8"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
