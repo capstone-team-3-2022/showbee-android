@@ -17,3 +17,6 @@
 ### 앱 디자인
 ![image](https://user-images.githubusercontent.com/52189097/161251002-540b2276-21bb-4200-b4d9-1f03d6f20b91.png)
 ![image](https://user-images.githubusercontent.com/52189097/161251019-97434ee7-f0b9-4918-a8e8-f3d0cbdd0c2d.png)
+
+### api document
+서버주소:포트번호/swagger-ui-custom.html
